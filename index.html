@@ -7,6 +7,19 @@
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
 <script src="/js/color.global.min.js" ></script>
 <script src="/js/load-settings.js" ></script>
+<!-- 数学公式渲染（KaTeX 自动识别 $...$ 和 $$...$$） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\[', right: '\\]', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });"></script>
+
 <head>
   <meta charset="utf-8">
   
@@ -257,23 +270,22 @@
               机器学习寻找函数的三个过程：
 1.Function with Unknown Parameters
 猜测一个函式的它的数学式长什么样子
-$y &#x3D; b + wx_1$	based on domain knowledge
-$y$	feature
-$w$	weight
-$b$	bias
-$\hat{y}$	label(正确的值)
-2.Define &#x3D;&#x3D;Loss&#x3D;&#x3D; From Training Data
+$y = b + wx_1$    based on domain knowledge
+$y$    feature
+$w$    weight
+$b$    bias
+$\hat{y}$    label(正确的值)
+2.Define ==Loss== From Training Data
 
 Loss is a function of parameters.
 Loss: how good a set of values is.
 
 Loss函数是一个以w,b为自变量的函数。
 Loss函数评估w,b这两个变量采取的有多好。
-$L(0.5k,1);y&#x3D;b+wx_1 \longrightarrow y &#x3D; 0.5k+1x_1$ 	How good it is?
+$L(0.5k,1)\;y=b+wx_1 \longrightarrow y = 0.5k+1x_1$     How good it is?
 
-
-$e &#x3D; |y - \hat{y}|$	L is mean absolute error(MAE)
-$e &#x3D; (y - \hat{...
+$e = |y - \hat{y}|$    L is mean absolute error(MAE)
+$e = (y - \hat{y})^2$    L is mean squa...
             
           </div>
         
@@ -423,16 +435,12 @@ $e &#x3D; (y - \hat{...
             
               Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
 Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;
-
 More info: Writing
 Run server1$ hexo server
-
 More info: Server
 Generate static files1$ hexo generate
-
 More info: Generating
 Deploy to remote sites1$ hexo deploy
-
 More info: Deployment
 
             

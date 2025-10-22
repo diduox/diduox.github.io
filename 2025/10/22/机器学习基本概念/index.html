@@ -7,6 +7,19 @@
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
 <script src="/js/color.global.min.js" ></script>
 <script src="/js/load-settings.js" ></script>
+<!-- 数学公式渲染（KaTeX 自动识别 $...$ 和 $$...$$） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\[', right: '\\]', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });"></script>
+
 <head>
   <meta charset="utf-8">
   
@@ -20,12 +33,12 @@
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="机器学习寻找函数的三个过程： 1.Function with Unknown Parameters 猜测一个函式的它的数学式长什么样子 $y &#x3D; b + wx_1$	based on domain knowledge $y$	feature $w$	weight $b$	bias $\hat{y}$	label(正确的值) 2.Define &#x3D;&#x3D;Loss&#x3D;&amp;">
+  <meta name="description" content="机器学习寻找函数的三个过程： 1.Function with Unknown Parameters 猜测一个函式的它的数学式长什么样子 $y &#x3D; b + wx_1$    based on domain knowledge $y$    feature $w$    weight $b$    bias $\hat{y}$    label(正确的值) 2.Define &#x3D;&#x3D;Loss&#x3D;&#x3D; From">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机器学习基本概念">
 <meta property="og:url" content="https://diduox.github.io/2025/10/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="机器学习寻找函数的三个过程： 1.Function with Unknown Parameters 猜测一个函式的它的数学式长什么样子 $y &#x3D; b + wx_1$	based on domain knowledge $y$	feature $w$	weight $b$	bias $\hat{y}$	label(正确的值) 2.Define &#x3D;&#x3D;Loss&#x3D;&amp;">
+<meta property="og:description" content="机器学习寻找函数的三个过程： 1.Function with Unknown Parameters 猜测一个函式的它的数学式长什么样子 $y &#x3D; b + wx_1$    based on domain knowledge $y$    feature $w$    weight $b$    bias $\hat{y}$    label(正确的值) 2.Define &#x3D;&#x3D;Loss&#x3D;&#x3D; From">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022142036815.png">
 <meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022142817879.png">
@@ -268,64 +281,55 @@
           <p>机器学习寻找函数的三个过程：</p>
 <p><strong>1.Function with Unknown Parameters</strong></p>
 <p>猜测一个函式的它的数学式长什么样子</p>
-<p>$y &#x3D; b + wx_1$	based on domain knowledge</p>
-<p>$y$	<strong>feature</strong></p>
-<p>$w$	<strong>weight</strong></p>
-<p>$b$	<strong>bias</strong></p>
-<p>$\hat{y}$	<strong>label(正确的值)</strong></p>
-<p><strong>2.Define &#x3D;&#x3D;Loss&#x3D;&#x3D; From Training Data</strong></p>
+<p>$y = b + wx_1$    based on domain knowledge</p>
+<p>$y$    <strong>feature</strong></p>
+<p>$w$    <strong>weight</strong></p>
+<p>$b$    <strong>bias</strong></p>
+<p>$\hat{y}$    <strong>label(正确的值)</strong></p>
+<p><strong>2.Define ==Loss== From Training Data</strong></p>
 <ul>
 <li>Loss is a function of parameters.</li>
 <li>Loss: how good a set of values is.</li>
 </ul>
 <p>Loss函数是一个以w,b为自变量的函数。</p>
 <p>Loss函数评估w,b这两个变量采取的有多好。</p>
-<p>$L(0.5k,1);y&#x3D;b+wx_1 \longrightarrow y &#x3D; 0.5k+1x_1$ 	How good it is?</p>
-<img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022142036815.png" style="zoom:50%;" />
-
-<p>$e &#x3D; |y - \hat{y}|$	L is mean absolute error(MAE)</p>
-<p>$e &#x3D; (y - \hat{y})^2$	L is mean square error(MSE)</p>
+<p>$L(0.5k,1)\;y=b+wx_1 \longrightarrow y = 0.5k+1x_1$     How good it is?</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022142036815.png" style="zoom:50%;" /></p>
+<p>$e = |y - \hat{y}|$    L is mean absolute error(MAE)</p>
+<p>$e = (y - \hat{y})^2$    L is mean square error(MSE)</p>
 <p>if $y$ and $\hat{y}$ are both probability distributions $\longrightarrow$ Cross-entropy</p>
-<img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022142817879.png" style="zoom: 33%;" />
-
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022142817879.png" style="zoom: 33%;" /></p>
 <p><strong>3.Optimization</strong></p>
 <p>使用梯度下降法寻找最优的w,b。</p>
-<p>$w^*,b^*$ &#x3D; $arg minL_{w,b}$</p>
-<p>$\eta$：learning rate	<strong>hyperparameters</strong></p>
+<p>$w^<em>,b^</em>$ = $arg minL_{w,b}$</p>
+<p>$\eta$：learning rate    <strong>hyperparameters</strong></p>
 <p>根据问题的domain knowledge，我们可以更新对应的函式:</p>
-<img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022145530591.png" style="zoom: 50%;" />
-
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022145530591.png" style="zoom: 50%;" /></p>
 <p>用前七天的数据来预测明天的数据。</p>
-<img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022145730262.png" style="zoom:50%;" />
-
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022145730262.png" style="zoom:50%;" /></p>
 <p>也许我们能考虑更多天……</p>
 <p><strong>Linear models</strong></p>
 <p>Linear models are too simple…. we need more sophisticated model.</p>
-<p>Linear models have severe limitation. <em><strong>Model Bias</strong></em></p>
+<p>Linear models have severe limitation. <strong><em>Model Bias</em></strong></p>
 <p>We need a more flexible model!</p>
-<img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022150944712.png" style="zoom:33%;" />
-
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022150944712.png" style="zoom:33%;" /></p>
 <p>红色的线可以是看作一个常量+蓝色的线</p>
 <p>0线：红色线与y轴交点所代表的常量</p>
 <p>1线：斜坡的起点为红线开始点，斜坡的终点为红线的第一个转折点。由于0线是常数，所以红线的第一个斜坡等于0线+1线。</p>
 <p>2线：斜坡的起点为红线的第一个转折点，斜坡的终点为红线的第二个转折点。在2线的斜坡部分，0线和1线都是常数，所以红线的第二个斜坡等于0线+1线+2线。</p>
 <p>….</p>
-<p>All Piecewise Linear Curves &#x3D; constant + sum of a set of curves</p>
+<p>All Piecewise Linear Curves = constant + sum of a set of curves</p>
 <p>More pieces require more curves</p>
-<img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022152029200.png" style="zoom:33%;" />
-
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022152029200.png" style="zoom:33%;" /></p>
 <p>使用Sigmoid函数来逼近原来的函数</p>
-<img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022152125174.png" style="zoom:33%;" />
-
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022152125174.png" style="zoom:33%;" /></p>
 <p>w的不同 使函数的斜率不同</p>
 <p>b的不同 移动函数的位置</p>
 <p>c的不同 改变函数的高度</p>
-<img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022152345407.png" style="zoom:33%;" />
-
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022152345407.png" style="zoom:33%;" /></p>
 <p>用ReLu函数实现HardSigmoid函数。</p>
 <p>两个ReLu构成一个HardSigmoid函数。</p>
-<img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022155905105.png" style="zoom: 33%;" />
-
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022155905105.png" style="zoom: 33%;" /></p>
 <p>Sigmoid和ReLu都是激活函数(Activation function)。</p>
 
         
