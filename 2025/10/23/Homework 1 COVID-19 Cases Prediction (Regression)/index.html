@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<!-- 数学公式渲染（KaTeX 自动识别 $...$ 和 $$...$$） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\[', right: '\\]', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });"></script>
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>Homework 1: COVID-19 Cases Prediction (Regression) | 超级迪多的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="Homework 1: COVID-19 Cases Prediction (Regression) 作业目的：通过三个Baseline  Simple Baseline Run sample code  Medium Baseline Feature selection: 40 states + 2 tested_positive (TODO in dataset)  Strong Baseli">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Homework 1: COVID-19 Cases Prediction (Regression)">
+<meta property="og:url" content="https://diduox.github.io/2025/10/23/Homework%201%20COVID-19%20Cases%20Prediction%20(Regression)/index.html">
+<meta property="og:site_name" content="超级迪多的博客">
+<meta property="og:description" content="Homework 1: COVID-19 Cases Prediction (Regression) 作业目的：通过三个Baseline  Simple Baseline Run sample code  Medium Baseline Feature selection: 40 states + 2 tested_positive (TODO in dataset)  Strong Baseli">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022224309334.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022235117228.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251023001542455.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251023002213704.png">
+<meta property="article:published_time" content="2025-10-23T08:01:45.000Z">
+<meta property="article:modified_time" content="2025-10-23T08:18:01.953Z">
+<meta property="article:author" content="迪多">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022224309334.png">
+  
+    <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>超级迪多的博客 </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+      <a id="nav-rss-link" class="nav-icon mobile-hide" href="/atom.xml" title="RSS 订阅">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M198-120q-25.846 0-44.23-18.384-18.384-18.385-18.384-44.23 0-25.846 18.384-44.23 18.384-18.385 44.23-18.385 25.846 0 44.23 18.385 18.384 18.384 18.384 44.23 0 25.845-18.384 44.23Q223.846-120 198-120Zm538.385 0q-18.846 0-32.923-13.769-14.076-13.769-15.922-33.23-8.692-100.616-51.077-188.654-42.385-88.039-109.885-155.539-67.5-67.501-155.539-109.885Q283-663.462 182.385-672.154q-19.461-1.846-33.23-16.23-13.769-14.385-13.769-33.846t14.076-32.922q14.077-13.461 32.923-12.23 120.076 8.692 226.038 58.768 105.961 50.077 185.73 129.846 79.769 79.769 129.846 185.731 50.077 105.961 58.769 226.038 1.231 18.846-12.538 32.922Q756.461-120 736.385-120Zm-252 0q-18.231 0-32.423-13.461t-18.653-33.538Q418.155-264.23 348.886-333.5q-69.27-69.27-166.501-84.423-20.077-4.462-33.538-18.961-13.461-14.5-13.461-33.346 0-19.076 13.884-33.23 13.884-14.153 33.115-10.922 136.769 15.384 234.384 112.999 97.615 97.615 112.999 234.384 3.231 19.23-10.538 33.115Q505.461-120 484.385-120Z"/></svg>
+      </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">Home</a>
+    
+      <a class="nav-dropdown-link" href="/archives">Archives</a>
+    
+      <a class="nav-dropdown-link" href="/about">About</a>
+    
+    
+      <a class="nav-dropdown-link" href="/atom.xml" title="RSS 订阅">RSS</a>
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+        <image src=/images/avatar.jpg></image>
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">迪多 </div>
+      <div class="dot"></div>
+      <div class="subtitle">枝江月亮，将我照亮；<br>枝江太阳，暖我心房。 </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://twitter.com" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://store.steampowered.com" title="Steam"><i class="fa-brands fa-steam"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">最新文章</h3>
+      <ul>
+        
+          <a class="recent-link" href="/2025/10/23/Homework%201%20COVID-19%20Cases%20Prediction%20(Regression)/" title="Homework 1: COVID-19 Cases Prediction (Regression)" >
+            <div class="recent-link-text">
+              Homework 1: COVID-19 Cases Prediction (Regression)
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2025/10/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="机器学习基本概念" >
+            <div class="recent-link-text">
+              机器学习基本概念
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2025/10/21/%E6%97%A9%E5%AE%89/" title="早安" >
+            <div class="recent-link-text">
+              早安
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2025/10/21/hello-world/" title="Hello World" >
+            <div class="recent-link-text">
+              Hello World
+            </div>
+          </a>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                学习笔记
+                <div class="category-count">2</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+                个人博客
+                <div class="category-count">1</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-Homework 1 COVID-19 Cases Prediction (Regression)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        Homework 1: COVID-19 Cases Prediction (Regression)
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2025-10-23T08:01:45.000Z" itemprop="datePublished">2025-10-23</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            3.5k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p><strong>Homework 1: COVID-19 Cases Prediction (Regression)</strong></p>
+<p>作业目的：通过三个Baseline</p>
+<blockquote>
+<h2 id="Simple-Baseline"><a href="#Simple-Baseline" class="headerlink" title="Simple Baseline"></a><strong>Simple Baseline</strong></h2><ul>
+<li>Run sample code</li>
+</ul>
+<h2 id="Medium-Baseline"><a href="#Medium-Baseline" class="headerlink" title="Medium Baseline"></a><strong>Medium Baseline</strong></h2><ul>
+<li>Feature selection: 40 states + 2 <code>tested_positive</code> (<code>TODO</code> in dataset)</li>
+</ul>
+<h2 id="Strong-Baseline"><a href="#Strong-Baseline" class="headerlink" title="Strong Baseline"></a><strong>Strong Baseline</strong></h2><ul>
+<li>Feature selection (what other features are useful?)</li>
+<li>DNN architecture (layers? dimension? activation function?)</li>
+<li>Training (mini-batch? optimizer? learning rate?)</li>
+<li>L2 regularization</li>
+<li>There are some mistakes in the sample code, can you find them?</li>
+</ul>
+</blockquote>
+<p><strong>Simple Baseline</strong></p>
+<p>直接跑一遍所有的代码即可。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022224309334.png" style="zoom:50%;" /></p>
+<hr>
+<p><strong>Medium Baseline</strong></p>
+<p>选择有用的特征来预测day3的阳性率(day1阳性率+day2阳性率)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> target_only:</span><br><span class="line">           feats = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">93</span>))</span><br><span class="line">       <span class="keyword">else</span>:</span><br><span class="line">           <span class="comment"># <span class="doctag">TODO:</span> Using 40 states &amp; 2 tested_positive features (indices = 57 &amp; 75)</span></span><br><span class="line">           <span class="comment"># 下标从0开始 前40个州 + day1阳性率 + day2阳性率 → 预测第3天感染率</span></span><br><span class="line">           feats = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">40</span>))</span><br><span class="line">           feats.append(<span class="number">57</span>)</span><br><span class="line">           feats.append(<span class="number">75</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251022235117228.png" alt=""></p>
+<hr>
+<p><strong>Strong Baseline</strong></p>
+<p><strong><em>Feature selection (what other features are useful?)</em></strong></p>
+<p>第一次尝试：</p>
+<p>本人猜测，COVID-like illness (4)是最重要的数据，第一次测试Behavior Indicators和Mental Health Indicators先不进行考虑。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> target_only:</span><br><span class="line">    feats = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">93</span>))</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="comment"># 下标从0开始 前40个州 + day1,2,3 COVID-like illness and 阳性率</span></span><br><span class="line">    feats = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">40</span>)) + \</span><br><span class="line">            <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">40</span>, <span class="number">44</span>)) + \</span><br><span class="line">            <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">57</span>, <span class="number">62</span>)) + \</span><br><span class="line">            <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">75</span>, <span class="number">80</span>))</span><br></pre></td></tr></table></figure>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251023001542455.png" alt=""></p>
+<p>第二次尝试(失败的尝试)：</p>
+<p>将数据改为States+COVID-like illness+Behavior Indicators （无论如何我认为心里情绪和最后的结果没有关系）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> target_only:</span><br><span class="line">    feats = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">93</span>))</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="comment"># States+COVID-like illness+Behavior Indicators </span></span><br><span class="line">    feats = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">40</span>)) + \</span><br><span class="line">            <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">40</span>, <span class="number">52</span>)) + \</span><br><span class="line">            <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">57</span>, <span class="number">70</span>)) + \</span><br><span class="line">            <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">75</span>, <span class="number">88</span>))</span><br></pre></td></tr></table></figure>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251023002213704.png" alt=""></p>
+<hr>
+<p><strong><em>DNN architecture (layers? dimension? activation function?)</em></strong></p>
+<p>第一次尝试：</p>
+<p>添加更多的全连接层：</p>
+<p>经测试，两层全连接层是最好的。</p>
+<p>尝试进行神经元的随机失活来防止过拟合：</p>
+<p>失败，数据太小，网络太浅反而适得其反。</p>
+<p>L2正则化反而效果更差，L1正则化效果比L2还差呵呵。</p>
+<p><strong><em>Training (mini-batch? optimizer? learning rate?)</em></strong></p>
+<p>epoch改为10000，得分上升。</p>
+<p>批次改为128，得分上升。</p>
+<p>停止尝试 我要用CHATGPT了。</p>
+<hr>
+<p>更改1：更大更深的全连接层 效果更差！</p>
+<p>更改2：使用L2正则化和Adam优化器 效果更差！</p>
+<p>更改3：使用L2正则化和Adam优化器 +更大更深的全连接层 + 神经元随机失活 效果更差！</p>
+<p>更改4    尝试使用小网络 效果不如原来！</p>
+<p><strong>chatgpt太蠢了！！！！</strong></p>
+<p>试试claude！</p>
+<p>更改：改为6层全连接网络 增加BN层 增加DROPOUT<br>        优化器改为AdamW （带权重衰减的Adam）</p>
+<p>​        添加了<strong>L2正则化</strong> (weight_decay=1e-5)</p>
+<p>​        添加了<strong>学习率调度器</strong>：当验证损失不下降时自动降低学习率    </p>
+<p>​        减小batch size到64（原来128）</p>
+<p>​        增加early stopping patience到400</p>
+<p><strong>越添加优化，效果越差劲！</strong></p>
+<hr>
+<p><strong>参考一下别的同学写的答案！</strong></p>
+<p>将训练集和验证集的比例改为14 : 1</p>
+<p>使用BN，加快模型训练</p>
+<p>使用Dropout，减少过拟合，注意不能在BN之前</p>
+<p>更换激活函数为LeakyReLU（负数不置零，而是乘以一个很小的系数 α）</p>
+<p>在LOSS中添加L2正则项</p>
+<p>$Losstotal=Lossoriginal+λ∑(w_i)^2$</p>
+<p>λ\lambdaλ 是 <strong>正则化系数</strong>，用来控制 L2 正则化的强度：</p>
+<ul>
+<li>λ\lambdaλ 太小 → 对网络几乎没约束。</li>
+<li>λ\lambdaλ 太大 → 可能欠拟合。</li>
+</ul>
+<p>在深度学习中，通常会在 <strong>0.0001 到 0.01</strong> 之间尝试</p>
+<p>使用Adam优化器，采用默认参数(不写配置项)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过数据归一化来看哪个属性更有用</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = pd.read_csv(<span class="string">&#x27;covid.train.csv&#x27;</span>)</span><br><span class="line">x = data[data.columns[<span class="number">1</span>:<span class="number">94</span>]]</span><br><span class="line">y = data[data.columns[<span class="number">94</span>]]</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn.feature_selection <span class="keyword">import</span> SelectKBest</span><br><span class="line"><span class="keyword">from</span> sklearn.feature_selection <span class="keyword">import</span> f_regression</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> preprocessing</span><br><span class="line">x = (x - x.<span class="built_in">min</span>()) / (x.<span class="built_in">max</span>() - x.<span class="built_in">min</span>())</span><br><span class="line"></span><br><span class="line">bestfeatures = SelectKBest(score_func=f_regression, k=<span class="number">5</span>)</span><br><span class="line">fit = bestfeatures.fit(x,y)</span><br><span class="line">dfscores = pd.DataFrame(fit.scores_)</span><br><span class="line">dfcolumns = pd.DataFrame(x.columns)</span><br><span class="line"><span class="comment">#concat two dataframes for better visualization </span></span><br><span class="line">featureScores = pd.concat([dfcolumns,dfscores],axis=<span class="number">1</span>)</span><br><span class="line">featureScores.columns = [<span class="string">&#x27;Specs&#x27;</span>,<span class="string">&#x27;Score&#x27;</span>]  <span class="comment">#naming the dataframe columns</span></span><br><span class="line"><span class="built_in">print</span>(featureScores.nlargest(<span class="number">15</span>,<span class="string">&#x27;Score&#x27;</span>))  <span class="comment">#print 15 best features</span></span><br></pre></td></tr></table></figure>
+<p>追求极致性能，使用所有数据集进行训练。</p>
+<p>最终0.88449 到达strong baseline</p>
+<hr>
+<h5 id="对MAE-MSE-L1-L2的解释"><a href="#对MAE-MSE-L1-L2的解释" class="headerlink" title="对MAE,MSE,L1,L2的解释"></a><strong>对MAE,MSE,L1,L2的解释</strong></h5><p><strong>MAE / MSE —— 衡量预测误差（Prediction Loss）</strong></p>
+<p>作用于<code>预测值</code>和<code>真实值</code>之间，衡量模型预测有多准，用于训练网络。</p>
+<p>MAE：对异常值不敏感。                    差的绝对值</p>
+<p>MSE：对异常值敏感，会放大 误差的影响。    差的绝对值的平方和</p>
+<h5 id="L1-L2-——-权重正则化（Regularization）"><a href="#L1-L2-——-权重正则化（Regularization）" class="headerlink" title="L1 / L2 —— 权重正则化（Regularization）"></a><strong>L1 / L2 —— 权重正则化（Regularization）</strong></h5><p>作用于网络参数(权重)之间。</p>
+<p>L1 正则化:稀疏化权重，限制过大参数。</p>
+<p>L2 正则化：惩罚过大的权重，使网络平滑，不容易过拟合。</p>
+<p><strong>对于不了解NumPy和python基本语法在这里进行学习记录。</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(path, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">	data = <span class="built_in">list</span>(csv.reader(fp))</span><br><span class="line">	data = np.array(data[<span class="number">1</span>:])[:, <span class="number">1</span>:].astype(<span class="built_in">float</span>)</span><br></pre></td></tr></table></figure>
+<p>这段代码的展开形式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(path, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    reader = csv.reader(fp)					<span class="comment"># 读入csv文件</span></span><br><span class="line">    data = <span class="built_in">list</span>(reader)             		<span class="comment"># 把CSV的每一行读成一个列表</span></span><br><span class="line">    data = data[<span class="number">1</span>:]       					<span class="comment"># 从第二行开始遍历所有行(不要列表的第一个元素了)</span></span><br><span class="line">    data = np.array(data)  					<span class="comment"># 转成 numpy 数组（字符串类型）</span></span><br><span class="line">    data = data[:, <span class="number">1</span>:]     					<span class="comment"># [a:b, c:d]从a取到b-1行，从c取到b-1列</span></span><br><span class="line">    data = data.astype(<span class="built_in">float</span>) 				<span class="comment"># 把字符串转成浮点数</span></span><br></pre></td></tr></table></figure>
+<p><strong>Python 的列表不支持二维切片</strong>，而 NumPy 数组支持。所以去掉第一列需要转为numpy数组。</p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left  disabled "
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2025/10/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/"
+      title="机器学习基本概念"
+     >
+
+    <p class="title-text">
+      
+        机器学习基本概念
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2025 迪多<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>
