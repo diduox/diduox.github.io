@@ -27,22 +27,32 @@
   
 
   
-  <title>目录: 学习笔记 | 超级迪多的博客</title>
+  <title>批次（batch）和动量（momentum) | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="机器学习，深度学习，精神分析，二次元鉴赏">
-<meta property="og:type" content="website">
-<meta property="og:title" content="超级迪多的博客">
-<meta property="og:url" content="https://diduox.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+  <meta name="description" content="Small Batch vs. Large Batch  Large Batch:看完20份资料之后更新。 Small Batch:看完一份资料更新一次，更新20次是一次epoch。 Large Batch算Loss和Gradient所需要的时间不一定比Small Batch长。 Smaller batch requires longer time for one epoch.  在考虑平行运算的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="批次（batch）和动量（momentum)">
+<meta property="og:url" content="https://diduox.github.io/2025/10/24/%E6%89%B9%E6%AC%A1%EF%BC%88batch%EF%BC%89%E5%92%8C%E5%8A%A8%E9%87%8F%EF%BC%88momentum%EF%BC%89/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="机器学习，深度学习，精神分析，二次元鉴赏">
+<meta property="og:description" content="Small Batch vs. Large Batch  Large Batch:看完20份资料之后更新。 Small Batch:看完一份资料更新一次，更新20次是一次epoch。 Large Batch算Loss和Gradient所需要的时间不一定比Small Batch长。 Smaller batch requires longer time for one epoch.  在考虑平行运算的">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024142935780.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024143555637.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024143928414.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024144442469.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024144536452.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024145541869.png">
+<meta property="article:published_time" content="2025-10-24T06:58:58.000Z">
+<meta property="article:modified_time" content="2025-10-25T02:53:47.737Z">
 <meta property="article:author" content="迪多">
+<meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024142935780.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -235,120 +245,114 @@
     <div id="content-body">
        
 
-<div class="archive-main-card">
-    <div class="archive-top">
-      <div class="main-title-bar">
-        <div class="main-title-dot"></div>
-        <h1 class="article-title">归档</h1>
-      </div>    
+
+<article id="post-批次（batch）和动量（momentum）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        批次（batch）和动量（momentum)
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2025-10-24T06:58:58.000Z" itemprop="datePublished">2025-10-24</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            547 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p><strong>Small Batch vs. Large Batch</strong></p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024142935780.png" style="zoom: 33%;" /></p>
+<p>Large Batch:看完20份资料之后更新。</p>
+<p>Small Batch:看完一份资料更新一次，更新20次是一次epoch。</p>
+<p><strong>Large Batch算Loss和Gradient所需要的时间不一定比Small Batch长。</strong></p>
+<p>Smaller batch requires longer time for one epoch.</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024143555637.png" style="zoom:33%;" /></p>
+<p>在考虑平行运算的时候，一个epoch，大的Batch花的时间反而是比较小的。</p>
+<p>但是更小的Batch反而会带来更好的结果。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024143928414.png" style="zoom:33%;" /></p>
+<p>一种解释是这样的，小的Batch每次的L都有所不同，防止了鞍点的stuck.</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024144442469.png" style="zoom:33%;" /></p>
+<p><strong>小的Batch不仅在Training表现得更好，在Testing中也表现的更好。</strong></p>
+<p>现在有两种Minima，一种是Flat Minima，一种是Sharp Minima。</p>
+<p>假设在Training data和Testing data中有mismatch，两者的Loss在平移时就可能天差地别。</p>
+<p>而Small Batch的Noisy则更可能让minima从Sharp Minima中脱出，避免了这种情况。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024144536452.png" style="zoom:33%;" /></p>
+<hr>
+<p><strong>Momentum</strong></p>
+<p>Movement: movement of last step minus gradient at present.</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024145541869.png" style="zoom:33%;" /></p>
+<p>向量加法。</p>
+<p>所以相当于我们每一次移动，都考虑了过去所有移动的综合。</p>
+
+        
+      </div>
+
+         
     </div>
     
-    
-      
-      
-        
-        <div class="year-line">
-            <div class="year-num">2025</div>
-            <div class="dot-wrapper">
-                <div class="dot"></div>
-            </div>
-            <div class="article-count">5 篇文章</div>
-        </div>
-      
-      <a class="archive-article-link" href="/2025/10/24/%E6%89%B9%E6%AC%A1%EF%BC%88batch%EF%BC%89%E5%92%8C%E5%8A%A8%E9%87%8F%EF%BC%88momentum%EF%BC%89/" title="批次（batch）和动量（momentum)">
-        <div class="date">10-24</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    批次（batch）和动量（momentum)
-                
-            </div>
-        </div>
-        <div class="tags">
-            #机器学习 #深度学习
-        </div>
-      </a>
-    
-      
-      
-      <a class="archive-article-link" href="/2025/10/24/%E5%B1%80%E9%83%A8%E6%9C%80%E5%B0%8F%E5%80%BC%EF%BC%88local%20minima%EF%BC%89%E5%92%8C%E9%9E%8D%E7%82%B9%EF%BC%88saddle%20point%EF%BC%89/" title="局部最小值（local minima）和鞍点（saddle point)">
-        <div class="date">10-24</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    局部最小值（local minima）和鞍点（saddle point)
-                
-            </div>
-        </div>
-        <div class="tags">
-            #机器学习 #深度学习
-        </div>
-      </a>
-    
-      
-      
-      <a class="archive-article-link" href="/2025/10/24/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%BB%BB%E5%8A%A1%E6%94%BB%E7%95%A5/" title="机器学习任务攻略">
-        <div class="date">10-24</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    机器学习任务攻略
-                
-            </div>
-        </div>
-        <div class="tags">
-            #机器学习 #深度学习
-        </div>
-      </a>
-    
-      
-      
-      <a class="archive-article-link" href="/2025/10/23/Homework%201%20COVID-19%20Cases%20Prediction%20(Regression)/" title="Homework 1: COVID-19 Cases Prediction (Regression)">
-        <div class="date">10-23</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    Homework 1: COVID-19 Cases Prediction (Regression)
-                
-            </div>
-        </div>
-        <div class="tags">
-            #机器学习
-        </div>
-      </a>
-    
-      
-      
-      <a class="archive-article-link" href="/2025/10/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="机器学习基本概念">
-        <div class="date">10-22</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    机器学习基本概念
-                
-            </div>
-        </div>
-        <div class="tags">
-            #机器学习 #深度学习
-        </div>
-      </a>
-    
+     
   </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left  disabled "
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2025/10/24/%E5%B1%80%E9%83%A8%E6%9C%80%E5%B0%8F%E5%80%BC%EF%BC%88local%20minima%EF%BC%89%E5%92%8C%E9%9E%8D%E7%82%B9%EF%BC%88saddle%20point%EF%BC%89/"
+      title="局部最小值（local minima）和鞍点（saddle point)"
+     >
+
+    <p class="title-text">
+      
+        局部最小值（local minima）和鞍点（saddle point)
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
     </div>
     <div id="footer-wrapper">
       <footer id="footer">
