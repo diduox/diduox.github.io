@@ -27,22 +27,32 @@
   
 
   
-  <title>标签: 深度学习 | 超级迪多的博客</title>
+  <title>卷积神经网络（CNN） | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="机器学习，深度学习，精神分析，二次元鉴赏">
-<meta property="og:type" content="website">
-<meta property="og:title" content="超级迪多的博客">
-<meta property="og:url" content="https://diduox.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/index.html">
+  <meta name="description" content="卷积神经网络（CNN） Image Classification 如何把一张影像当作是一个模型的输入呢？ 对电脑来说图片是一个三维的tenser，超过二维以上的矩阵，我们就将其称为tenser。 三维：图片的高，图片的宽，图片的channel数量。 Observation 1 不需要把整个图片当作输入，只需要把图片的一小部分输入，就足以侦测到关键的Pattern是否出现。  Simplificat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="卷积神经网络（CNN）">
+<meta property="og:url" content="https://diduox.github.io/2025/10/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88CNN%EF%BC%89/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="机器学习，深度学习，精神分析，二次元鉴赏">
+<meta property="og:description" content="卷积神经网络（CNN） Image Classification 如何把一张影像当作是一个模型的输入呢？ 对电脑来说图片是一个三维的tenser，超过二维以上的矩阵，我们就将其称为tenser。 三维：图片的高，图片的宽，图片的channel数量。 Observation 1 不需要把整个图片当作输入，只需要把图片的一小部分输入，就足以侦测到关键的Pattern是否出现。  Simplificat">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026110104415.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026111352360.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026113002869.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026113951392.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026114751329.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026115219689.png">
+<meta property="article:published_time" content="2025-10-26T05:37:37.000Z">
+<meta property="article:modified_time" content="2025-10-26T05:37:38.792Z">
 <meta property="article:author" content="迪多">
+<meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026110104415.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -235,158 +245,128 @@
     <div id="content-body">
        
 
-<div class="archive-main-card">
-    <div class="archive-top">
-      <div class="main-title-bar">
-        <div class="main-title-dot"></div>
-        <h1 class="article-title">归档</h1>
-      </div>    
+
+<article id="post-卷积神经网络（CNN）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        卷积神经网络（CNN）
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2025-10-26T05:37:37.000Z" itemprop="datePublished">2025-10-26</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            1k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p><strong>卷积神经网络（CNN）</strong></p>
+<p><strong>Image Classification</strong></p>
+<p>如何把一张影像当作是一个模型的输入呢？</p>
+<p>对电脑来说图片是一个三维的<strong>tenser</strong>，超过二维以上的矩阵，我们就将其称为<strong>tenser</strong>。</p>
+<p>三维：图片的高，图片的宽，图片的channel数量。</p>
+<p><strong>Observation 1</strong></p>
+<p>不需要把整个图片当作输入，只需要把图片的一小部分输入，就足以侦测到关键的Pattern是否出现。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026110104415.png" style="zoom:33%;" /></p>
+<p><strong>Simplification 1</strong></p>
+<p>设定一个区域叫<strong>Receptive field</strong>(感受野)，每一个neural只需要关心自己的Receptive file即可。</p>
+<p><strong>Typical Setting</strong></p>
+<p>会看全部的channel，将看的范围设为kernel size，同一个Receptive field会有一组neural来守备（卷积核数量）。</p>
+<p><strong>Observation 2</strong></p>
+<p>同样的pattern可能出现在图片的不同区域，我们需要每一个区域都放一个侦测的neural吗？（需要，但是我们能共享参数来降低参数量）</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026111352360.png" style="zoom:33%;" /></p>
+<p>两个<strong>不同</strong>的Receptive field享有相同的参数(因为要侦测相同的pattern)。</p>
+<p><strong>Typical Setting</strong></p>
+<p>每一个Receptive Field都共用一组参数，参数的名字叫Filter，Filter的Channel数要等于Receptive Field的channel数，Filter个数(卷积核个数)等于下一层的channel数量。</p>
+<hr>
+<p><strong>Another story based on <em>filter</em></strong></p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026113002869.png" style="zoom:33%;" /></p>
+<p>Convolutional Layer是什么？</p>
+<p>一个Convolutional Layer里面有<strong>很多个Filter，</strong>其中每个Fileter的大小是3×3×Channel的Tenser，每一个Filter的作用，就是在3×3的范围内，抓取一个Pattern。</p>
+<p>如果我们Filter的大小一直设定为3×3，会不会让我们的Neutral Net无法侦测到比较大范围的Pattern呢？</p>
+<p>其实只要Neutral Net的范围叠的越深，在影像范围上，它看的范围就会越来越大。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026113951392.png" style="zoom:33%;" /></p>
+<p>看了两个3×3，相当于在原图上看了5×5的位置。</p>
+<p>把Filter扫过整张图片这件事，就叫做Convolution。</p>
+<hr>
+<p><strong>Observation 3</strong></p>
+<p>对像素进行下采样并不会改变物体本身(比如把一个图像偶数的row都去掉，奇数的col都去掉，图片变为原来的1/4，但不会影响图片里面是什么东西)。</p>
+<p><strong>Pooling</strong></p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026114751329.png" style="zoom:33%;" /></p>
+<p>可以把图片变小。</p>
+<p>Pooling最主要的作用是把影像变小，减少运算量。</p>
+<p>整个的CNN</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026115219689.png" style="zoom:33%;" /></p>
+
+        
+      </div>
+
+         
     </div>
     
-    
-      
-      
-        
-        <div class="year-line">
-            <div class="year-num">2025</div>
-            <div class="dot-wrapper">
-                <div class="dot"></div>
-            </div>
-            <div class="article-count">7 篇文章</div>
-        </div>
-      
-      <a class="archive-article-link" href="/2025/10/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88CNN%EF%BC%89/" title="卷积神经网络（CNN）">
-        <div class="date">10-26</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    卷积神经网络（CNN）
-                
-            </div>
-        </div>
-        <div class="tags">
-            #机器学习 #深度学习
-        </div>
-      </a>
-    
-      
-      
-      <a class="archive-article-link" href="/2025/10/25/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%88Loss%EF%BC%89%E4%B9%9F%E5%8F%AF%E8%83%BD%E6%9C%89%E5%BD%B1%E5%93%8D/" title="损失函数（Loss）也可能有影响">
-        <div class="date">10-25</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    损失函数（Loss）也可能有影响
-                
-            </div>
-        </div>
-        <div class="tags">
-            #机器学习 #深度学习
-        </div>
-      </a>
-    
-      
-      
-      <a class="archive-article-link" href="/2025/10/25/%E8%87%AA%E5%8A%A8%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87%EF%BC%88Learning%20Rate%EF%BC%89/" title="自动调整学习率（Learning Rate）">
-        <div class="date">10-25</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    自动调整学习率（Learning Rate）
-                
-            </div>
-        </div>
-        <div class="tags">
-            #机器学习 #深度学习
-        </div>
-      </a>
-    
-      
-      
-      <a class="archive-article-link" href="/2025/10/24/%E6%89%B9%E6%AC%A1%EF%BC%88batch%EF%BC%89%E5%92%8C%E5%8A%A8%E9%87%8F%EF%BC%88momentum%EF%BC%89/" title="批次（batch）和动量（momentum)">
-        <div class="date">10-24</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    批次（batch）和动量（momentum)
-                
-            </div>
-        </div>
-        <div class="tags">
-            #机器学习 #深度学习
-        </div>
-      </a>
-    
-      
-      
-      <a class="archive-article-link" href="/2025/10/24/%E5%B1%80%E9%83%A8%E6%9C%80%E5%B0%8F%E5%80%BC%EF%BC%88local%20minima%EF%BC%89%E5%92%8C%E9%9E%8D%E7%82%B9%EF%BC%88saddle%20point%EF%BC%89/" title="局部最小值（local minima）和鞍点（saddle point)">
-        <div class="date">10-24</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    局部最小值（local minima）和鞍点（saddle point)
-                
-            </div>
-        </div>
-        <div class="tags">
-            #机器学习 #深度学习
-        </div>
-      </a>
-    
-      
-      
-      <a class="archive-article-link" href="/2025/10/24/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%BB%BB%E5%8A%A1%E6%94%BB%E7%95%A5/" title="机器学习任务攻略">
-        <div class="date">10-24</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    机器学习任务攻略
-                
-            </div>
-        </div>
-        <div class="tags">
-            #机器学习 #深度学习
-        </div>
-      </a>
-    
-      
-      
-      <a class="archive-article-link" href="/2025/10/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="机器学习基本概念">
-        <div class="date">10-22</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    机器学习基本概念
-                
-            </div>
-        </div>
-        <div class="tags">
-            #机器学习 #深度学习
-        </div>
-      </a>
-    
+     
   </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left  disabled "
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2025/10/25/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%88Loss%EF%BC%89%E4%B9%9F%E5%8F%AF%E8%83%BD%E6%9C%89%E5%BD%B1%E5%93%8D/"
+      title="损失函数（Loss）也可能有影响"
+     >
+
+    <p class="title-text">
+      
+        损失函数（Loss）也可能有影响
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
     </div>
     <div id="footer-wrapper">
       <footer id="footer">
