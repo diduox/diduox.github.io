@@ -27,32 +27,49 @@
   
 
   
-  <title>局部最小值（local minima）和鞍点（saddle point) | 超级迪多的博客</title>
+  <title>自注意力机制（Self-attention） | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="局部最小值（local minima）和鞍点（saddle point） 为什么Optimization会失败？  当参数不再update的时候，一般是遇到了critical point(临界点？)。 如果这个critical point 是 local minima，那么就没有办法能更新了。 但是如果是saddle point，还是有办法是我们的loss值变低了。 如何判断一个点是local m">
+  <meta name="description" content="自注意力机制（Self-attention） Network架构，Self-attention。 Self-attention要解决的问题是，当输入是一排向量的时候，应该如何处理。 Vector Set as Input  1.文字处理 如果我们把句子里面的每一个词汇都描述出一个向量，那么Model的输入就回是一个Vector Set，而且随着句子长度不一样，Vector Set的大小也不一样。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="局部最小值（local minima）和鞍点（saddle point)">
-<meta property="og:url" content="https://diduox.github.io/2025/10/24/%E5%B1%80%E9%83%A8%E6%9C%80%E5%B0%8F%E5%80%BC%EF%BC%88local%20minima%EF%BC%89%E5%92%8C%E9%9E%8D%E7%82%B9%EF%BC%88saddle%20point%EF%BC%89/index.html">
+<meta property="og:title" content="自注意力机制（Self-attention）">
+<meta property="og:url" content="https://diduox.github.io/2025/10/27/%E8%87%AA%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%EF%BC%88Self-attention%EF%BC%89/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="局部最小值（local minima）和鞍点（saddle point） 为什么Optimization会失败？  当参数不再update的时候，一般是遇到了critical point(临界点？)。 如果这个critical point 是 local minima，那么就没有办法能更新了。 但是如果是saddle point，还是有办法是我们的loss值变低了。 如何判断一个点是local m">
+<meta property="og:description" content="自注意力机制（Self-attention） Network架构，Self-attention。 Self-attention要解决的问题是，当输入是一排向量的时候，应该如何处理。 Vector Set as Input  1.文字处理 如果我们把句子里面的每一个词汇都描述出一个向量，那么Model的输入就回是一个Vector Set，而且随着句子长度不一样，Vector Set的大小也不一样。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024134001965.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024134809086.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024135243580.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024140333980.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024140732170.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024141518613.png">
-<meta property="article:published_time" content="2025-10-24T06:19:19.000Z">
-<meta property="article:modified_time" content="2025-10-24T06:19:13.015Z">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026135329864.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026135706634.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026140119410.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026140256139.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026140351947.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026140506571.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026141034548.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026141445132.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026142422083.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026143303060.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026143718093.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026143733741.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026144022268.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026144329061.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026144758244.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027102156990.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027102418494.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027102602821.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027102708580.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027102919862.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027103405950.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027103546509.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027104205013.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027110116279.png">
+<meta property="article:published_time" content="2025-10-27T03:05:05.000Z">
+<meta property="article:modified_time" content="2025-10-27T03:05:41.965Z">
 <meta property="article:author" content="迪多">
 <meta property="article:tag" content="机器学习">
-<meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024134001965.png">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026135329864.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -246,7 +263,7 @@
        
 
 
-<article id="post-局部最小值（local minima）和鞍点（saddle point）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-自注意力机制（Self-attention）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -259,7 +276,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        局部最小值（local minima）和鞍点（saddle point)
+        自注意力机制（Self-attention）
       </h1>
     
   
@@ -267,7 +284,7 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-24T06:19:19.000Z" itemprop="datePublished">2025-10-24</time>
+  <time class="dt-published" datetime="2025-10-27T03:05:05.000Z" itemprop="datePublished">2025-10-27</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
@@ -278,42 +295,116 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            729 词 
+            2.3k 词 
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p><strong>局部最小值（local minima）和鞍点（saddle point）</strong></p>
-<p>为什么Optimization会失败？</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024134001965.png" style="zoom:33%;" /></p>
-<p>当参数不再update的时候，一般是遇到了critical point(临界点？)。</p>
-<p>如果这个critical point 是 local minima，那么就没有办法能更新了。</p>
-<p>但是如果是saddle point，还是有办法是我们的loss值变低了。</p>
-<p><strong>如何判断一个点是local minima 还是 saddle point ?</strong></p>
-<p>Tayler Series Approximation :arrow_right:  在一点使用泰勒展开</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024134809086.png" style="zoom:33%;" /></p>
-<p>$g$  是 L 的一次微分(对$w_1$求微分)。</p>
-<p>$H$ 是L 的二次微分(对$w_1,w_2$求微分)。</p>
-<p>如果现在位于critical point 则 $g$ 为0，即第二项为0。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024135243580.png" style="zoom: 33%;" /></p>
-<p>如果$v^tHv$恒大于0，则说明$L(\theta)$ 小于周围的所有点，是Local minima。</p>
-<p>如果$v^tHv$恒小于0，则说明$L(\theta)$ 大于周围的所有点，是Local maxima。</p>
-<p>如果$v^tHv$有可能大于0，有可能小于0，则说明是Saddle point。</p>
-<p>要想判断$v^tHv$是否恒大于0，或者恒小于0，只需要看$H$的特征值是否全正或者全负。</p>
-<p><strong>$H$能告诉我们参数更新的方向！</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024140333980.png" style="zoom:33%;" /></p>
-<p>$u$是$H$的一个特征向量。</p>
-<p>$\lambda$是$u$的一个特征值。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024140732170.png" style="zoom:33%;" /></p>
-<p>所以，只要找出小于0的特征值，并且按照该特征值对应的特征向量(可能不止一个)更新参数，就能使loss变小。</p>
-<p>但是算$H$所需要的计算量很大，实际上这个方法被很少使用。</p>
-<p><strong>Saddle Point vs. Local Minima 谁更常见？</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024141518613.png" style="zoom:33%;" /></p>
-<p>在实际的学习中，Local Minima实际非常少见，即使在最极端的情况下，也有40%的其他路可以走。</p>
+          <p><strong>自注意力机制（Self-attention）</strong></p>
+<p>Network架构，Self-attention。</p>
+<p>Self-attention要解决的问题是，当输入是一排向量的时候，应该如何处理。</p>
+<p><strong>Vector Set as Input</strong> </p>
+<p>1.文字处理</p>
+<p>如果我们把句子里面的每一个词汇都描述出一个向量，那么Model的输入就回是一个Vector Set，而且随着句子长度不一样，Vector Set的大小也不一样。</p>
+<p>有两种表示词汇的方式：</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026135329864.png" style="zoom: 33%;" /></p>
+<p>One-hot有一个问题，其假设所有词汇彼此之间都是没有关系的。</p>
+<p>Word Embedding 我们给每一个词汇一个向量，并且向量之间是有语义的联系的。</p>
+<p>2.声音讯号</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026135706634.png" style="zoom:33%;" /></p>
+<p>先取一段25ms的音频信号，将其转化为向量；之后每隔10ms再取一次，然后将其转化为向量。</p>
+<p>3.图（数据结构）</p>
+<p>每个图当中的结点可以看作是一个Vector。</p>
+<p>也可以把分子看作为一个Graph，把上面的每一个原子看作为一个节点，也就是一个Vector。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026140119410.png" style="zoom:33%;" /></p>
+<p><strong>What is the output?</strong></p>
+<ul>
+<li>每一个Vector都有一个Label。</li>
+</ul>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026140256139.png" style="zoom:33%;" /></p>
+<ul>
+<li>一整个Sequence只有一个Label</li>
+</ul>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026140351947.png" style="zoom:33%;" /></p>
+<ul>
+<li>由Model自己来决定输出多少Label <strong>seq2seq</strong></li>
+</ul>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026140506571.png" style="zoom:33%;" /></p>
+<p>比如说翻译，语音辨识。</p>
+<p><strong>Sequnence Labeling（一个Vector对应一个Label）</strong></p>
+<p>让Model考虑Context的资讯，把一个Vector的前后连起来，然后一起丢进Network。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026141034548.png" style="zoom:33%;" /></p>
+<p><strong>如何考虑整个Input Sequence的资讯呢？:arrow_right: Self-attention</strong></p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026141445132.png" style="zoom:33%;" /></p>
+<p>一个Vector经过Self-attention之后，就会考虑整个Sequence的影响。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026142422083.png" style="zoom:33%;" /></p>
+<p>Input可以是整个Network的Input，也可以是某个Hidden layer的Output。</p>
+<p><strong>如何产生$b^1$这个向量？</strong></p>
+<p><strong>1.根据 $ a^1 $ 找出这个Sequence与 $a^1$ 相关的其他向量。</strong></p>
+<p>每一个向量和 $a^1$ 关联的程度，我们用一个数值 $\alpha$ 表示。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026143303060.png" style="zoom:33%;" /></p>
+<p><strong>2.计算 $\alpha$</strong> </p>
+<p><strong>Dot-product：</strong></p>
+<p>把输入的向量分别乘上$W^q$和$W^k$，得到$q$和$k$这两个向量，再把$q$和$k$做点乘(·)得到$\alpha$。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026143718093.png" style="zoom:33%;" /></p>
+<p>Additive:</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026143733741.png" style="zoom:33%;" /></p>
+<p><strong>3.把 $ a^1 $分别和 $ a^2 $， $ a^3 $， $ a^4 $计算他们之间的关联性(使用上述方法)。</strong></p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026144022268.png" style="zoom:33%;" /></p>
+<p>有的时候$ a^1 $也会和自己计算关联性。</p>
+<p><strong>4.做Softmax</strong></p>
+<p>计算完 $ a^1 $分别和 $ a^2 $， $ a^3 $， $ a^4 $的关联性，做一个Softmax。</p>
+<p>但是不一定要用Softmax，别的激活函数也可以。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026144329061.png" style="zoom:33%;" /></p>
+<p><strong>5.依据$\alpha$ 抽取出Sequence里面重要的资讯。</strong></p>
+<p>把 $ a^1 $ , $ a^2 $， $ a^3 $， $ a^4 $的每个向量乘上$W^v$得到新的向量$V^i$，接下来把$V^i$每一个向量都去乘$\alpha$ 然后再把他们加起来。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251026144758244.png" style="zoom:33%;" /></p>
+<p>注意：$\alpha$是点乘之后的数值，$V^i$是一个向量，所以最后$b^i$也是一个向量。</p>
+<hr>
+<p><strong>从矩阵乘法的角度理解Self-attention的运作方式</strong></p>
+<p>从$ a^1 $到$ a^4 $ 每一个$a$ 都要分别产生$q$ $k$ $v$ 。</p>
+<p>我们可以把不同的$a$合起来，当作一个矩阵来对待。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027102156990.png" style="zoom: 33%;" /></p>
+<p>接下来，每一个$q$都会和每一个$k$进行点乘来计算$\alpha$ ，从矩阵操作的角度来看：</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027102418494.png" style="zoom:33%;" /></p>
+<p>让$K$的转置乘矩阵$Q$，来得到$\alpha$ 的矩阵$A$，再进行Softmax得到$A’$。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027102602821.png" style="zoom:33%;" /></p>
+<p>然后计算输出$b$。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027102708580.png" style="zoom:33%;" /></p>
+<p>需要通过训练找出来的参数只用$W^q,W^k,W^v$，其他的参数都是人为设定好的。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027102919862.png" style="zoom:33%;" /></p>
+<p><strong>Multi-head Self-attention :arrow_right: Different type of relevance</strong></p>
+<p>相关这种形式可能有很多种形式，所以我们可能需要不同的$q$，同时$k,v$的数量也要和$q$一致。</p>
+<p>每一个相同种类的放在一起做:</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027103405950.png" style="zoom:33%;" /></p>
+<p>之后我们可以再把$b^{i,1},b^{i,2}$接起来，得到$b^i$</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027103546509.png" style="zoom:33%;" /></p>
+<p><strong>Positional Encoding</strong></p>
+<p>在Self-attention这一层没有位置的信息，我们可以定义一个唯一的位置向量$e^i$，将其与$a^i$相加，这样就可以带上位置的信息。</p>
+<p>$e^i$是人为设定的，甚至可以通过资料学出来。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027104205013.png" style="zoom:33%;" /></p>
+<p>在这里面，每一列都代表一个$e^i$位置向量。</p>
+<p><strong>用在语音上的Self-Attention</strong></p>
+<p>在语音辨识中，输入的Sequence会变得非常长，导致$\alpha$矩阵$A$变得非常大从而难以存储，并且计算很耗时间。</p>
+<p>我们使用Truncated Self-attention，在做Self-attention的时候，不看一整句话，只看一小范围（范围由自己设定）。</p>
+<p><strong>用在图片上的Self-attention</strong></p>
+<p>把一张图片看作一个Vector Set，把每一个像素看作3*1的向量。</p>
+<p><strong>Self-attention与CNN</strong></p>
+<p>Self-attention考虑一整张图片的信息；</p>
+<p>而CNN只考虑一个感受野里面的信息。</p>
+<p>所以我们可以把CNN看作是一个简化版的Self-attention；</p>
+<p>我们也可以把Self-attention看作复杂化的CNN，每个感受野由Self-attention自己学出来。</p>
+<p><strong>Self-attention与RNN（现在RNN的作用已经被Self-attention取代了）</strong></p>
+<p>RNN要处理input是一个Sequence的状况</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027110116279.png" style="zoom:33%;" /></p>
+<p>RNN也能考虑整个input（双向RNN）。</p>
+<p>但是RNN距离很远的vector很难被考虑，并且RNN无法进行平行计算。</p>
+<p><strong>Self-attention与Graph</strong></p>
+<p>Self-attention也可以用在图上，我们直接把Node之间的Edge当作相关性。</p>
 
         
       </div>
@@ -328,25 +419,25 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2025/10/24/%E6%89%B9%E6%AC%A1%EF%BC%88batch%EF%BC%89%E5%92%8C%E5%8A%A8%E9%87%8F%EF%BC%88momentum%EF%BC%89/"
-      title="批次（batch）和动量（momentum)"
+      href="/2025/10/27/Transformer/"
+      title="Transformer"
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
       
-        批次（batch）和动量（momentum)
+        Transformer
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/10/24/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%BB%BB%E5%8A%A1%E6%94%BB%E7%95%A5/"
-      title="机器学习任务攻略"
+      href="/2025/10/26/Homework%20%202-1%20Phoneme%20Classification/"
+      title="Homework  2-1 Phoneme Classification"
      >
 
     <p class="title-text">
       
-        机器学习任务攻略
+        Homework  2-1 Phoneme Classification
         
     </p>
     <i class="fa-solid fa-angle-right"></i>

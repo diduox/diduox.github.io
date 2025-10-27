@@ -27,32 +27,34 @@
   
 
   
-  <title>局部最小值（local minima）和鞍点（saddle point) | 超级迪多的博客</title>
+  <title>Transformer | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="局部最小值（local minima）和鞍点（saddle point） 为什么Optimization会失败？  当参数不再update的时候，一般是遇到了critical point(临界点？)。 如果这个critical point 是 local minima，那么就没有办法能更新了。 但是如果是saddle point，还是有办法是我们的loss值变低了。 如何判断一个点是local m">
+  <meta name="description" content="Sequence-to-Sequence(Seq2Seq) 输入一个Sequence，输出一个Sequence；但是输出的长度由模型自己决定。 一般Seq2Seq的模型由两部分组成：Encoder和Decoder。 Encoder Encoder要做的事：给一排向量，输出长度相同的一排向量。 Transformer的Encoder使用的就是Self-attention。 每一个Block里面有好多">
 <meta property="og:type" content="article">
-<meta property="og:title" content="局部最小值（local minima）和鞍点（saddle point)">
-<meta property="og:url" content="https://diduox.github.io/2025/10/24/%E5%B1%80%E9%83%A8%E6%9C%80%E5%B0%8F%E5%80%BC%EF%BC%88local%20minima%EF%BC%89%E5%92%8C%E9%9E%8D%E7%82%B9%EF%BC%88saddle%20point%EF%BC%89/index.html">
+<meta property="og:title" content="Transformer">
+<meta property="og:url" content="https://diduox.github.io/2025/10/27/Transformer/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="局部最小值（local minima）和鞍点（saddle point） 为什么Optimization会失败？  当参数不再update的时候，一般是遇到了critical point(临界点？)。 如果这个critical point 是 local minima，那么就没有办法能更新了。 但是如果是saddle point，还是有办法是我们的loss值变低了。 如何判断一个点是local m">
+<meta property="og:description" content="Sequence-to-Sequence(Seq2Seq) 输入一个Sequence，输出一个Sequence；但是输出的长度由模型自己决定。 一般Seq2Seq的模型由两部分组成：Encoder和Decoder。 Encoder Encoder要做的事：给一排向量，输出长度相同的一排向量。 Transformer的Encoder使用的就是Self-attention。 每一个Block里面有好多">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024134001965.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024134809086.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024135243580.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024140333980.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024140732170.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024141518613.png">
-<meta property="article:published_time" content="2025-10-24T06:19:19.000Z">
-<meta property="article:modified_time" content="2025-10-24T06:19:13.015Z">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027112435584.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027112903583.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027113054750.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027114525687.png">
+<meta property="og:image" content="c:\Users\%E6%A1%82%E7%89%A9%E9%AA%91%E5%A3%AB\AppData\Roaming\Typora\typora-user-images\image-20251027114817930.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027115756296.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027152807768.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027153156704.png">
+<meta property="og:image" content="c:\Users\%E6%A1%82%E7%89%A9%E9%AA%91%E5%A3%AB\AppData\Roaming\Typora\typora-user-images\image-20251027154234980.png">
+<meta property="article:published_time" content="2025-10-27T08:05:05.000Z">
+<meta property="article:modified_time" content="2025-10-27T08:05:29.567Z">
 <meta property="article:author" content="迪多">
-<meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024134001965.png">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027112435584.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -246,7 +248,7 @@
        
 
 
-<article id="post-局部最小值（local minima）和鞍点（saddle point）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-Transformer" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -259,7 +261,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        局部最小值（local minima）和鞍点（saddle point)
+        Transformer
       </h1>
     
   
@@ -267,7 +269,7 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-24T06:19:19.000Z" itemprop="datePublished">2025-10-24</time>
+  <time class="dt-published" datetime="2025-10-27T08:05:05.000Z" itemprop="datePublished">2025-10-27</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
@@ -278,42 +280,77 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            729 词 
+            1.8k 词 
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p><strong>局部最小值（local minima）和鞍点（saddle point）</strong></p>
-<p>为什么Optimization会失败？</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024134001965.png" style="zoom:33%;" /></p>
-<p>当参数不再update的时候，一般是遇到了critical point(临界点？)。</p>
-<p>如果这个critical point 是 local minima，那么就没有办法能更新了。</p>
-<p>但是如果是saddle point，还是有办法是我们的loss值变低了。</p>
-<p><strong>如何判断一个点是local minima 还是 saddle point ?</strong></p>
-<p>Tayler Series Approximation :arrow_right:  在一点使用泰勒展开</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024134809086.png" style="zoom:33%;" /></p>
-<p>$g$  是 L 的一次微分(对$w_1$求微分)。</p>
-<p>$H$ 是L 的二次微分(对$w_1,w_2$求微分)。</p>
-<p>如果现在位于critical point 则 $g$ 为0，即第二项为0。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024135243580.png" style="zoom: 33%;" /></p>
-<p>如果$v^tHv$恒大于0，则说明$L(\theta)$ 小于周围的所有点，是Local minima。</p>
-<p>如果$v^tHv$恒小于0，则说明$L(\theta)$ 大于周围的所有点，是Local maxima。</p>
-<p>如果$v^tHv$有可能大于0，有可能小于0，则说明是Saddle point。</p>
-<p>要想判断$v^tHv$是否恒大于0，或者恒小于0，只需要看$H$的特征值是否全正或者全负。</p>
-<p><strong>$H$能告诉我们参数更新的方向！</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024140333980.png" style="zoom:33%;" /></p>
-<p>$u$是$H$的一个特征向量。</p>
-<p>$\lambda$是$u$的一个特征值。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024140732170.png" style="zoom:33%;" /></p>
-<p>所以，只要找出小于0的特征值，并且按照该特征值对应的特征向量(可能不止一个)更新参数，就能使loss变小。</p>
-<p>但是算$H$所需要的计算量很大，实际上这个方法被很少使用。</p>
-<p><strong>Saddle Point vs. Local Minima 谁更常见？</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024141518613.png" style="zoom:33%;" /></p>
-<p>在实际的学习中，Local Minima实际非常少见，即使在最极端的情况下，也有40%的其他路可以走。</p>
+          <p><strong>Sequence-to-Sequence(Seq2Seq)</strong></p>
+<p>输入一个Sequence，输出一个Sequence；但是输出的长度由模型自己决定。</p>
+<p>一般Seq2Seq的模型由两部分组成：<strong>Encoder</strong>和<strong>Decoder</strong>。</p>
+<p><strong>Encoder</strong></p>
+<p>Encoder要做的事：给一排向量，输出长度相同的一排向量。</p>
+<p>Transformer的Encoder使用的就是Self-attention。</p>
+<p>每一个Block里面有好多层。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027112435584.png" style="zoom:33%;" /></p>
+<p>但是在Transformer里面的操作更复杂。</p>
+<p>在Transformer里面，Self-attention的输出还要再加上原来的输入，再得到新的output(Residual Connection)。</p>
+<p>得到output之后，再进行Layer Norm，LN不用考虑Batch，对同一个Feature的不同的Dimension来计算均值和平均差。</p>
+<p>输出之后再进行一次FC，之后再来一次Residual，然后进行LN，最后才能得到Output。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027112903583.png" style="zoom:33%;" /></p>
+<p>对应Transformer</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027113054750.png" style="zoom:50%;" /></p>
+<p><strong>Decoder</strong></p>
+<p><strong>Decoder-Autoregressive(AT)</strong></p>
+<p>将Encoder产生的内容输入到Decoder中。</p>
+<p>我们给Decoder一个特殊的符号<code>BEGIN</code>，代表开始。</p>
+<p>每一个Token都可以用One-hot的方式来表示。</p>
+<p>输出一个向量，向量的长度和Vocabulary size 一样（所有可能的单体输出）。</p>
+<p>输出向量之前，我们都会进行一个SoftMax，所以输出向量的总和会是1，我们把分数最高的当作是输出。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027114525687.png" style="zoom:33%;" /></p>
+<p>把这个过程反复的持续下去。</p>
+<p><img src="C:\Users\桂物骑士\AppData\Roaming\Typora\typora-user-images\image-20251027114817930.png" alt="image-20251027114817930" style="zoom:33%;" /></p>
+<p>Masked Self-attention：产生信息的时候，只看自己前面的信息，而不考虑整体的信息。</p>
+<p>因为Decoder输出的信息是一个一个产生的，所以其只能看到自己左边的信息。</p>
+<p><strong>Adding Stop Token</strong></p>
+<p>在Vocabulary添加一个Stop的符号。</p>
+<p><strong>Decoder-Non-Autoregressive(NAT)</strong></p>
+<p>NAT是一次把整个句子都产生出来，直接把一排Token放入进去，就会产生一排句子。</p>
+<p>如何决定NAT输出的长度？</p>
+<ul>
+<li>设置另一个预测Model，输入Encoder，预测出对应的长度。</li>
+<li>输出一个非常长的句子，如果有地方输出了End，当作后面没有输出。</li>
+</ul>
+<p>优点：可以平行化计算，可以限制输出长度。</p>
+<p>缺点：效果不如NAT好。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027115756296.png" style="zoom:33%;" /></p>
+<p><strong>Encoder-Decoder</strong></p>
+<p>Encoder和Decoder之间怎么传递信息</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027152807768.png" style="zoom: 33%;" /></p>
+<p>Begin的Token在被Decoder读进来之后，产生一个向量，然后把这个向量与矩阵相乘，得到$q$，之后对这个$q$进行Self-attention的行为。</p>
+<p>这一整个行为叫做Cross attention(先有的Cross attention后有的Self-attention)。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027153156704.png" style="zoom:33%;" /></p>
+<p>在给的案例里面，是用Encoder的最后一层来与Decoder做Cross-Attention的，但其实也可以用Encoder的中间层结果来做。（尚在探究的问题）</p>
+<p><strong>Training</strong></p>
+<p>我们最终从Decoder中输出的向量是一个概率分布，我们会希望这个概率分布和One-hot越接近越好。所以我们会计算Truth和Distribution的Cross entropy，并希望其越小越好。</p>
+<p>在Decoder训练的时候，我们输入的是正确的答案。</p>
+<p><img src="C:\Users\桂物骑士\AppData\Roaming\Typora\typora-user-images\image-20251027154234980.png" alt="image-20251027154234980" style="zoom:33%;" /></p>
+<p><strong>Tips:</strong></p>
+<p>Copy Machine：在Chat-bot，Summarization等任务，我们输出的结果可能需要直接摘抄输入。</p>
+<p>Guided Attention：要求机器在做Attention是有固定的过程的（比如TTS的Attention应该从左向右）。</p>
+<p>Beam Search：用fancy的方法找一个比较好的路径。（有时候有用，有时候没用）。</p>
+<p><strong>Optimizing Evaluation Metrics</strong></p>
+<p>在训练的时候，我们考虑模型的精准度是对比每个字的Cross-entropy；但在实际评估模型的时候，我们考虑的整句话的BLEU Score。</p>
+<p>但是我们没有办法用BLEU Score来进行训练，因为其无法算出梯度。</p>
+<p><strong>Exposure bias</strong></p>
+<p>我们在训练的时候，输入的Vector是完全正确的；</p>
+<p>而我们在测试的时候，输入的Vecter可能是错误的。</p>
+<p>在测试的时候，就可能会一步错步步错。</p>
+<p>Scheduled Sampling 我们在训练的时候给一些错误的东西，结果反而可能会更好。</p>
 
         
       </div>
@@ -328,25 +365,25 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2025/10/24/%E6%89%B9%E6%AC%A1%EF%BC%88batch%EF%BC%89%E5%92%8C%E5%8A%A8%E9%87%8F%EF%BC%88momentum%EF%BC%89/"
-      title="批次（batch）和动量（momentum)"
+      href="/2025/10/27/Batch%20Normalization/"
+      title="Batch Normalization（批次标准化）"
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
       
-        批次（batch）和动量（momentum)
+        Batch Normalization（批次标准化）
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/10/24/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%BB%BB%E5%8A%A1%E6%94%BB%E7%95%A5/"
-      title="机器学习任务攻略"
+      href="/2025/10/27/%E8%87%AA%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%EF%BC%88Self-attention%EF%BC%89/"
+      title="自注意力机制（Self-attention）"
      >
 
     <p class="title-text">
       
-        机器学习任务攻略
+        自注意力机制（Self-attention）
         
     </p>
     <i class="fa-solid fa-angle-right"></i>
