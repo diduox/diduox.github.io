@@ -27,32 +27,24 @@
   
 
   
-  <title>批次（batch）和动量（momentum) | 超级迪多的博客</title>
+  <title>Homework  3 Image Classification | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="Small Batch vs. Large Batch  Large Batch:看完20份资料之后更新。 Small Batch:看完一份资料更新一次，更新20次是一次epoch。 Large Batch算Loss和Gradient所需要的时间不一定比Small Batch长。 Smaller batch requires longer time for one epoch.  在考虑平行运算的">
+  <meta name="description" content="Easy Baseline 44.862 (accuracy, %) 直接运行代码。 Medium Baseline 52.807 (accuracy, %) 对含有标注的数据进行数据增强。 12345678910111213141516train_tfm &#x3D; transforms.Compose([        transforms.Resize((128, 128)),        # 从">
 <meta property="og:type" content="article">
-<meta property="og:title" content="批次（batch）和动量（momentum)">
-<meta property="og:url" content="https://diduox.github.io/2025/10/24/%E6%89%B9%E6%AC%A1%EF%BC%88batch%EF%BC%89%E5%92%8C%E5%8A%A8%E9%87%8F%EF%BC%88momentum%EF%BC%89/index.html">
+<meta property="og:title" content="Homework  3 Image Classification">
+<meta property="og:url" content="https://diduox.github.io/2025/10/29/Homework%203%20%20Image%20Classification/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="Small Batch vs. Large Batch  Large Batch:看完20份资料之后更新。 Small Batch:看完一份资料更新一次，更新20次是一次epoch。 Large Batch算Loss和Gradient所需要的时间不一定比Small Batch长。 Smaller batch requires longer time for one epoch.  在考虑平行运算的">
+<meta property="og:description" content="Easy Baseline 44.862 (accuracy, %) 直接运行代码。 Medium Baseline 52.807 (accuracy, %) 对含有标注的数据进行数据增强。 12345678910111213141516train_tfm &#x3D; transforms.Compose([        transforms.Resize((128, 128)),        # 从">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024142935780.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024143555637.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024143928414.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024144442469.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024144536452.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024145541869.png">
-<meta property="article:published_time" content="2025-10-24T06:58:58.000Z">
-<meta property="article:modified_time" content="2025-10-25T02:53:47.737Z">
+<meta property="article:published_time" content="2025-10-29T09:46:46.000Z">
+<meta property="article:modified_time" content="2025-10-29T09:47:13.032Z">
 <meta property="article:author" content="迪多">
 <meta property="article:tag" content="机器学习">
-<meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024142935780.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -246,7 +238,7 @@
        
 
 
-<article id="post-批次（batch）和动量（momentum）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-Homework 3  Image Classification" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -259,7 +251,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        批次（batch）和动量（momentum)
+        Homework  3 Image Classification
       </h1>
     
   
@@ -267,7 +259,7 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-24T06:58:58.000Z" itemprop="datePublished">2025-10-24</time>
+  <time class="dt-published" datetime="2025-10-29T09:46:46.000Z" itemprop="datePublished">2025-10-29</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
@@ -278,38 +270,24 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            547 词 
+            588 词 
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p><strong>Small Batch vs. Large Batch</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024142935780.png" style="zoom: 33%;" /></p>
-<p>Large Batch:看完20份资料之后更新。</p>
-<p>Small Batch:看完一份资料更新一次，更新20次是一次epoch。</p>
-<p><strong>Large Batch算Loss和Gradient所需要的时间不一定比Small Batch长。</strong></p>
-<p>Smaller batch requires longer time for one epoch.</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024143555637.png" style="zoom:33%;" /></p>
-<p>在考虑平行运算的时候，一个epoch，大的Batch花的时间反而是比较小的。</p>
-<p>但是更小的Batch反而会带来更好的结果。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024143928414.png" style="zoom:33%;" /></p>
-<p>一种解释是这样的，小的Batch每次的L都有所不同，防止了鞍点的stuck.</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024144442469.png" style="zoom:33%;" /></p>
-<p><strong>小的Batch不仅在Training表现得更好，在Testing中也表现的更好。</strong></p>
-<p>现在有两种Minima，一种是Flat Minima，一种是Sharp Minima。</p>
-<p>假设在Training data和Testing data中有mismatch，两者的Loss在平移时就可能天差地别。</p>
-<p>而Small Batch的Noisy则更可能让minima从Sharp Minima中脱出，避免了这种情况。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024144536452.png" style="zoom:33%;" /></p>
-<hr>
-<p><strong>Momentum</strong></p>
-<p>Movement: movement of last step minus gradient at present.</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251024145541869.png" style="zoom:33%;" /></p>
-<p>向量加法。</p>
-<p>所以相当于我们每一次移动，都考虑了过去所有移动的综合。</p>
+          <p><strong>Easy Baseline</strong> 44.862 (accuracy, %)</p>
+<p>直接运行代码。</p>
+<p><strong>Medium Baseline</strong> 52.807 (accuracy, %)</p>
+<p>对含有标注的数据进行数据增强。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">train_tfm = transforms.Compose([</span><br><span class="line">        transforms.Resize((<span class="number">128</span>, <span class="number">128</span>)),</span><br><span class="line">        <span class="comment"># 从原图中随机裁剪一片区域 面积占比(0.8,1.0) 宽高占比(0.9,1.1) 再将其大小变为128*128</span></span><br><span class="line">        transforms.RandomResizedCrop(<span class="number">128</span>, scale=(<span class="number">0.8</span>, <span class="number">1.0</span>), ratio=(<span class="number">0.9</span>, <span class="number">1.1</span>)),</span><br><span class="line">        <span class="comment"># 随机进行水平反转</span></span><br><span class="line">        transforms.RandomHorizontalFlip(p=<span class="number">0.5</span>),  <span class="comment"># 50% 概率水平翻转</span></span><br><span class="line">        <span class="comment"># 颜色变换</span></span><br><span class="line">        transforms.ColorJitter(</span><br><span class="line">            brightness=<span class="number">0.2</span>,  <span class="comment"># 随机改变亮度 ±20%</span></span><br><span class="line">            contrast=<span class="number">0.2</span>,  <span class="comment"># 随机改变对比度 ±20%</span></span><br><span class="line">            saturation=<span class="number">0.2</span>,  <span class="comment"># 随机改变饱和度 ±20%</span></span><br><span class="line">            hue=<span class="number">0.05</span>  <span class="comment"># 随机改变色相 ±0.05</span></span><br><span class="line">        ),</span><br><span class="line">        <span class="comment"># 没有数据集预训练参数 在这里就不加normalize了</span></span><br><span class="line">        transforms.ToTensor(),</span><br><span class="line">    ])</span><br></pre></td></tr></table></figure>
+<p><strong>Hard Baseline</strong> 82.138 (accuracy, %)</p>
+<p>使用没有标注的数据来进行学习。</p>
+<p>提示：半监督学习和自监督学习。</p>
+<p>暂未学习到。</p>
 
         
       </div>
@@ -324,25 +302,25 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2025/10/25/%E8%87%AA%E5%8A%A8%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87%EF%BC%88Learning%20Rate%EF%BC%89/"
-      title="自动调整学习率（Learning Rate）"
+      href="/2025/10/30/%E7%94%9F%E6%88%90%E5%BC%8F%E5%AF%B9%E6%8A%97%E7%BD%91%E7%BB%9C(GAN)/"
+      title="生成式对抗网络(GAN)"
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
       
-        自动调整学习率（Learning Rate）
+        生成式对抗网络(GAN)
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/10/24/%E5%B1%80%E9%83%A8%E6%9C%80%E5%B0%8F%E5%80%BC%EF%BC%88local%20minima%EF%BC%89%E5%92%8C%E9%9E%8D%E7%82%B9%EF%BC%88saddle%20point%EF%BC%89/"
-      title="局部最小值（local minima）和鞍点（saddle point)"
+      href="/2025/10/27/Batch%20Normalization/"
+      title="Batch Normalization（批次标准化）"
      >
 
     <p class="title-text">
       
-        局部最小值（local minima）和鞍点（saddle point)
+        Batch Normalization（批次标准化）
         
     </p>
     <i class="fa-solid fa-angle-right"></i>
