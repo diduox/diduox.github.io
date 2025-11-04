@@ -27,34 +27,36 @@
   
 
   
-  <title>Transformer | 超级迪多的博客</title>
+  <title>自监督式学习 | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="Sequence-to-Sequence(Seq2Seq) 输入一个Sequence，输出一个Sequence；但是输出的长度由模型自己决定。 一般Seq2Seq的模型由两部分组成：Encoder和Decoder。 Encoder Encoder要做的事：给一排向量，输出长度相同的一排向量。 Transformer的Encoder使用的就是Self-attention。 每一个Block里面有好多">
+  <meta name="description" content="Self-supervised Learning supervised Learning: model的输入是x，输出是y；为了使model有想要的y，我们需要label。 Self-supervised Learning：自己想办法做supervise，在没有label的情况下。在没有标注的资料里面，将资料分成两部分，让一部分作为模型的输入，另一部分作为模型的标注。  有label就是super">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Transformer">
-<meta property="og:url" content="https://diduox.github.io/2025/10/27/Transformer/index.html">
+<meta property="og:title" content="自监督式学习">
+<meta property="og:url" content="https://diduox.github.io/2025/11/04/%E8%87%AA%E7%9B%91%E7%9D%A3%E5%BC%8F%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="Sequence-to-Sequence(Seq2Seq) 输入一个Sequence，输出一个Sequence；但是输出的长度由模型自己决定。 一般Seq2Seq的模型由两部分组成：Encoder和Decoder。 Encoder Encoder要做的事：给一排向量，输出长度相同的一排向量。 Transformer的Encoder使用的就是Self-attention。 每一个Block里面有好多">
+<meta property="og:description" content="Self-supervised Learning supervised Learning: model的输入是x，输出是y；为了使model有想要的y，我们需要label。 Self-supervised Learning：自己想办法做supervise，在没有label的情况下。在没有标注的资料里面，将资料分成两部分，让一部分作为模型的输入，另一部分作为模型的标注。  有label就是super">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027112435584.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027112903583.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027113054750.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027114525687.png">
-<meta property="og:image" content="c:\Users\%E6%A1%82%E7%89%A9%E9%AA%91%E5%A3%AB\AppData\Roaming\Typora\typora-user-images\image-20251027114817930.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027115756296.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027152807768.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027153156704.png">
-<meta property="og:image" content="c:\Users\%E6%A1%82%E7%89%A9%E9%AA%91%E5%A3%AB\AppData\Roaming\Typora\typora-user-images\image-20251027154234980.png">
-<meta property="article:published_time" content="2025-10-27T08:05:05.000Z">
-<meta property="article:modified_time" content="2025-10-27T08:05:29.567Z">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102144607127.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102150433520.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102151859368.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102154437006.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102155914445.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102161233548.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102165119435.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104171233458.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104171805144.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104172713698.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104173554388.png">
+<meta property="article:published_time" content="2025-11-04T09:44:44.000Z">
+<meta property="article:modified_time" content="2025-11-04T09:44:23.645Z">
 <meta property="article:author" content="迪多">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027112435584.png">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102144607127.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -248,7 +250,7 @@
        
 
 
-<article id="post-Transformer" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-自监督式学习" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -261,7 +263,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        Transformer
+        自监督式学习
       </h1>
     
   
@@ -269,7 +271,7 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-27T08:05:05.000Z" itemprop="datePublished">2025-10-27</time>
+  <time class="dt-published" datetime="2025-11-04T09:44:44.000Z" itemprop="datePublished">2025-11-04</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
@@ -280,7 +282,7 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            1.8k 词 
+            4.4k 词 
           </div>
         </div>
         
@@ -289,68 +291,128 @@
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p><strong>Sequence-to-Sequence(Seq2Seq)</strong></p>
-<p>输入一个Sequence，输出一个Sequence；但是输出的长度由模型自己决定。</p>
-<p>一般Seq2Seq的模型由两部分组成：<strong>Encoder</strong>和<strong>Decoder</strong>。</p>
-<p><strong>Encoder</strong></p>
-<p>Encoder要做的事：给一排向量，输出长度相同的一排向量。</p>
-<p>Transformer的Encoder使用的就是Self-attention。</p>
-<p>每一个Block里面有好多层。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027112435584.png" style="zoom:33%;" /></p>
-<p>但是在Transformer里面的操作更复杂。</p>
-<p>在Transformer里面，Self-attention的输出还要再加上原来的输入，再得到新的output(Residual Connection)。</p>
-<p>得到output之后，再进行Layer Norm，LN不用考虑Batch，对同一个Feature的不同的Dimension来计算均值和平均差。</p>
-<p>输出之后再进行一次FC，之后再来一次Residual，然后进行LN，最后才能得到Output。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027112903583.png" style="zoom:33%;" /></p>
-<p>对应Transformer</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027113054750.png" style="zoom:50%;" /></p>
-<p><strong>Decoder</strong></p>
-<p><strong>Decoder-Autoregressive(AT)</strong></p>
-<p>将Encoder产生的内容输入到Decoder中。</p>
-<p>我们给Decoder一个特殊的符号<code>BEGIN</code>，代表开始。</p>
-<p>每一个Token都可以用One-hot的方式来表示。</p>
-<p>输出一个向量，向量的长度和Vocabulary size 一样（所有可能的单体输出）。</p>
-<p>输出向量之前，我们都会进行一个SoftMax，所以输出向量的总和会是1，我们把分数最高的当作是输出。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027114525687.png" style="zoom:33%;" /></p>
-<p>把这个过程反复的持续下去。</p>
-<p><img src="C:\Users\桂物骑士\AppData\Roaming\Typora\typora-user-images\image-20251027114817930.png" alt="image-20251027114817930" style="zoom:33%;" /></p>
-<p>Masked Self-attention：产生信息的时候，只看自己前面的信息，而不考虑整体的信息。</p>
-<p>因为Decoder输出的信息是一个一个产生的，所以其只能看到自己左边的信息。</p>
-<p><strong>Adding Stop Token</strong></p>
-<p>在Vocabulary添加一个Stop的符号。</p>
-<p><strong>Decoder-Non-Autoregressive(NAT)</strong></p>
-<p>NAT是一次把整个句子都产生出来，直接把一排Token放入进去，就会产生一排句子。</p>
-<p>如何决定NAT输出的长度？</p>
+          <p><strong>Self-supervised Learning</strong></p>
+<p>supervised Learning: model的输入是x，输出是y；为了使model有想要的y，我们需要label。</p>
+<p>Self-supervised Learning：自己想办法做supervise，在没有label的情况下。在没有标注的资料里面，将资料分成两部分，让一部分作为模型的输入，另一部分作为模型的标注。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102144607127.png" style="zoom: 33%;" /></p>
+<p>有label就是supervised Learning，没有label就是unsupervised Learning。</p>
+<p><strong>BERT的Self-supervised Learning</strong></p>
+<p>BERT在训练的时候一般会做两个方法：Masking Input 和 Next Sentence Prediction</p>
+<p>BERT是 Transformer Encoder 的一种具体实现。</p>
+<p>BERT一般用在自然语言处理上，所以BERT的输入一般是一排文字。</p>
+<p>接下来，我们会从 BERT 的输入文本中选择一部分词，并将它们随机的“盖住”。</p>
+<p>盖住有两种做法：</p>
+<ol>
+<li>把句子里的某一个字换成一个特殊的符号。</li>
+<li>随机把某一个字换成另外一个字。</li>
+</ol>
+<p>盖住以后，同样是输入一个sequence，BERT的输出对应的就是另一个sequence。</p>
+<p>接下来把盖住部分对应的输出，做一个Linear transform(线性变换，就是乘一个矩阵，并且不要求该矩阵可逆)，再做SoftMax得到一个输出分布。</p>
+<p>输出是一个很长的向量，向量中包含能输出的所有字对应的分数。</p>
+<p>BERT训练的目标就是其输出和原来的字越接近越好(cross entropy)。</p>
+<p>在训练的时候，我们训练BERT的参数，和Linear transform所用矩阵的参数。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102150433520.png" style="zoom:33%;" /></p>
+<p>Next Sentence Prediction</p>
+<p>从资料库中拿出两个句子，在两个句子中间加入一个特殊的符号[SEP]，代表分隔，让BERT知道这是两个不同的句子；然后在整个sequence的最前面加入一个特殊的符号[CLS]。</p>
+<p>我们把这个sequence全部丢入到BERT里面，只取[CLS]所对应的输出，将这个输出乘上一个Linear的Transform，做一个二元分类问题，输出yes或no，预测这两个句子是不是相接的，我们将其训练成遇到相接输出yes，遇到不相接输出no。</p>
+<p>但是后来的研究发现，Next Sentence Prediction对接下来BERT要做的事帮助不大，可能是预测两个句子是否接在一起这个任务过于简单了。</p>
+<p>后来有另一个方法看起来是比较有用的，Sentence Order Prediction，我们的两个sentence本来就接在一起，然后我们随机更改两个句子的顺序，问BERT原来的顺序是什么样子。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102151859368.png" style="zoom:33%;" /></p>
+<p>给BERT一些有标注的资料，其就可以解决各式各样的Downstream Tasks，这个行为称为<strong>Fine-tune</strong>。在Fine-tune之前产生BERT的过程叫做<strong>Pre-train</strong>。</p>
+<p><strong>GLUE（General Language Understanding Evaluation）</strong></p>
+<p>评测BERT模型的好坏，可以将其分别微调在九个任务上，看看九个任务的平均正确率是多少，这个数值代表了Self-supervised Model的好坏。</p>
+<blockquote>
+<p><strong>GLUE 九个任务：</strong></p>
 <ul>
-<li>设置另一个预测Model，输入Encoder，预测出对应的长度。</li>
-<li>输出一个非常长的句子，如果有地方输出了End，当作后面没有输出。</li>
+<li><strong>CoLA</strong> — 语言可接受性判断（Corpus of Linguistic Acceptability）</li>
+<li><strong>SST-2</strong> — 情感分析（Stanford Sentiment Treebank v2）</li>
+<li><strong>MRPC</strong> — 句子语义等价判断（Microsoft Research Paraphrase Corpus）</li>
+<li><strong>QQP</strong> — 问句匹配（Quora Question Pairs）</li>
+<li><strong>STS-B</strong> — 语义文本相似度（Semantic Textual Similarity Benchmark）</li>
+<li><strong>MNLI</strong> — 多领域自然语言推理（Multi-Genre Natural Language Inference）</li>
+<li><strong>QNLI</strong> — 问答式自然语言推理（Question Natural Language Inference）</li>
+<li><strong>RTE</strong> — 文本蕴含识别（Recognizing Textual Entailment）</li>
+<li><strong>WNLI</strong> — 常识指代推理（Winograd Natural Language Inference）</li>
 </ul>
-<p>优点：可以平行化计算，可以限制输出长度。</p>
-<p>缺点：效果不如NAT好。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027115756296.png" style="zoom:33%;" /></p>
-<p><strong>Encoder-Decoder</strong></p>
-<p>Encoder和Decoder之间怎么传递信息</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027152807768.png" style="zoom: 33%;" /></p>
-<p>Begin的Token在被Decoder读进来之后，产生一个向量，然后把这个向量与矩阵相乘，得到$q$，之后对这个$q$进行Self-attention的行为。</p>
-<p>这一整个行为叫做Cross attention(先有的Cross attention后有的Self-attention)。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251027153156704.png" style="zoom:33%;" /></p>
-<p>在给的案例里面，是用Encoder的最后一层来与Decoder做Cross-Attention的，但其实也可以用Encoder的中间层结果来做。（尚在探究的问题）</p>
-<p><strong>Training</strong></p>
-<p>我们最终从Decoder中输出的向量是一个概率分布，我们会希望这个概率分布和One-hot越接近越好。所以我们会计算Truth和Distribution的Cross entropy，并希望其越小越好。</p>
-<p>在Decoder训练的时候，我们输入的是正确的答案。</p>
-<p><img src="C:\Users\桂物骑士\AppData\Roaming\Typora\typora-user-images\image-20251027154234980.png" alt="image-20251027154234980" style="zoom:33%;" /></p>
-<p><strong>Tips:</strong></p>
-<p>Copy Machine：在Chat-bot，Summarization等任务，我们输出的结果可能需要直接摘抄输入。</p>
-<p>Guided Attention：要求机器在做Attention是有固定的过程的（比如TTS的Attention应该从左向右）。</p>
-<p>Beam Search：用fancy的方法找一个比较好的路径。（有时候有用，有时候没用）。</p>
-<p><strong>Optimizing Evaluation Metrics</strong></p>
-<p>在训练的时候，我们考虑模型的精准度是对比每个字的Cross-entropy；但在实际评估模型的时候，我们考虑的整句话的BLEU Score。</p>
-<p>但是我们没有办法用BLEU Score来进行训练，因为其无法算出梯度。</p>
-<p><strong>Exposure bias</strong></p>
-<p>我们在训练的时候，输入的Vector是完全正确的；</p>
-<p>而我们在测试的时候，输入的Vecter可能是错误的。</p>
-<p>在测试的时候，就可能会一步错步步错。</p>
-<p>Scheduled Sampling 我们在训练的时候给一些错误的东西，结果反而可能会更好。</p>
+</blockquote>
+<p><strong>How to use BERT - Case1</strong></p>
+<p>输入：sequence</p>
+<p>输出：class</p>
+<p>例子：情感分析判断句子是正面还是负面</p>
+<p>给BERT一个句子，在句子的前面放入[CLS]的token，得到[CLS]输出的向量，将其做Linear Transform并进行SoftMax来决定正面或负面。</p>
+<p>实际在做的时候，我们需要下游任务的标注资料（大量的句子和正负面的标签），才能训练这个模型。</p>
+<p>在训练的时候，我们把Linear Transform使用的矩阵和BERT合起来才是完整的Sentiment Classification模型。</p>
+<p>在训练的时候，Linear的矩阵和BERT都会使用梯度下降法来update。</p>
+<p>但是Linear的部分是随机初始化的，BERT部分的初始参数是进行过Pre-train的。</p>
+<p>我们在做BERT的时候用的是没有标注的资料，在下游任务用了少量有标注的资料，合起来就是semi-supervise。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102154437006.png" style="zoom:33%;" /></p>
+<p>如果没有Pre-train的话，在训练时Loss下降比较慢，并且就算训练到最后，没有Pre-train的Loss还是要比有Pre-train的Loss要高。</p>
+<p><strong>How to use BERT - Case2</strong></p>
+<p>输入：sequence</p>
+<p>输出：sequence</p>
+<p>例子：词性标注</p>
+<p>给BERT输入一个句子（前面有[CLS]），这个句子的每一个Token都有一个对应的向量，接下来再把每一个向量做一个Linear transform，然后再做SoftMax，最后得出输入的每一个词汇属于哪一个类别。</p>
+<p>接下来仍然是使用少量带有Label的资料来训练整个模型。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102155914445.png" style="zoom:33%;" /></p>
+<p><strong>How to use BERT - Case3</strong></p>
+<p>输入：two sequences</p>
+<p>输出：a class</p>
+<p>例子：自然语言推理（NLI，Natural Language Inference）</p>
+<p>NLI所做的事：给机器两个句子，一个是前提，一个是假设；机器要做的事就是看能不能根据前提来推出这个假设。</p>
+<p>contradiction entailment neutral - 矛盾 蕴含 中立</p>
+<p>蕴含：前提为真，假设必须为真。</p>
+<p>中立：前提不足以确认假设真伪。</p>
+<p>矛盾：前提为真时，假设一定为假。</p>
+<p>给BERT两个句子，两个句子之间放一个[SEP]，最前面放[CLS]；一整串直接丢进BERT里面，BERT也会输出对应的长度，但是我们只取[CLS]的输出，接下来进行Linear Transform和SoftMax，最后给出类别，判断这个两个句子是不是矛盾的。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102161233548.png" style="zoom:33%;" /></p>
+<p><strong>How to use BERT - Case4</strong></p>
+<p>Extraction-based Question Answering(QA)答案一定出现在文章里面的QA。</p>
+<p>输入：文章和问题D Q</p>
+<p>输出：两个正整数(s,e)</p>
+<p>根据这两个正整数，直接从文章里面截取一个段落，从第s个字到第e个字串起来就是正确答案。</p>
+<p>输入问题和文章，问题和文章中间有一个特殊的符号[SEP]，前面再放一个[CLS]的token。</p>
+<p>需要从头开始训练的东西只有两个向量，向量的长度和BERT输出的Vector向量长度是一样的。</p>
+<p>先将向量1拿出来，和对应文章输出的每一个向量做点乘，算出对应的数值，接下来对算出的所有数值做SoftMax，哪里分数最高，S就取什么。</p>
+<p>再将向量1拿出来，和对应文章输出的每一个向量做点乘，算出对应的数值，接下来对算出的所有数值做SoftMax，哪里分数最高，E就取什么。</p>
+<p><strong>Pre-training a seq2seq model</strong></p>
+<p>Pretrain seq2seq的Decoder.。</p>
+<p>给Encoder的输入故意做一些扰动，将其[弄坏]；Decoder的目的是使输出的句子和弄坏前一致，Train下去就是一个seq2seq的model。</p>
+<p>弄坏：Mask词汇，删掉词汇，弄乱词汇，词汇旋转……</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251102165119435.png" style="zoom:33%;" /></p>
+<hr>
+<p><strong>Why does BERT work?</strong></p>
+<p>对于BERT而言，输入一段文字，每段文字都有一个对应的向量，我们管这个向量叫<strong>enbedding</strong>，这些向量代表了输入的那个字的意思。</p>
+<p>代表意思：把这些字对应的向量画出来，意思越相近的字，它们的向量就越接近。</p>
+<p>BERT能考虑上下文，所以对于相同的字，上下文不同，对应的向量也是不同的。</p>
+<p>基于语言学的假设：我们知道一个词汇的意思是基于其上下文，我们在训练BERT做填空题的过程中，也许其学到的就是从上下文去抽取资讯。</p>
+<p>BERT的能力不完全来自于其看得懂文章这件事，而是可能有其他的理由。</p>
+<p>BERT也许本质上就是一个比较好的初始化参数，不见得和语义有关，这种参数就是特别适合拿来做大型模型的训练……..BERT是如何起作用的还有很大的研究空间。</p>
+<p><strong>多语言的BERT(Multi-lingual BERT)</strong></p>
+<p>训练BERT的时候使用不同的语言。</p>
+<p>有一个Multi-lingual BERT，使用104种语言做成，所以其会做104种语言的填空题。</p>
+<p>Multi-lingual BERT拿英文的QA资料去训练，它自动就会学会做中文QA的问题。</p>
+<p>一个比较简单的解释：也许对于Multi-lingual BERT而言，不同语言间没有什么差异。不论是中文还是英文，只要是相同词汇的embedding都会很近。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104171233458.png" style="zoom:33%;" /></p>
+<p><strong>Weird???</strong></p>
+<p>BERT可以把不同语言同样意思的向量让他们很接近，可是再做填空题的时候，给中文做的是中文填空；给英文做的是英文填空，它们不会混在一起。</p>
+<p>为什么给中文的时候不会填写英文进去呢？</p>
+<p>代表BERT知道语言的资讯对于它来说不同，来自不同语言的那些符号终究还是不一样。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104171805144.png" style="zoom:33%;" /></p>
+<hr>
+<p><strong>GPT series</strong></p>
+<p>GPT要做的任务是，预测接下来会出现的token是什么。</p>
+<p>给GPT一个<BOS>token ，然后GPT output 一个embedding，然后用这个embedding去预测下一个应该出现的token是什么。</p>
+<p>详细来看：用一个embedding进行Linear Transform，之后再使用softmax得到一个distribution，接下来我们希望output出来的distribution和正确答案的Cross entropy越小越好。</p>
+<p>接下来就是以此类推。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104172713698.png" style="zoom:33%;" /></p>
+<p>GPT厉害的地方就是用了很多资料，训了一个异常巨大的模型。</p>
+<p>GPT的模型像是Transformer的Decoder，也就是我们做的Mask的intention。</p>
+<p><strong>How to use GPT?</strong></p>
+<p>怎么能把一句话补全的能力用在Downstream的任务上呢？</p>
+<p>举例来说，怎么把其用在QA，或者是其他的和NLP有关的任务呢？</p>
+<p>假设要用GPT这个模型做翻译：先给任务的描述(task description)，然后给其几个例子(examples)，接下来再给Prompt。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104173554388.png" style="zoom: 33%;" /></p>
+<p>GPT的训练不适用梯度下降法，是一种特殊的Learning，称为”in-context” Learning。</p>
 
         
       </div>
@@ -365,25 +427,25 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2025/10/27/Batch%20Normalization/"
-      title="Batch Normalization（批次标准化）"
+      href="/2025/11/04/%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8%EF%BC%88Auto-encoder%EF%BC%89/"
+      title="Auto-encoder（自编码器）"
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
       
-        Batch Normalization（批次标准化）
+        Auto-encoder（自编码器）
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/10/27/%E8%87%AA%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%EF%BC%88Self-attention%EF%BC%89/"
-      title="自注意力机制（Self-attention）"
+      href="/2025/10/30/%E7%94%9F%E6%88%90%E5%BC%8F%E5%AF%B9%E6%8A%97%E7%BD%91%E7%BB%9C(GAN)/"
+      title="生成式对抗网络(GAN)"
      >
 
     <p class="title-text">
       
-        自注意力机制（Self-attention）
+        生成式对抗网络(GAN)
         
     </p>
     <i class="fa-solid fa-angle-right"></i>

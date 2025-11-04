@@ -27,31 +27,37 @@
   
 
   
-  <title>损失函数（Loss）也可能有影响 | 超级迪多的博客</title>
+  <title>Auto-encoder（自编码器） | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="损失函数（Loss）也可能有影响 把分类(Classification)当作回归(Regression)来看。 把类别(Class)也变成数字，让y和Class的编号越接近越好。  如果分类的时候Class1和Class2之间并没有联系，那么这种划分Class的方法就不是一个好的方法。 Class as one-hot vector  两两Class的距离都是一样的。  对于回归问题，输出的是一个">
+  <meta name="description" content="Auto-encoder也可以看作是Self-supervised learning的一种方法。 Self-supervised Learning：首先有大量的没有标注的资料，用这些没有标注的资料去训练一个模型。必须要发明一些不需要标注资料的任务进行学习，比如做填空题，预测下一个token。学完之后，可以把这个模型用在其他下游的任务里面。  Auto-encoder的运作 在Auto-encode">
 <meta property="og:type" content="article">
-<meta property="og:title" content="损失函数（Loss）也可能有影响">
-<meta property="og:url" content="https://diduox.github.io/2025/10/25/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%88Loss%EF%BC%89%E4%B9%9F%E5%8F%AF%E8%83%BD%E6%9C%89%E5%BD%B1%E5%93%8D/index.html">
+<meta property="og:title" content="Auto-encoder（自编码器）">
+<meta property="og:url" content="https://diduox.github.io/2025/11/04/%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8%EF%BC%88Auto-encoder%EF%BC%89/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="损失函数（Loss）也可能有影响 把分类(Classification)当作回归(Regression)来看。 把类别(Class)也变成数字，让y和Class的编号越接近越好。  如果分类的时候Class1和Class2之间并没有联系，那么这种划分Class的方法就不是一个好的方法。 Class as one-hot vector  两两Class的距离都是一样的。  对于回归问题，输出的是一个">
+<meta property="og:description" content="Auto-encoder也可以看作是Self-supervised learning的一种方法。 Self-supervised Learning：首先有大量的没有标注的资料，用这些没有标注的资料去训练一个模型。必须要发明一些不需要标注资料的任务进行学习，比如做填空题，预测下一个token。学完之后，可以把这个模型用在其他下游的任务里面。  Auto-encoder的运作 在Auto-encode">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135506754.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135707071.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135851757.png">
-<meta property="og:image" content="c:\Users\%E6%A1%82%E7%89%A9%E9%AA%91%E5%A3%AB\AppData\Roaming\Typora\typora-user-images\image-20251025140902721.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025142809015.png">
-<meta property="article:published_time" content="2025-10-25T06:31:31.000Z">
-<meta property="article:modified_time" content="2025-10-25T06:31:49.386Z">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104180503374.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104181414578.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104182202478.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104221249120.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104222409671.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104223143302.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104223754717.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104224941758.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104225842053.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104230319019.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104230545597.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104231700756.png">
+<meta property="article:published_time" content="2025-11-04T15:20:20.000Z">
+<meta property="article:modified_time" content="2025-11-04T15:21:03.061Z">
 <meta property="article:author" content="迪多">
-<meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135506754.png">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104180503374.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -245,7 +251,7 @@
        
 
 
-<article id="post-损失函数（Loss）也可能有影响" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-自编码器（Auto-encoder）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -258,7 +264,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        损失函数（Loss）也可能有影响
+        Auto-encoder（自编码器）
       </h1>
     
   
@@ -266,7 +272,7 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-25T06:31:31.000Z" itemprop="datePublished">2025-10-25</time>
+  <time class="dt-published" datetime="2025-11-04T15:20:20.000Z" itemprop="datePublished">2025-11-04</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
@@ -277,35 +283,88 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            482 词 
+            3k 词 
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p><strong>损失函数（Loss）也可能有影响</strong></p>
-<p>把分类(Classification)当作回归(Regression)来看。</p>
-<p>把类别(Class)也变成数字，让y和Class的编号越接近越好。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135506754.png" style="zoom:33%;" /></p>
-<p>如果分类的时候Class1和Class2之间并没有联系，那么这种划分Class的方法就不是一个好的方法。</p>
-<p><strong>Class as one-hot vector</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135707071.png" style="zoom:33%;" /></p>
-<p>两两Class的距离都是一样的。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135851757.png" style="zoom: 33%;" /></p>
-<p>对于回归问题，输出的是一个数值；</p>
-<p>而对于分类问题，输出的是一个向量，并且这个向量要先通过softmax之后，再与Label进行比较。</p>
-<p><strong>为什么要加Softmax(粗略的解释)？</strong></p>
-<p>$\hat{y}$ 的值里面只有0和1，而$y$里面有任何值，所有要通过softmax把y的值放到0和1之间。</p>
-<p><strong>Soft-max</strong><br><img src="C:\Users\桂物骑士\AppData\Roaming\Typora\typora-user-images\image-20251025140902721.png" alt="image-20251025140902721" style="zoom:33%;" /></p>
-<p>$exp(y_i)$ 就是把 $y$ 作为指数幂，把 $e$ 提到 $y$ 次方 :arrow_right: $e^{y_i}$</p>
-<p>并且Soft-max会让大的值和小的值之间的差距更大。</p>
-<p><strong>Loss of Classification</strong></p>
-<p>Cross-entropy(交叉熵)比Mean Square Error(MSE)更加适用于分类。</p>
-<p>举例的方法来说明原因：</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025142809015.png" style="zoom:33%;" /></p>
+          <p>Auto-encoder也可以看作是Self-supervised learning的一种方法。</p>
+<p>Self-supervised Learning：首先有大量的没有标注的资料，用这些没有标注的资料去训练一个模型。必须要发明一些不需要标注资料的任务进行学习，比如做填空题，预测下一个token。学完之后，可以把这个模型用在其他下游的任务里面。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104180503374.png" style="zoom:33%;" /></p>
+<p><strong>Auto-encoder的运作</strong></p>
+<p>在Auto-encoder里面有两个Network，一个叫做Encoder，一个叫做Decoder。</p>
+<p>Encoder把一张图片读进来，把这张图片变成一个向量。</p>
+<p>接下来这个向量会变成Decoder的输入，Decoder会产生一张图片。</p>
+<p>训练的目标是希望Encoder的输入和Decoder的输出越接近越好。</p>
+<p>这个Encoder的输出叫做Embedding，Representaion或Code。</p>
+<p><em>如何把Train完之后的Auto-encoder用在DownStream的任务里面呢？</em></p>
+<p>把原来的图片看作是一个很长的向量，但是这个向量太长了，不好处理；把这个图片输入Encoder里面，输出另外一个向量，让这个向量比较短。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104181414578.png" style="zoom:33%;" /></p>
+<p><strong>为什么使用Auto-encoder？</strong></p>
+<p>Auto-encoder要做的事情，是把一张图片压缩又还原回来。</p>
+<p>为什么还原这件事能成功呢？</p>
+<p>假设图片的大小是3<em>3，需要用9个数值来描述3\</em>3的图片；假设Encoder输出的向量是二维的。</p>
+<p>对于影像来说，并不是所有3*3的矩阵都是图片。虽然表面上需要3*3的数值才能描述一张图片，但是也许实际上它的变化是有限的，也许只需要二维就可以描述一张图片。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104182202478.png" style="zoom:33%;" /></p>
+<p><strong>De-noising Auto-encoder</strong></p>
+<p>我们把原来要输进去给Encoder的图片，加上一些杂讯，再通过Encoder和Decoder，试图还原图片，但这次还原的是加入杂讯之前的图片。</p>
+<p>所以Encoder和Decoder必须联手来把杂讯去掉。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104221249120.png" style="zoom:33%;" /></p>
+<p>其实我们也可以把BERT看作是一个<strong>De-noising Auto-encoder</strong>。</p>
+<p>BERT输入的时候我们加入Mask，Mask就相当于是Noise。我们把Encoder输出的向量当作是Embedding，把Linear层当作是Decoder，我们的目标就是把原来的句子还原回来。</p>
+<p><strong>Feature Disentanglement（特征解耦）</strong></p>
+<p>Auto-encoder做的事：如果是图片的话，把一张图片变为Code，再把Code变回图片。既然这个Code可以变回图片，就说明这个Code里面包含图片里面所有的资讯（样式，颜色纹理…….）。</p>
+<p>但是这些资讯全部都纠缠在一个向量里面，我们并不知道一个向量的哪些维，代表了什么资讯。</p>
+<p>Feature Disentangle：想办法在Train一个Auto-encoder的时候，同时有办法知道Code的哪些维代表了什么资讯。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104222409671.png" style="zoom:33%;" /></p>
+<p><strong>特征解耦的应用：语音转换</strong></p>
+<p>在过去的时候，做语者转换我们需要成对的语音信号，即我们需要A和B念一模一样的句子。</p>
+<p>但是现在有了Feature Disentangle的技术，A和B不需要讲同样的内容就可以实现转换。</p>
+<p>我们收集到足够的声音信号，然后我们拿这些信号去Train一个Auto-encoder，同时实现Feature Disentangle的技术，所以我们知道在Encoder的输出里面，哪些维度代表语音的内容，哪些部分代表语者的特征。</p>
+<p>接下来只要把A说话的内容提取出来，把B说话的特征提取出来，就可以用B的声音讲A的内容</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104223143302.png" style="zoom:33%;" /></p>
+<p><strong>特征解耦的应用：离散表示（Discrete Representation）</strong></p>
+<p>我们之前一直假设Embedding是一串向量，其中的内容是数字，但是其也可以是别的东西。</p>
+<p>可以是Binary，代表某种的特征是否没有。</p>
+<p>甚至可以说one-hot，实现unsupervised的分类，比如说十维的vector做手写数字识别。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104223754717.png" style="zoom:33%;" /></p>
+<p><strong>Vector Quantized Variational Autoencoder（向量量化变分自编码器）</strong></p>
+<p>VQVAE的运作方式：输入一张图片，Encoder输出一个向量，这个向量是一个一般的向量，是连续的。接下来有一个Codebook，即一组向量，这组向量也是Learn出来的。把输出的Vector和Code里面的Vector算一个相似度（输出的Vector相当于Query，Codebook里面的vector相当于key），把相似度最高的Vector丢到Decoder里面，然后输出一张图片，Train的时候就是让输入和输出越接近越好。</p>
+<p>Encoder，Decoder，Codebook都是一起从资料里面学出来的。</p>
+<p>VQVAE的好处是，我们就能有<strong>离散</strong>的潜在向量表示；也就是Decoder的输入一定是Codebook里面的其中一个（让我们的Embadding是离散的，有限种可能）。</p>
+<p>如果把VQVAE的技术用在语音上，Codebook可能会学到最基本的发音部分，也就是phoneme。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104224941758.png" style="zoom:33%;" /></p>
+<p><strong>将文字作为Representation</strong></p>
+<p>文字的Auto-encoder和图像的一样：把文章输入到Encoder，产生Representation，之后把Representation输入Decoder，之后还原文章。</p>
+<p>我们把文字当作Embadding，也许Embadding就可能是文章的摘要。</p>
+<p>所以Encoder和Decoder都是seq2seq的model。</p>
+<p>实际train起来发现，这个方式获得摘要是行不通的，因为Encoder和Decoder会发明自己的暗号让人看不懂。</p>
+<p>所以我们再用GAN的概念，加上一个Discriminator，来判断Embadding是不是人类能理解的句子，所以Encoder生成的句子不仅能通过Decoder还原为原来的文章，还能通过Discriminator的判断。</p>
+<p>文字要怎么给Discriminator呢？碰到没办法做的问题就用RL硬做！</p>
+<p>其实实质上就是Cycle-GAN，我们只是用Auto-encoder的角度来看待Cycle-GAN这个想法。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104225842053.png" style="zoom: 33%;" /></p>
+<p><strong>Auto-encoder的应用：Generator</strong></p>
+<p>我们可以把Auto-encoder的Decoder当作一个Generator来使用（输入一个向量产生一个东西）</p>
+<p>我们可以直接从Guess分布取一个向量，将其丢给Decoder。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104230319019.png" style="zoom:33%;" /></p>
+<p><strong>Auto-encoder的应用：Compression</strong></p>
+<p>把Encoder的输出当作是压缩的结果，Decoder所要做的事情就是解压缩。</p>
+<p>但是这种压缩是Lossy（失真）的压缩。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104230545597.png" style="zoom:33%;" /></p>
+<p><strong>Anomaly Detection（异常检测）</strong></p>
+<p>假设有一堆的训练资料，Anomaly Detection要做的事情就是，现在来了一笔新的资料，它到底跟我们之前在训练资料里面看过的资料相不相似。</p>
+<p>但是是否相似并没有一个明确的定义，它会根据你的应用情景而有所不同。</p>
+<p>异常检测的应用：欺诈侦测，网络的侵入检测，癌症检测……</p>
+<p>在异常检测的问题里面我们往往假设，我们有一大堆正常的资料，但是我们几乎没有异常的资料。</p>
+<p>所以异常检测不是一个一般的分类问题，这种分类问题叫做One class，我们只有一个类型的资料，我们应该如何训练一个模型。</p>
+<p>举例来说，我们用真人的人脸来训练Auto-encoder。</p>
+<p>如果输入的是真人的人脸，那么输出就很容易被还原回去。</p>
+<p>如果输入不是人脸，就会产生很大的reconstruction loss。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251104231700756.png" style="zoom:33%;" /></p>
 
         
       </div>
@@ -318,27 +377,22 @@
   
     
 <nav id="article-nav">
-  <a class="article-nav-btn left "
-    
-      href="/2025/10/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88CNN%EF%BC%89/"
-      title="卷积神经网络（CNN）"
+  <a class="article-nav-btn left  disabled "
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
-      
-        卷积神经网络（CNN）
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/10/25/%E8%87%AA%E5%8A%A8%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87%EF%BC%88Learning%20Rate%EF%BC%89/"
-      title="自动调整学习率（Learning Rate）"
+      href="/2025/11/04/%E8%87%AA%E7%9B%91%E7%9D%A3%E5%BC%8F%E5%AD%A6%E4%B9%A0/"
+      title="自监督式学习"
      >
 
     <p class="title-text">
       
-        自动调整学习率（Learning Rate）
+        自监督式学习
         
     </p>
     <i class="fa-solid fa-angle-right"></i>
