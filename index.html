@@ -160,6 +160,24 @@
       <h3 class="widget-title">最新文章</h3>
       <ul>
         
+          <a class="recent-link" href="/2025/11/07/%E6%A6%82%E8%BF%B0%E9%A2%86%E5%9F%9F%E8%87%AA%E9%80%82%E5%BA%94%EF%BC%88Domain%20Adaptation%EF%BC%89/" title="概述领域自适应（Domain Adaptation）" >
+            <div class="recent-link-text">
+              概述领域自适应（Domain Adaptation）
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2025/11/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7/" title="机器学习的可解释性" >
+            <div class="recent-link-text">
+              机器学习的可解释性
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2025/11/06/%E6%9D%A5%E8%87%AA%E4%BA%BA%E7%B1%BB%E7%9A%84%E6%81%B6%E6%84%8F%E6%94%BB%E5%87%BB%EF%BC%88Adversarial%20Attack%EF%BC%89/" title="来自人类的恶意攻击（Adversarial Attack）" >
+            <div class="recent-link-text">
+              来自人类的恶意攻击（Adversarial Attack）
+            </div>
+          </a>
+        
           <a class="recent-link" href="/2025/11/04/%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8%EF%BC%88Auto-encoder%EF%BC%89/" title="Auto-encoder（自编码器）" >
             <div class="recent-link-text">
               Auto-encoder（自编码器）
@@ -169,24 +187,6 @@
           <a class="recent-link" href="/2025/11/04/%E8%87%AA%E7%9B%91%E7%9D%A3%E5%BC%8F%E5%AD%A6%E4%B9%A0/" title="自监督式学习" >
             <div class="recent-link-text">
               自监督式学习
-            </div>
-          </a>
-        
-          <a class="recent-link" href="/2025/10/30/%E7%94%9F%E6%88%90%E5%BC%8F%E5%AF%B9%E6%8A%97%E7%BD%91%E7%BB%9C(GAN)/" title="生成式对抗网络(GAN)" >
-            <div class="recent-link-text">
-              生成式对抗网络(GAN)
-            </div>
-          </a>
-        
-          <a class="recent-link" href="/2025/10/29/Homework%203%20%20Image%20Classification/" title="Homework  3 Image Classification" >
-            <div class="recent-link-text">
-              Homework  3 Image Classification
-            </div>
-          </a>
-        
-          <a class="recent-link" href="/2025/10/27/Batch%20Normalization/" title="Batch Normalization（批次标准化）" >
-            <div class="recent-link-text">
-              Batch Normalization（批次标准化）
             </div>
           </a>
         
@@ -206,7 +206,7 @@
       <div class="category-box">
             <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
                 学习笔记
-                <div class="category-count">16</div>
+                <div class="category-count">19</div>
             </a>
         
             <a class="category-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
@@ -234,6 +234,275 @@
     </div>
     <div id="content-body">
       
+   
+
+
+<article id="post-概述领域自适应（Domain Adaptation）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2025/11/07/%E6%A6%82%E8%BF%B0%E9%A2%86%E5%9F%9F%E8%87%AA%E9%80%82%E5%BA%94%EF%BC%88Domain%20Adaptation%EF%BC%89/">概述领域自适应（Domain Adaptation）</a>
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2025-11-07T13:37:37.000Z" itemprop="datePublished">2025-11-07</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            3.1k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              假设训练资料和测试资料的分布不一样，应该怎么办呢？
+Domain shift: Training and testing data have different distributions.
+模型输入资料有变化
+一旦训练资料和测试资料中间有一些差异，他们中间的分布是不一样的，在训练资料上训练出来的模型，在测试资料上就有可能会坏掉。
+比如输入的资料是黑白的数字，但是要识别的数字却是彩色的。
+模型输出分布有变化
+在训练资料上面，每一个数字出现的几率都是一样的，但是在测试资料上面，可能每一个输出的几率是不一样的。
+比如在训练资料里面0-9的数字各有10个，而在测试资料里面0的数字有91个，其余各有1个。
+模型输入输出关系改变
+也许在测试资料里面一个叫”0”的数据，在测试资料里面变为”1”。
+
+训练的资料我们说来自Source Domain，测试的资料我们说来自Target Domain。
+Domain Adaptation
+我们有一堆训练资料，这些资料来源于Source Domain，而且这些训练资料是有标注的。
+但是我们希望再用这些资料，训练出一个模型，这个模型可以用在不一样的Dom...
+            
+          </div>
+        
+      </div>
+
+         
+    </div>
+    
+     
+    <a class="right-panel  non-pic  "
+      
+      href="/2025/11/07/%E6%A6%82%E8%BF%B0%E9%A2%86%E5%9F%9F%E8%87%AA%E9%80%82%E5%BA%94%EF%BC%88Domain%20Adaptation%EF%BC%89/" 
+    >
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+   
+
+
+<article id="post-机器学习的可解释性" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2025/11/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7/">机器学习的可解释性</a>
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2025-11-07T06:19:19.000Z" itemprop="datePublished">2025-11-07</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            3.1k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              我们需要机器给我们其得到答案的理由。
+就算机器得到正确的答案，也不代表机器真的很聪明。
+在很多真实的应用中，可解释性的模型往往是必须的。
+
+法律要求贷款发放方对模型的行为进行解释。 
+医疗诊断模型对人类的生命负责。他可以是一个黑盒吗？
+如果在法庭上使用模型，我们必须确保该模型没有种族歧视
+如果一辆自动驾驶汽车突然出现异常行为，我们需要解释原因。
+
+我们也可以用更有效率的方法优化我们的模型，基于其可解释性。
+可解释性与模型能力
+其他线性的机器学习的模型，虽然容易被解释，但是效果并没有那么好。
+深度学习的模型的效果优于线性的机器学习，但是其不可解释。
+决策树即可解释，强度还高，是不是一个好的选择呢？
+决策树的power强于线性模型，相较于深度学习，其又具有可解释性。
+但其实决策树也有可能会变得很复杂，我们不是只使用一棵决策树，我们实际使用的技术叫Random Forest，其是很多棵决策树共同作用的结果。
+可解释机器学习的目标
+我们并不完全知道人脑的构造，但是我们能够相信来自另一个人所做出的决断。
+什么是好的解释：人们能够接受的explanation就是好的explanation。
+...
+            
+          </div>
+        
+      </div>
+
+         
+    </div>
+    
+     
+    <a class="right-panel  non-pic  "
+      
+      href="/2025/11/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7/" 
+    >
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+   
+
+
+<article id="post-来自人类的恶意攻击（Adversarial Attack）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2025/11/06/%E6%9D%A5%E8%87%AA%E4%BA%BA%E7%B1%BB%E7%9A%84%E6%81%B6%E6%84%8F%E6%94%BB%E5%87%BB%EF%BC%88Adversarial%20Attack%EF%BC%89/">来自人类的恶意攻击（Adversarial Attack）</a>
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2025-11-06T12:27:27.000Z" itemprop="datePublished">2025-11-06</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            2.7k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              Motivation
+我们希望我们的类神经网络正确率高还不够，我们希望它可以应付来自人类的恶意。
+Example of Attack
+有一个影像辨识的系统，输入一个照片，其可以输出图像的类别。
+一个图片可以看作是一个非常长的向量，我们在这个向量的每个维度都加入一个小小的杂讯，把加入杂讯的图片输入到Network里。
+加的杂讯一般都非常的小，小到人的肉眼看不出来。
+被加杂讯的照片叫做：Attack Image; 没有被加入杂讯的照片叫做：Benign Image
+攻击可以分为两种类型：
+
+Non-targeted(没有目标的攻击)：只要Network不输出原来的种类即可。
+Targeted(有目标的攻击)：Network不仅不能输出原来的种类，还要输出一个特定的种类。
+
+
+攻击是如何做到的？
+我们假设Network的参数是固定的。
+Non-targeted：我们要找出一张新的图片 $x$ ，当我们把 $x$ 输入进Network的时候，它的输出是 $y$ ，而我们希望 $y$ 与正确答案 $\hat{y}$  的差距越大越好。
+我们要解一个Optimization的问题：
+$x^*...
+            
+          </div>
+        
+      </div>
+
+         
+    </div>
+    
+     
+    <a class="right-panel  non-pic  "
+      
+      href="/2025/11/06/%E6%9D%A5%E8%87%AA%E4%BA%BA%E7%B1%BB%E7%9A%84%E6%81%B6%E6%84%8F%E6%94%BB%E5%87%BB%EF%BC%88Adversarial%20Attack%EF%BC%89/" 
+    >
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
+
+
    
 
 
@@ -847,277 +1116,6 @@ What is the output?
 
 
 
-   
-
-
-<article id="post-Homework  2-1 Phoneme Classification" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-   
-  <div class="article-inner">
-    <div class="article-main">
-      <header class="article-header">
-        
-<div class="main-title-bar">
-  <div class="main-title-dot"></div>
-  
-    
-      <h1 itemprop="name">
-        <a class="p-name article-title" href="/2025/10/26/Homework%20%202-1%20Phoneme%20Classification/">Homework  2-1/2 Phoneme Classification / Hessian Matrix</a>
-      </h1>
-    
-  
-</div>
-
-        <div class='meta-info-bar'>
-          <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-26T11:58:58.000Z" itemprop="datePublished">2025-10-26</time>
-</div>
-          <div class="need-seperator meta-info">
-            <div class="meta-cate-flex">
-  
-    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
-  
-</div>
-  
-          </div>
-          <div class="wordcount need-seperator meta-info">
-            1.2k 词 
-          </div>
-        </div>
-        
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
-
-      </header>
-      <div class="e-content article-entry" itemprop="articleBody">
-        
-          <div class="truncate-text">
-            
-              Homework  2-1 Phoneme Classification
-作业目的：通过两个Baseline
-
-Simple Baseline 0.68334
-You should able to pass the simple baseline using the sample code provided
-
-Strong Baseline 0.76023
-Model architecture (layers? dimension? activation function?)
-Training (batch size? optimizer? learning rate? epoch?)
-Tips (batch norm? dropout? regularization?)
-
-
-Simple Baseline
-直接跑一下：
-
-Strong Baseline
-Layers:目前尝试3层和4层几乎无区别，使用4层
-dimension：无调整
-activation function：使用ReLu效果变好，目前使用LeakyReLU
-batch size：尝试64，48，32几乎无差别，使...
-            
-          </div>
-        
-      </div>
-
-         
-    </div>
-    
-     
-    <a class="right-panel  non-pic  "
-      
-      href="/2025/10/26/Homework%20%202-1%20Phoneme%20Classification/" 
-    >
-       
-      <i class="fa-solid fa-angle-right non-pic"></i>
-       
-    </a>
-     
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-   
-
-
-<article id="post-卷积神经网络（CNN）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-   
-  <div class="article-inner">
-    <div class="article-main">
-      <header class="article-header">
-        
-<div class="main-title-bar">
-  <div class="main-title-dot"></div>
-  
-    
-      <h1 itemprop="name">
-        <a class="p-name article-title" href="/2025/10/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88CNN%EF%BC%89/">卷积神经网络（CNN）</a>
-      </h1>
-    
-  
-</div>
-
-        <div class='meta-info-bar'>
-          <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-26T05:37:37.000Z" itemprop="datePublished">2025-10-26</time>
-</div>
-          <div class="need-seperator meta-info">
-            <div class="meta-cate-flex">
-  
-    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
-  
-</div>
-  
-          </div>
-          <div class="wordcount need-seperator meta-info">
-            1k 词 
-          </div>
-        </div>
-        
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
-
-      </header>
-      <div class="e-content article-entry" itemprop="articleBody">
-        
-          <div class="truncate-text">
-            
-              卷积神经网络（CNN）
-Image Classification
-如何把一张影像当作是一个模型的输入呢？
-对电脑来说图片是一个三维的tenser，超过二维以上的矩阵，我们就将其称为tenser。
-三维：图片的高，图片的宽，图片的channel数量。
-Observation 1
-不需要把整个图片当作输入，只需要把图片的一小部分输入，就足以侦测到关键的Pattern是否出现。
-
-Simplification 1
-设定一个区域叫Receptive field(感受野)，每一个neural只需要关心自己的Receptive file即可。
-Typical Setting
-会看全部的channel，将看的范围设为kernel size，同一个Receptive field会有一组neural来守备（卷积核数量）。
-Observation 2
-同样的pattern可能出现在图片的不同区域，我们需要每一个区域都放一个侦测的neural吗？（需要，但是我们能共享参数来降低参数量）
-
-两个不同的Receptive field享有相同的参数(因为要侦测相同的pattern)。
-Typical Set...
-            
-          </div>
-        
-      </div>
-
-         
-    </div>
-    
-     
-    <a class="right-panel  non-pic  "
-      
-      href="/2025/10/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88CNN%EF%BC%89/" 
-    >
-       
-      <i class="fa-solid fa-angle-right non-pic"></i>
-       
-    </a>
-     
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-   
-
-
-<article id="post-损失函数（Loss）也可能有影响" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-   
-  <div class="article-inner">
-    <div class="article-main">
-      <header class="article-header">
-        
-<div class="main-title-bar">
-  <div class="main-title-dot"></div>
-  
-    
-      <h1 itemprop="name">
-        <a class="p-name article-title" href="/2025/10/25/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%88Loss%EF%BC%89%E4%B9%9F%E5%8F%AF%E8%83%BD%E6%9C%89%E5%BD%B1%E5%93%8D/">损失函数（Loss）也可能有影响</a>
-      </h1>
-    
-  
-</div>
-
-        <div class='meta-info-bar'>
-          <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-25T06:31:31.000Z" itemprop="datePublished">2025-10-25</time>
-</div>
-          <div class="need-seperator meta-info">
-            <div class="meta-cate-flex">
-  
-    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
-  
-</div>
-  
-          </div>
-          <div class="wordcount need-seperator meta-info">
-            482 词 
-          </div>
-        </div>
-        
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
-
-      </header>
-      <div class="e-content article-entry" itemprop="articleBody">
-        
-          <div class="truncate-text">
-            
-              损失函数（Loss）也可能有影响
-把分类(Classification)当作回归(Regression)来看。
-把类别(Class)也变成数字，让y和Class的编号越接近越好。
-
-如果分类的时候Class1和Class2之间并没有联系，那么这种划分Class的方法就不是一个好的方法。
-Class as one-hot vector
-
-两两Class的距离都是一样的。
-
-对于回归问题，输出的是一个数值；
-而对于分类问题，输出的是一个向量，并且这个向量要先通过softmax之后，再与Label进行比较。
-为什么要加Softmax(粗略的解释)？
-$\hat{y}$ 的值里面只有0和1，而$y$里面有任何值，所有要通过softmax把y的值放到0和1之间。
-Soft-max
-$exp(y_i)$ 就是把 $y$ 作为指数幂，把 $e$ 提到 $y$ 次方 :arrow_right: $e^{y_i}$
-并且Soft-max会让大的值和小的值之间的差距更大。
-Loss of Classification
-Cross-entropy(交叉熵)比Mean Square Error(MSE)...
-            
-          </div>
-        
-      </div>
-
-         
-    </div>
-    
-     
-    <a class="right-panel  non-pic  "
-      
-      href="/2025/10/25/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%88Loss%EF%BC%89%E4%B9%9F%E5%8F%AF%E8%83%BD%E6%9C%89%E5%BD%B1%E5%93%8D/" 
-    >
-       
-      <i class="fa-solid fa-angle-right non-pic"></i>
-       
-    </a>
-     
-  </div>
-  
-</article>
-
-
-
-
-
-
-
 
   <nav id="page-nav">
     <!-- 在第二页时 page.prev_link 不知为何无法返回正确的链接 -->
@@ -1125,7 +1123,7 @@ Cross-entropy(交叉熵)比Mean Square Error(MSE)...
       <i class="fa-solid fa-angle-left"></i>
     </a>
     <div id="num-bar">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a>  
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a>  
     </div>
     <a id="next-btn" class="page-nav-btn " href="/page/2/">
       <i class="fa-solid fa-angle-right"></i>

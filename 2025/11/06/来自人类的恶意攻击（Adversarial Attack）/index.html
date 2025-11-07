@@ -27,35 +27,37 @@
   
 
   
-  <title>自动调整学习率（Learning Rate） | 超级迪多的博客</title>
+  <title>来自人类的恶意攻击（Adversarial Attack） | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="Training stuck $\neq$ Small Gradient 当我们的Loss值不再下降的时候，我们的Gradient不一定很小。   可以看到，我们的Loss值在峡谷两端来回震荡。 在大多数的Training中，在还没有走到Critical Point的时候，训练就已经停止了。  Learning Rate太大，Loss会在山谷之间来回震荡； Learning Rate太小，训练永远">
+  <meta name="description" content="Motivation 我们希望我们的类神经网络正确率高还不够，我们希望它可以应付来自人类的恶意。 Example of Attack 有一个影像辨识的系统，输入一个照片，其可以输出图像的类别。 一个图片可以看作是一个非常长的向量，我们在这个向量的每个维度都加入一个小小的杂讯，把加入杂讯的图片输入到Network里。 加的杂讯一般都非常的小，小到人的肉眼看不出来。 被加杂讯的照片叫做：Attack">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自动调整学习率（Learning Rate）">
-<meta property="og:url" content="https://diduox.github.io/2025/10/25/%E8%87%AA%E5%8A%A8%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87%EF%BC%88Learning%20Rate%EF%BC%89/index.html">
+<meta property="og:title" content="来自人类的恶意攻击（Adversarial Attack）">
+<meta property="og:url" content="https://diduox.github.io/2025/11/06/%E6%9D%A5%E8%87%AA%E4%BA%BA%E7%B1%BB%E7%9A%84%E6%81%B6%E6%84%8F%E6%94%BB%E5%87%BB%EF%BC%88Adversarial%20Attack%EF%BC%89/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="Training stuck $\neq$ Small Gradient 当我们的Loss值不再下降的时候，我们的Gradient不一定很小。   可以看到，我们的Loss值在峡谷两端来回震荡。 在大多数的Training中，在还没有走到Critical Point的时候，训练就已经停止了。  Learning Rate太大，Loss会在山谷之间来回震荡； Learning Rate太小，训练永远">
+<meta property="og:description" content="Motivation 我们希望我们的类神经网络正确率高还不够，我们希望它可以应付来自人类的恶意。 Example of Attack 有一个影像辨识的系统，输入一个照片，其可以输出图像的类别。 一个图片可以看作是一个非常长的向量，我们在这个向量的每个维度都加入一个小小的杂讯，把加入杂讯的图片输入到Network里。 加的杂讯一般都非常的小，小到人的肉眼看不出来。 被加杂讯的照片叫做：Attack">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110239607.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110649131.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025111009850.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025111629506.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025112156576.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025112413577.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025113547353.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025114602698.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025115157289.png">
-<meta property="article:published_time" content="2025-10-25T03:54:54.000Z">
-<meta property="article:modified_time" content="2025-10-25T03:54:58.975Z">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106135817387.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106142216476.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106142402320.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106142702145.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106143941354.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106144327442.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106145856179.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106150835821.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106151329981.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106151850541.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106200746956.png">
+<meta property="article:published_time" content="2025-11-06T12:27:27.000Z">
+<meta property="article:modified_time" content="2025-11-06T12:28:09.535Z">
 <meta property="article:author" content="迪多">
 <meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110239607.png">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106135817387.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -249,7 +251,7 @@
        
 
 
-<article id="post-自动调整学习率（Learning Rate）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-来自人类的恶意攻击（Adversarial Attack）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -262,7 +264,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        自动调整学习率（Learning Rate）
+        来自人类的恶意攻击（Adversarial Attack）
       </h1>
     
   
@@ -270,7 +272,7 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-25T03:54:54.000Z" itemprop="datePublished">2025-10-25</time>
+  <time class="dt-published" datetime="2025-11-06T12:27:27.000Z" itemprop="datePublished">2025-11-06</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
@@ -281,7 +283,7 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            1k 词 
+            2.7k 词 
           </div>
         </div>
         
@@ -290,39 +292,92 @@
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p><strong>Training stuck $\neq$ Small Gradient</strong></p>
-<p>当我们的Loss值不再下降的时候，我们的Gradient不一定很小。 </p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110239607.png" style="zoom:33%;" /></p>
-<p>可以看到，我们的Loss值在峡谷两端来回震荡。</p>
-<p>在大多数的Training中，在还没有走到Critical Point的时候，训练就已经停止了。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110649131.png" style="zoom:33%;" /></p>
-<p>Learning Rate太大，Loss会在山谷之间来回震荡；</p>
-<p>Learning Rate太小，训练永远走不到终点。</p>
-<p><strong>Different Parameters needs different Learning Rate</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025111009850.png" style="zoom:33%;" /></p>
-<p>如果在某一个方向上gradient非常小，Learning Rate应该设置的大一点；</p>
-<p>如果在某一个方向上gradient非常大，Learning Rate应该设置的小一点。</p>
-<p>$\sigma_i^t$ 即依赖于变量(i)，也依赖于迭代次数(t)。</p>
-<p><strong>一种算出 $\sigma$ 的方式是Root Mean Square（均方根）。</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025111629506.png" style="zoom:33%;" /></p>
-<p>但是这个方法还是有问题，因为Learning Rate所需要的参数会随着时间的变化而改变。</p>
-<p>可以看到，对于均方根的方法，每个时间的迭代对Learning Rate的影响是相同的，但是是不是应该比较靠后的迭代应该发挥比比较靠前的迭代更大的影响呢？</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025112156576.png" style="zoom:33%;" /></p>
-<p><strong>RMSProp</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025112413577.png" style="zoom:33%;" /></p>
-<p>现在的Gradient有更大的影响，过去的Gradient的影响更小。</p>
-<p>现在最常用的Optimizer :arrow_right: <strong>Adam</strong>: RMSProp + Momentum</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025113547353.png" style="zoom:33%;" /></p>
-<p>可以看到，在临近Critical point的地方突然出现了几次大的震荡。</p>
-<p>因为之前在纵轴方向的Gradient很大，所以$\sigma$初始时很大，学习率变小，使得曲线不会在纵轴方向前进太多。</p>
-<p>而到了后来，纵轴方向的Gradient变小了，之后$\sigma$也开始变小，学习率就会变大(最近的Gradient影响更大)，导致纵轴方向前进的很多；而纵轴方向一前进，就又会到达Gradient大的地方，从而又使学习率变小而回到中间的曲线。</p>
-<p><strong>Learning Rate Scheduling</strong> : 使 $\eta$ 也随时间变化。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025114602698.png" style="zoom: 33%;" /></p>
-<p>在最早版本的Optimization:</p>
-<p>我们的 $\eta$ (学习率) 保持不变，并且只沿着现在的Gradient方向移动。</p>
-<p>优化之后的Optimization:</p>
-<p>我们的  $\eta$ (学习率) 会随着时间而改变；$\sigma$ 参考过去移动的所有步幅大小，并且针对不同的参数；移动的Gradient 不仅考虑现在，而且还考虑之前的的移动方向。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025115157289.png" style="zoom:33%;" /></p>
+          <p><strong>Motivation</strong></p>
+<p>我们希望我们的类神经网络正确率高还不够，我们希望它可以应付来自人类的恶意。</p>
+<p><strong>Example of Attack</strong></p>
+<p>有一个影像辨识的系统，输入一个照片，其可以输出图像的类别。</p>
+<p>一个图片可以看作是一个非常长的向量，我们在这个向量的每个维度都加入一个小小的杂讯，把加入杂讯的图片输入到Network里。</p>
+<p>加的杂讯一般都非常的小，小到人的肉眼看不出来。</p>
+<p>被加杂讯的照片叫做：Attack Image; 没有被加入杂讯的照片叫做：Benign Image</p>
+<p>攻击可以分为两种类型：</p>
+<ul>
+<li><strong>Non-targeted</strong>(没有目标的攻击)：只要Network不输出原来的种类即可。</li>
+<li><strong>Targeted</strong>(有目标的攻击)：Network不仅不能输出原来的种类，还要输出一个特定的种类。</li>
+</ul>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106135817387.png" style="zoom:33%;" /></p>
+<p><strong>攻击是如何做到的？</strong></p>
+<p>我们假设Network的参数是固定的。</p>
+<p><strong>Non-targeted：</strong>我们要找出一张新的图片 $x$ ，当我们把 $x$ 输入进Network的时候，它的输出是 $y$ ，而我们希望 $y$ 与正确答案 $\hat{y}$  的差距越大越好。</p>
+<p>我们要解一个Optimization的问题：</p>
+<p>$x^* = arg min L(x)$</p>
+<p>Loss Function：$L(x) = -e(y,\hat{y})$</p>
+<p>$e$ 代表交叉熵，其数值越小越说明两个向量之间越接近。所以我们在前面加一个负号，让Loss变得越小越好（现在Loss越小越代表 $y,\hat{y}$ 的差距越大）。</p>
+<p><strong>targeted：</strong>我们会先设定好目标 $y^{target}$ ，我们现在不仅希望 $y,\hat{y}$ 越远越好，我们还希望$y$ 和 $y^{target}$ 越近越好。</p>
+<p>Loss Function：$L(x) = -e(y,\hat{y}) + e(y,y^{target})$</p>
+<p>只是找一个Min Loss是不够的，我们还希望我们的$x$与$x^0$越相近越好。</p>
+<p>所以我们在找$x^*$的时候还会多加一个限制$d(x^0,x) \leq \epsilon$，我们希望$x，x^0$的差距小于人的感知。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106142216476.png" style="zoom:33%;" /></p>
+<p><strong>如何计算$x,x^0$之间的距离？</strong></p>
+<p>$d(x^0,x) \leq \epsilon$</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106142402320.png" style="zoom:33%;" /></p>
+<p>我们在选择计算距离的方法的时候，我们应该把人类的感知考虑进来。</p>
+<p>对于影像来说，我们要避免让人类发现，光是L2小是不够的，我们还要让L-infinity小才是最好的。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106142702145.png" style="zoom: 33%;" /></p>
+<p><strong>我们先去掉这个限制来使Loss最小。</strong></p>
+<p>把Input的image看作是Network参数的一部分，然后Minimize Loss就结束了。</p>
+<p>依然是使用梯度下降法：</p>
+<p>使用$x^0$看作是初始化的值，然后不断的去迭代Input的参数，在每次迭代里面都去计算梯度，这个梯度是Input对于Loss的，然后用梯度来Update自己的image。</p>
+<p>接下来我们需要把限制加上去：</p>
+<p>如果我们Update完之后，发现自己的参数$d(x^0,x^t) \geq \epsilon$，就直接做一个修改，让$x^t$符合限制即可$fix(x^t)$。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106143941354.png" style="zoom:33%;" /></p>
+<p><strong>Fast Gradient Sign Method（FGSM）</strong></p>
+<p>只Update一次参数，使用sign函数作为梯度g里面的值，并且把学习率$\eta$直接设置为限制$\epsilon$。</p>
+<p>所以攻击之后的图片，一定会落在四方形四个角落的一部分。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106144327442.png" style="zoom:33%;" /></p>
+<p><strong>Iterative FGSM</strong></p>
+<p>我们也可以多进行几次迭代，效果会更好。</p>
+<p>但是可能造成出界问题，我们只要直接把其拉回来就可以了(选择与其最近的一个角落)。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106145856179.png" style="zoom:33%;" /></p>
+<hr>
+<p><strong>黑盒攻击</strong></p>
+<p>知道模型参数的攻击被称为白盒攻击，不知道模型参数的攻击叫做黑箱攻击。</p>
+<p>黑箱攻击是有可能的。</p>
+<p>网络上有一个模型，其参数是我们不知道的。</p>
+<p>但是<strong>假设我们知道这个Network是使用什么样的训练资料</strong>训练出来的话，我们就可以训练一个Proxy的Network，让这个Network来模仿我们要攻击的对象。</p>
+<p>因为Network和我们的Proxy用的是同样的资料训练出来的话，也许它们就会有一定程度的相似性，所以我们对Proxy的攻击也许在Network上也会成功。</p>
+<p><strong>假设我们不知道训练资料的内容</strong>，我们可以自己找资料输入进Network，然后获取对应的输出。用这个当作Train的资料来训练一个模型，我们就有可能训练出一个类似的模型当作Proxy进行攻击。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106150835821.png" style="zoom:33%;" /></p>
+<p>黑箱攻击是比较容易成功的。</p>
+<p>Ensemble Attack，使用多种模型当作要攻击的Proxy，图上的百分比代表识别的正确率(只看对角线)。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106151329981.png" style="zoom: 33%;" /></p>
+<p><strong>为什么攻击这么容易成功？</strong></p>
+<p>攻击这件事会成功，主要来源于训练的Data，而不是来源于模型。</p>
+<p>不同模型训练出来的结果其实是比较相近的，攻击会成功不仅对deep learning有情况，Linear的Network，SDM都有类似的问题。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106151850541.png" style="zoom:33%;" /></p>
+<p>图上纵轴方向是随机移动的方向，图上横轴的方向是会使模型发生错误的方向(深蓝色代表识别正确)。</p>
+<p>可以看到对于不同模型来说，发生错误的方向是类似的。</p>
+<p>我们希望Attack的signal其越小越好，甚至有人能做到一个像素的程度。</p>
+<p><strong>Universal Adversarial Attack</strong></p>
+<p>一种杂讯可以攻击很多种不同的输入。</p>
+<p>在图像，语言，文字上都能遭到Attack。</p>
+<p><strong>Passive Defense</strong></p>
+<p>训练好的模型不再改动，在模型前面加一个Filter，让Attack signal不再起作用。</p>
+<p>只使用一些简单的<strong>模糊化</strong>，就可以达到效果。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251106200746956.png" style="zoom:33%;" /></p>
+<p>还可以对图片做<strong>Compression</strong>，如果这种压缩会失真的话，可能攻击的讯号收到的影响是比较大的。</p>
+<p>还可以用<strong>基于Generator</strong>的做法，把输入的图片用<strong>Generator</strong>重新画出来。</p>
+<p>但是模糊化只要被别人知道，就会马上失去作用。</p>
+<p>我们可以把模糊化想成是Network的第一层，所以只要把多加的这一层放入攻击的过程中，就可以产生一种Signal来躲过模糊化这种防御方式。</p>
+<p>还有更强化的被动防御的方法，就是加上随机性。</p>
+<p>在做defense的时候，加上各种Defense的方法，然后随机使用Defense的方法。</p>
+<p>但是一旦被别人知道随机的分布，或者各种随机的可能性都被知道的情况下，只要用Universal Attack找一个可以攻破所有防御的Signal，这样随机化的方式还是有可能被攻破。</p>
+<p><strong>Proactive Defense</strong></p>
+<p>我们在训练模型的时候，一开始就要训练一个比较不会被攻破的模型。</p>
+<p>即在训练的时候就对模型进行攻击，攻击完图片之后，再将图片标上正确的Label。</p>
+<p>这样就制造了一笔新的训练资料，在新的训练资料里面，每一笔资料都是有被攻击过的。</p>
+<p>然后再把之前的训练资料和新的训练资料放在一起，得到更多的训练资料，再重新去训练模型。</p>
+<p>这个方法也可以看作是一种<strong>数据增强</strong>的方式。</p>
+<p>但是这种方式不见得能抵挡住新的Attack的Algorithm，并且<strong>Proactive Defense</strong>需要更多的训练资源。</p>
 
         
       </div>
@@ -337,25 +392,25 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2025/10/25/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%88Loss%EF%BC%89%E4%B9%9F%E5%8F%AF%E8%83%BD%E6%9C%89%E5%BD%B1%E5%93%8D/"
-      title="损失函数（Loss）也可能有影响"
+      href="/2025/11/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7/"
+      title="机器学习的可解释性"
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
       
-        损失函数（Loss）也可能有影响
+        机器学习的可解释性
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/10/24/%E6%89%B9%E6%AC%A1%EF%BC%88batch%EF%BC%89%E5%92%8C%E5%8A%A8%E9%87%8F%EF%BC%88momentum%EF%BC%89/"
-      title="批次（batch）和动量（momentum)"
+      href="/2025/11/04/%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8%EF%BC%88Auto-encoder%EF%BC%89/"
+      title="Auto-encoder（自编码器）"
      >
 
     <p class="title-text">
       
-        批次（batch）和动量（momentum)
+        Auto-encoder（自编码器）
         
     </p>
     <i class="fa-solid fa-angle-right"></i>

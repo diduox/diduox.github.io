@@ -27,35 +27,39 @@
   
 
   
-  <title>自动调整学习率（Learning Rate） | 超级迪多的博客</title>
+  <title>机器学习的可解释性 | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="Training stuck $\neq$ Small Gradient 当我们的Loss值不再下降的时候，我们的Gradient不一定很小。   可以看到，我们的Loss值在峡谷两端来回震荡。 在大多数的Training中，在还没有走到Critical Point的时候，训练就已经停止了。  Learning Rate太大，Loss会在山谷之间来回震荡； Learning Rate太小，训练永远">
+  <meta name="description" content="我们需要机器给我们其得到答案的理由。 就算机器得到正确的答案，也不代表机器真的很聪明。 在很多真实的应用中，可解释性的模型往往是必须的。  法律要求贷款发放方对模型的行为进行解释。  医疗诊断模型对人类的生命负责。他可以是一个黑盒吗？ 如果在法庭上使用模型，我们必须确保该模型没有种族歧视 如果一辆自动驾驶汽车突然出现异常行为，我们需要解释原因。  我们也可以用更有效率的方法优化我们的模型，基于其可">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自动调整学习率（Learning Rate）">
-<meta property="og:url" content="https://diduox.github.io/2025/10/25/%E8%87%AA%E5%8A%A8%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87%EF%BC%88Learning%20Rate%EF%BC%89/index.html">
+<meta property="og:title" content="机器学习的可解释性">
+<meta property="og:url" content="https://diduox.github.io/2025/11/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="Training stuck $\neq$ Small Gradient 当我们的Loss值不再下降的时候，我们的Gradient不一定很小。   可以看到，我们的Loss值在峡谷两端来回震荡。 在大多数的Training中，在还没有走到Critical Point的时候，训练就已经停止了。  Learning Rate太大，Loss会在山谷之间来回震荡； Learning Rate太小，训练永远">
+<meta property="og:description" content="我们需要机器给我们其得到答案的理由。 就算机器得到正确的答案，也不代表机器真的很聪明。 在很多真实的应用中，可解释性的模型往往是必须的。  法律要求贷款发放方对模型的行为进行解释。  医疗诊断模型对人类的生命负责。他可以是一个黑盒吗？ 如果在法庭上使用模型，我们必须确保该模型没有种族歧视 如果一辆自动驾驶汽车突然出现异常行为，我们需要解释原因。  我们也可以用更有效率的方法优化我们的模型，基于其可">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110239607.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110649131.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025111009850.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025111629506.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025112156576.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025112413577.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025113547353.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025114602698.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025115157289.png">
-<meta property="article:published_time" content="2025-10-25T03:54:54.000Z">
-<meta property="article:modified_time" content="2025-10-25T03:54:58.975Z">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107113502524.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107114451402.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107114756788.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107115340475.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107115731491.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107125436101.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107125616852.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107130604925.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107131527861.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107134836607.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107135523504.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107135750319.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107140724448.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107141709144.png">
+<meta property="article:published_time" content="2025-11-07T06:19:19.000Z">
+<meta property="article:modified_time" content="2025-11-07T06:19:32.223Z">
 <meta property="article:author" content="迪多">
-<meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110239607.png">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107113502524.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -249,7 +253,7 @@
        
 
 
-<article id="post-自动调整学习率（Learning Rate）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-机器学习的可解释性" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -262,7 +266,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        自动调整学习率（Learning Rate）
+        机器学习的可解释性
       </h1>
     
   
@@ -270,7 +274,7 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-25T03:54:54.000Z" itemprop="datePublished">2025-10-25</time>
+  <time class="dt-published" datetime="2025-11-07T06:19:19.000Z" itemprop="datePublished">2025-11-07</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
@@ -281,48 +285,109 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            1k 词 
+            3.1k 词 
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p><strong>Training stuck $\neq$ Small Gradient</strong></p>
-<p>当我们的Loss值不再下降的时候，我们的Gradient不一定很小。 </p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110239607.png" style="zoom:33%;" /></p>
-<p>可以看到，我们的Loss值在峡谷两端来回震荡。</p>
-<p>在大多数的Training中，在还没有走到Critical Point的时候，训练就已经停止了。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110649131.png" style="zoom:33%;" /></p>
-<p>Learning Rate太大，Loss会在山谷之间来回震荡；</p>
-<p>Learning Rate太小，训练永远走不到终点。</p>
-<p><strong>Different Parameters needs different Learning Rate</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025111009850.png" style="zoom:33%;" /></p>
-<p>如果在某一个方向上gradient非常小，Learning Rate应该设置的大一点；</p>
-<p>如果在某一个方向上gradient非常大，Learning Rate应该设置的小一点。</p>
-<p>$\sigma_i^t$ 即依赖于变量(i)，也依赖于迭代次数(t)。</p>
-<p><strong>一种算出 $\sigma$ 的方式是Root Mean Square（均方根）。</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025111629506.png" style="zoom:33%;" /></p>
-<p>但是这个方法还是有问题，因为Learning Rate所需要的参数会随着时间的变化而改变。</p>
-<p>可以看到，对于均方根的方法，每个时间的迭代对Learning Rate的影响是相同的，但是是不是应该比较靠后的迭代应该发挥比比较靠前的迭代更大的影响呢？</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025112156576.png" style="zoom:33%;" /></p>
-<p><strong>RMSProp</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025112413577.png" style="zoom:33%;" /></p>
-<p>现在的Gradient有更大的影响，过去的Gradient的影响更小。</p>
-<p>现在最常用的Optimizer :arrow_right: <strong>Adam</strong>: RMSProp + Momentum</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025113547353.png" style="zoom:33%;" /></p>
-<p>可以看到，在临近Critical point的地方突然出现了几次大的震荡。</p>
-<p>因为之前在纵轴方向的Gradient很大，所以$\sigma$初始时很大，学习率变小，使得曲线不会在纵轴方向前进太多。</p>
-<p>而到了后来，纵轴方向的Gradient变小了，之后$\sigma$也开始变小，学习率就会变大(最近的Gradient影响更大)，导致纵轴方向前进的很多；而纵轴方向一前进，就又会到达Gradient大的地方，从而又使学习率变小而回到中间的曲线。</p>
-<p><strong>Learning Rate Scheduling</strong> : 使 $\eta$ 也随时间变化。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025114602698.png" style="zoom: 33%;" /></p>
-<p>在最早版本的Optimization:</p>
-<p>我们的 $\eta$ (学习率) 保持不变，并且只沿着现在的Gradient方向移动。</p>
-<p>优化之后的Optimization:</p>
-<p>我们的  $\eta$ (学习率) 会随着时间而改变；$\sigma$ 参考过去移动的所有步幅大小，并且针对不同的参数；移动的Gradient 不仅考虑现在，而且还考虑之前的的移动方向。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025115157289.png" style="zoom:33%;" /></p>
+          <p>我们需要机器给我们其得到答案的理由。</p>
+<p>就算机器得到正确的答案，也不代表机器真的很聪明。</p>
+<p>在很多真实的应用中，可解释性的模型往往是必须的。</p>
+<ul>
+<li>法律要求贷款发放方对模型的行为进行解释。 </li>
+<li>医疗诊断模型对人类的生命负责。他可以是一个黑盒吗？</li>
+<li>如果在法庭上使用模型，我们必须确保该模型没有种族歧视</li>
+<li>如果一辆自动驾驶汽车突然出现异常行为，我们需要解释原因。</li>
+</ul>
+<p>我们也可以用更有效率的方法优化我们的模型，基于其可解释性。</p>
+<p><strong>可解释性与模型能力</strong></p>
+<p>其他线性的机器学习的模型，虽然容易被解释，但是效果并没有那么好。</p>
+<p>深度学习的模型的效果优于线性的机器学习，但是其不可解释。</p>
+<p><strong>决策树</strong>即可解释，强度还高，是不是一个好的选择呢？</p>
+<p>决策树的power强于线性模型，相较于深度学习，其又具有可解释性。</p>
+<p>但其实决策树也有可能会变得很复杂，我们不是只使用一棵决策树，我们实际使用的技术叫Random Forest，其是很多棵决策树共同作用的结果。</p>
+<p><strong>可解释机器学习的目标</strong></p>
+<p>我们并不完全知道人脑的构造，但是我们能够相信来自另一个人所做出的决断。</p>
+<p>什么是好的解释：人们能够接受的explanation就是好的explanation。</p>
+<p>人就是需要一个理由来让我们变得高兴，高兴的人可能是你的客户，也可能是你的老板，或者是你自己。</p>
+<p><strong>可解释的机器学习</strong></p>
+<p><strong>Local Explanation：</strong>根据某一张图片来回答问题。“为什么你认为<strong>这张图片</strong>是一只猫？”</p>
+<p><strong>Global Explanation：</strong>我们并不是针对一张特定的图片来进行分析，而是对于模型。“什么样的东西叫做一只猫？”</p>
+<p><strong>Local Explanation ：Explain the Decision</strong></p>
+<p>假设我们模型的输入是$x$，而$x$可以拆分成多个Components。</p>
+<p>对于影像而言，每个Components可能是一个像素；对于文字而言，每个Components可能是一个token或词汇。</p>
+<p>这些Components里面，哪一个对于机器现在做出的最终决断是最重要的？</p>
+<p>我们把每个Components都拿出来，然后把每一个Components进行改造，或者删除；如果我们改造或者删除完之后，这个Network发生了巨大的变化，那么证明这Components很重要。</p>
+<p>举例，在图片里的不同位置放上灰色的色块，当这个方块放到不同的地方时，network会output出不同的结果。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107113502524.png" style="zoom:33%;" /></p>
+<p>更进阶的方法是计算Gradient.</p>
+<p>假设我们有一张图片，我们把其写为$x_1到x_n$，每个$x$代表一个pixel，接下来我们去计算这张图片的loss，记作$e$（代表交叉熵，把图片丢到模型里面，输出的结果和正确答案的差距）。</p>
+<p>然后我们把某一个$x$做一个小小的变化，加上一个$\Delta x$，接下来看Loss的变化。</p>
+<p>如果Loss的变化很大，就说明这个这个pixel对影像的识别是很重要的。</p>
+<p>我们可以用$\Delta e$和$\Delta x$的比值来代表这个pixel的重要性。</p>
+<p>我们把每一个图片里的pixel比值都算出来，就能得到Saliency Map。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107114451402.png" style="zoom:33%;" /></p>
+<p>在PASCAL VOC 2007 data set上，Network识别🐎是靠图片左下角的标注实现的，这说明了可解释机器学习的重要性。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107114756788.png" style="zoom: 33%;" /></p>
+<p><strong>Smooth Grad</strong></p>
+<p>如何让自己的Saliency Map画的更好，减少杂讯。</p>
+<p>使用Smooth Grad：在图片上加上各种不同的杂讯，每一张图片上都去计算Saliency Map，平均起来就得到Smooth Grad的结果。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107115340475.png" style="zoom:33%;" /></p>
+<p><strong>Gradient Saturation</strong></p>
+<p>光看Gradient并不完全能够反映一个Component的重要性。</p>
+<p>我们可以使用Integrated gradient(IG)来解决这个问题。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107115731491.png" style="zoom:33%;" /></p>
+<p><strong>神经网络是如何处理输入的数据的？</strong></p>
+<ul>
+<li>Visualization</li>
+</ul>
+<p>每一个点代表一小段声音讯号，每一个颜色代表了某一个Speaker。</p>
+<p>不同的人说同样的内容在MFCC中看不出来，但是通过了八层的Network之后，机器知道那些话是同样的内容。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107125436101.png" style="zoom:33%;" /></p>
+<p>也可以看Attention的Layer，根据Attention的结果来决定Network学到了什么事情。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107125616852.png" style="zoom:33%;" /></p>
+<ul>
+<li>Probing</li>
+</ul>
+<p>训练一个探针（分类器）。</p>
+<p>训练一个分类器，这个分类器是要根据一个Feature来决定现在这个词汇的POS tag，我们就把BERT的embedding丢到POS的Classifier里面。</p>
+<p>即训练一个Classifier，试图根据这些Embedding，来决定现在这些Embedding的是来源于哪一个词性的词汇。</p>
+<p>如果这个POS的正确率高，就代表说这些Embedding里面有很多词性的资讯；如果其正确率低，就代表这些Embedding里面没有词性的资讯。</p>
+<p>使用的时候要小心Classifier的强度，因为正确率低也可能是Network没有Train起来。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107130604925.png" style="zoom:33%;" /></p>
+<p>Probing不一定要是Classifier。</p>
+<p>训练一个语音合成（TTS）的模型，其输入是Network Output的Embedding，然后试图去输出一个声音信号。</p>
+<p>我们训练TTS模型的目标，是希望TTS的模型可以去复现Network的输入。</p>
+<p>假设Network做的事情是将语者的资讯（语音识别）去掉，所以可能通过几个Layer之后，输入到TTS的模型，产生出来的声音也没有了语者的资讯。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107131527861.png" style="zoom:33%;" /></p>
+<hr>
+<p><strong>Global Explanation ：explain the whole model</strong></p>
+<p>假如现在有一个Train好的CNN，在CNN里面有很多的卷积层，在卷积层里面有很多的Filter。</p>
+<p>把一张图片作为输入，CNN layer的输出是一个Feature Map。</p>
+<p>假设我们将图片$X$输入进CNN，发现Filter1在Feature Map里面的很多位置里面都有较大的值，这意味着图片$X$里面有很多Filter1负责侦测的特征。</p>
+<p>我们还没有图片$X$，但是我们想知道对于Filter1而言，其想要看的Pattern到底长什么样子。</p>
+<p>我们要去制造一张图片，这张图片包含有Filter1要Detect的Pattern，借由看这张图片的内容，我们就可以知道Filter1负责Detect什么样的东西。</p>
+<p>我们假设Filter1的Feature Map里面的每一个Element叫做$a<em>{ij}$ ，我们要把寻找的图片当作我们要训练的参数，我们要找一个图片$X^*$让$a</em>{ij}$的总和越大越好。</p>
+<p>因为要找最大值，我们要使用Gradient ascent，其原理是和Gradient descent一样的。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107134836607.png" style="zoom:33%;" /></p>
+<p>假设我们不是看某一个Filter，而是看最终Image Classifier的Output。</p>
+<p>我们想办法找一张图片$X$，这个$X$可以让某一个类别的分数越高越好。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107135523504.png" style="zoom:33%;" /></p>
+<p>假设我们希望我们看到的是比较像人想象的数字，我们在解Optimization的问题的时候，需要加上更多的限制。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107135750319.png" style="zoom:33%;" /></p>
+<p><strong>Constraint from Generator</strong></p>
+<p>训练一个Image的Generator，Generator的输入是一个Low-dimensional的Vector，是一个从高斯分布里Simple出来的低维度向量$z$，输出的图片叫做$X$，有$X=G(z)$。</p>
+<p>然后把Generator和Classifier接到一起，去找一个$z$，$z$通过Generator产生$X$，$X$通过Classifier产生$y$，希望$y$里面对应的某一个类别的分数越大越好。</p>
+<p>让分数最大的$z$叫做$z^*$。</p>
+<p>找出$z^<em>$之后，再把$z^</em>$丢到$G$里面，看看其产生出来的$X^*$长什么样子。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107140724448.png" style="zoom:33%;" /></p>
+<p><strong>Outlook</strong></p>
+<p>可以用一个简单的模型来模仿复杂模型的行为，之后再去分析那个简单的模型，也许我们就可以知道复杂的模型在做什么。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107141709144.png" style="zoom:33%;" /></p>
 
         
       </div>
@@ -337,25 +402,25 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2025/10/25/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%88Loss%EF%BC%89%E4%B9%9F%E5%8F%AF%E8%83%BD%E6%9C%89%E5%BD%B1%E5%93%8D/"
-      title="损失函数（Loss）也可能有影响"
+      href="/2025/11/07/%E6%A6%82%E8%BF%B0%E9%A2%86%E5%9F%9F%E8%87%AA%E9%80%82%E5%BA%94%EF%BC%88Domain%20Adaptation%EF%BC%89/"
+      title="概述领域自适应（Domain Adaptation）"
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
       
-        损失函数（Loss）也可能有影响
+        概述领域自适应（Domain Adaptation）
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/10/24/%E6%89%B9%E6%AC%A1%EF%BC%88batch%EF%BC%89%E5%92%8C%E5%8A%A8%E9%87%8F%EF%BC%88momentum%EF%BC%89/"
-      title="批次（batch）和动量（momentum)"
+      href="/2025/11/06/%E6%9D%A5%E8%87%AA%E4%BA%BA%E7%B1%BB%E7%9A%84%E6%81%B6%E6%84%8F%E6%94%BB%E5%87%BB%EF%BC%88Adversarial%20Attack%EF%BC%89/"
+      title="来自人类的恶意攻击（Adversarial Attack）"
      >
 
     <p class="title-text">
       
-        批次（batch）和动量（momentum)
+        来自人类的恶意攻击（Adversarial Attack）
         
     </p>
     <i class="fa-solid fa-angle-right"></i>

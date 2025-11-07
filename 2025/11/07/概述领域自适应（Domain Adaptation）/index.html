@@ -27,35 +27,33 @@
   
 
   
-  <title>自动调整学习率（Learning Rate） | 超级迪多的博客</title>
+  <title>概述领域自适应（Domain Adaptation） | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="Training stuck $\neq$ Small Gradient 当我们的Loss值不再下降的时候，我们的Gradient不一定很小。   可以看到，我们的Loss值在峡谷两端来回震荡。 在大多数的Training中，在还没有走到Critical Point的时候，训练就已经停止了。  Learning Rate太大，Loss会在山谷之间来回震荡； Learning Rate太小，训练永远">
+  <meta name="description" content="假设训练资料和测试资料的分布不一样，应该怎么办呢？ Domain shift: Training and testing data have different distributions. 模型输入资料有变化 一旦训练资料和测试资料中间有一些差异，他们中间的分布是不一样的，在训练资料上训练出来的模型，在测试资料上就有可能会坏掉。 比如输入的资料是黑白的数字，但是要识别的数字却是彩色的。 模型输出">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自动调整学习率（Learning Rate）">
-<meta property="og:url" content="https://diduox.github.io/2025/10/25/%E8%87%AA%E5%8A%A8%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87%EF%BC%88Learning%20Rate%EF%BC%89/index.html">
+<meta property="og:title" content="概述领域自适应（Domain Adaptation）">
+<meta property="og:url" content="https://diduox.github.io/2025/11/07/%E6%A6%82%E8%BF%B0%E9%A2%86%E5%9F%9F%E8%87%AA%E9%80%82%E5%BA%94%EF%BC%88Domain%20Adaptation%EF%BC%89/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="Training stuck $\neq$ Small Gradient 当我们的Loss值不再下降的时候，我们的Gradient不一定很小。   可以看到，我们的Loss值在峡谷两端来回震荡。 在大多数的Training中，在还没有走到Critical Point的时候，训练就已经停止了。  Learning Rate太大，Loss会在山谷之间来回震荡； Learning Rate太小，训练永远">
+<meta property="og:description" content="假设训练资料和测试资料的分布不一样，应该怎么办呢？ Domain shift: Training and testing data have different distributions. 模型输入资料有变化 一旦训练资料和测试资料中间有一些差异，他们中间的分布是不一样的，在训练资料上训练出来的模型，在测试资料上就有可能会坏掉。 比如输入的资料是黑白的数字，但是要识别的数字却是彩色的。 模型输出">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110239607.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110649131.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025111009850.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025111629506.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025112156576.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025112413577.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025113547353.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025114602698.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025115157289.png">
-<meta property="article:published_time" content="2025-10-25T03:54:54.000Z">
-<meta property="article:modified_time" content="2025-10-25T03:54:58.975Z">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107194855714.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107200250253.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107202744446.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107205823816.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107211451409.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107212731720.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107213119386.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107213630475.png">
+<meta property="article:published_time" content="2025-11-07T13:37:37.000Z">
+<meta property="article:modified_time" content="2025-11-07T13:37:45.331Z">
 <meta property="article:author" content="迪多">
-<meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110239607.png">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107194855714.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -249,7 +247,7 @@
        
 
 
-<article id="post-自动调整学习率（Learning Rate）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-概述领域自适应（Domain Adaptation）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -262,7 +260,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        自动调整学习率（Learning Rate）
+        概述领域自适应（Domain Adaptation）
       </h1>
     
   
@@ -270,7 +268,7 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-25T03:54:54.000Z" itemprop="datePublished">2025-10-25</time>
+  <time class="dt-published" datetime="2025-11-07T13:37:37.000Z" itemprop="datePublished">2025-11-07</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
@@ -281,48 +279,95 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            1k 词 
+            3.1k 词 
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p><strong>Training stuck $\neq$ Small Gradient</strong></p>
-<p>当我们的Loss值不再下降的时候，我们的Gradient不一定很小。 </p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110239607.png" style="zoom:33%;" /></p>
-<p>可以看到，我们的Loss值在峡谷两端来回震荡。</p>
-<p>在大多数的Training中，在还没有走到Critical Point的时候，训练就已经停止了。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025110649131.png" style="zoom:33%;" /></p>
-<p>Learning Rate太大，Loss会在山谷之间来回震荡；</p>
-<p>Learning Rate太小，训练永远走不到终点。</p>
-<p><strong>Different Parameters needs different Learning Rate</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025111009850.png" style="zoom:33%;" /></p>
-<p>如果在某一个方向上gradient非常小，Learning Rate应该设置的大一点；</p>
-<p>如果在某一个方向上gradient非常大，Learning Rate应该设置的小一点。</p>
-<p>$\sigma_i^t$ 即依赖于变量(i)，也依赖于迭代次数(t)。</p>
-<p><strong>一种算出 $\sigma$ 的方式是Root Mean Square（均方根）。</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025111629506.png" style="zoom:33%;" /></p>
-<p>但是这个方法还是有问题，因为Learning Rate所需要的参数会随着时间的变化而改变。</p>
-<p>可以看到，对于均方根的方法，每个时间的迭代对Learning Rate的影响是相同的，但是是不是应该比较靠后的迭代应该发挥比比较靠前的迭代更大的影响呢？</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025112156576.png" style="zoom:33%;" /></p>
-<p><strong>RMSProp</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025112413577.png" style="zoom:33%;" /></p>
-<p>现在的Gradient有更大的影响，过去的Gradient的影响更小。</p>
-<p>现在最常用的Optimizer :arrow_right: <strong>Adam</strong>: RMSProp + Momentum</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025113547353.png" style="zoom:33%;" /></p>
-<p>可以看到，在临近Critical point的地方突然出现了几次大的震荡。</p>
-<p>因为之前在纵轴方向的Gradient很大，所以$\sigma$初始时很大，学习率变小，使得曲线不会在纵轴方向前进太多。</p>
-<p>而到了后来，纵轴方向的Gradient变小了，之后$\sigma$也开始变小，学习率就会变大(最近的Gradient影响更大)，导致纵轴方向前进的很多；而纵轴方向一前进，就又会到达Gradient大的地方，从而又使学习率变小而回到中间的曲线。</p>
-<p><strong>Learning Rate Scheduling</strong> : 使 $\eta$ 也随时间变化。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025114602698.png" style="zoom: 33%;" /></p>
-<p>在最早版本的Optimization:</p>
-<p>我们的 $\eta$ (学习率) 保持不变，并且只沿着现在的Gradient方向移动。</p>
-<p>优化之后的Optimization:</p>
-<p>我们的  $\eta$ (学习率) 会随着时间而改变；$\sigma$ 参考过去移动的所有步幅大小，并且针对不同的参数；移动的Gradient 不仅考虑现在，而且还考虑之前的的移动方向。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025115157289.png" style="zoom:33%;" /></p>
+          <p>假设训练资料和测试资料的分布不一样，应该怎么办呢？</p>
+<p><strong>Domain shift</strong>: Training and testing data have different distributions.</p>
+<p><strong>模型输入资料有变化</strong></p>
+<p>一旦训练资料和测试资料中间有一些差异，他们中间的分布是不一样的，在训练资料上训练出来的模型，在测试资料上就有可能会坏掉。</p>
+<p>比如输入的资料是黑白的数字，但是要识别的数字却是彩色的。</p>
+<p><strong>模型输出分布有变化</strong></p>
+<p>在训练资料上面，每一个数字出现的几率都是一样的，但是在测试资料上面，可能每一个输出的几率是不一样的。</p>
+<p>比如在训练资料里面0-9的数字各有10个，而在测试资料里面0的数字有91个，其余各有1个。</p>
+<p><strong>模型输入输出关系改变</strong></p>
+<p>也许在测试资料里面一个叫”0”的数据，在测试资料里面变为”1”。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107194855714.png" style="zoom:33%;" /></p>
+<p>训练的资料我们说来自<strong>Source Domain</strong>，测试的资料我们说来自<strong>Target Domain</strong>。</p>
+<p><strong>Domain Adaptation</strong></p>
+<p>我们有一堆训练资料，这些资料来源于Source Domain，而且这些训练资料是有标注的。</p>
+<p>但是我们希望再用这些资料，训练出一个模型，这个模型可以用在不一样的Domain上。</p>
+<p>为此，在训练的时候，我们就必须对现在测试资料所在的Target Domain有所了解。</p>
+<ul>
+<li>在Target Domain上有一大堆资料，并且这些资料还有Label。</li>
+</ul>
+<p>不需要做Domain Adaptation，直接拿Target Domain的资料来进行训练即可。</p>
+<ul>
+<li>在Target Domain上有一点资料，并且这些资料还有Label。</li>
+</ul>
+<p>用这些有标注的资料来微调在Source Domain上训练出来的模型。</p>
+<p>但是要小心Overfit，不要在Target Domain的资料上跑太多的Iteration。</p>
+<ul>
+<li>在Target Domain上有一大堆资料，但是这些资料没有Label。</li>
+</ul>
+<p>一个最Basic的Idea是这样的：</p>
+<p>我们想要找一个Feature Extractor(Network)，这个Network吃一张图片作为输入，吐出一个Feature。</p>
+<p>虽然Source Domain和Target Domain的image在表面上看起来不一样，但是Feature Extractor会把他们不一样的地方拿掉，只抽取出它们共同的部分。</p>
+<p>那不管是来自Source Domain的图片，还是来自Target Domain的图片，只要通过这个Feature Extractor之后，它得到的Feature是没有差别的，它们看起来有一样的分布。</p>
+<p>那这样就可以用这些Feature，在Source Domain上训练一个模型，直接用在Target Domain上面。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107200250253.png" style="zoom:33%;" /></p>
+<p><strong>如何找出Feature Extractor？</strong></p>
+<p><strong>Domain Adversarial Training</strong></p>
+<p>我们可以把一个一般的Classifier，分成Feature Extractor和Label Predictor两部分。</p>
+<p>假设Image的Classifier有10层，那我们可以把前五层当作Feature Extractor，后五层当作Label Predictor。</p>
+<p>一个Classifier哪些部分算是Feature Extractor，哪些部分算是Label Predictor，这个是可以自己决定的，就相当于是Hyper-parameter。</p>
+<p>我们期待把Source Domain上有标注的资料丢进去，和训练一般的分类器一样，让其通过Feature Extractor和Label Predictor而产生正确的答案。</p>
+<p>我们把Target Domain上没有标注的图片丢进Image Classifier，然后我们把Feature Extractor的Output拿出来看。</p>
+<p>我们希望Source Domain丢进去的Feature和Target Domain丢进去的Feature，看起来要分不出差异。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107202744446.png" style="zoom:33%;" /></p>
+<p>为此我们要借由<strong>Domain Adversarial Training</strong>的技术。</p>
+<p>我们要训练一个Domain的Classifier，其为一个二元的分类器。</p>
+<p>其把Factor当作输入，要判断这个Factor是来自Source Domain还是Target Domain.</p>
+<p>而Feature Extractor的目标就是要想办法骗过这个Domain Classifier。</p>
+<p>在这个游戏里面，也许对Generator优势太大了，其要骗过Generator完全不需要花什么力气，只要让自己的输出永远为0就好了，这样的话Discriminator就无法分辨这个Factor来自于哪个Domain。</p>
+<p>但其实这件事情是不会发生的，因为Label Predictor也需要这个Feature，让其能够判断输入的图片属于哪个类别。</p>
+<p>假设Label Predictor的参数为$\theta_p$，Domain Classifier的参数叫做$\theta_d$，Feature Extractor的参数叫做$\theta_f$。</p>
+<p>Source Domain上的Image是有Label的，所以我们算它的交叉熵，根据它的交叉熵，我们可以定出一个Loss。</p>
+<p>然后对于Domain Classifier而言，它要想办法去分辨Source Domain和Target Domain的差距，它要做一个二元分类的问题，这个分类的问题有一个Loss叫做$L_d$。</p>
+<p>我们要找一个$\theta_p$ 让Loss越小越好；我们还要找一个$\theta_d$，让$L_d$越小越好。</p>
+<p>而Feature Extractor要做的事情是站在Label Predictor这边，捅Domain Classifier一刀，它要做和Domain Classifier相反的事情（让Factor不能分辨出其原Domain）。</p>
+<p>所以$\theta_f^* = minL - L_d$ 找一组参数$\theta_f$，让$L-L_d$的值越小越好。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107205823816.png" style="zoom:33%;" /></p>
+<p><strong>Limitation</strong></p>
+<p>我们应该让Target data的Factor的分布远离Source data的分界点(Source data有很多不同的种类)。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107211451409.png" style="zoom:33%;" /></p>
+<p>如何让这些方形远离这个分界点呢？</p>
+<p>最简单的做法：</p>
+<p>现在有很多Unlabeled的图片，丢到Feature Extractor再丢到Label Predictor以后，我们不知道其是哪一个类别，但是我们希望其离Boundary越远越好。</p>
+<p>如果今天输出的结果非常的集中，就说明交叉熵小，离Boundary远；如果今天输出的每一个类别都非常的接近，就说明交叉熵大，离Boundary近。</p>
+<p>我们希望把Unlabeled Image丢进Feature Extractor，再丢进Label Predictor输出的结果离Boundary越远越好，也就是说其结果应该集中在某一个类别上。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107212731720.png" style="zoom:33%;" /></p>
+<p><strong>Outlook</strong></p>
+<p>Target Domain是没有Label的，我们根本不知道Target Domain里面有什么样的类别。</p>
+<p>如果Target Domain和Source Domain的类别不同，让Source Domain的Feature和Target Domain的Feature完全Match在一起，本来就是有问题的方法。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107213119386.png" style="zoom:33%;" /></p>
+<p>还有一个比较严峻的状况，当不止没有Label，并且Data还很少(Target Domain只有一张)。</p>
+<p><strong>Testing Time Training。</strong></p>
+<p>还有更严峻的状况，我们对Target Domain一无所知。</p>
+<p>这时候问题就叫做<strong>Domain Generalization</strong>。</p>
+<p>Domain Generalization还分为两种状况。</p>
+<ul>
+<li>训练资料非常丰富，本来就包含了各式各样不同的Domain。</li>
+<li>训练资料只有一个Domain，而测试资料有多个Domain。</li>
+</ul>
+<p>最后放一个我喜欢的表情包。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107213630475.png" style="zoom:33%;" /></p>
 
         
       </div>
@@ -335,27 +380,22 @@
   
     
 <nav id="article-nav">
-  <a class="article-nav-btn left "
-    
-      href="/2025/10/25/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%88Loss%EF%BC%89%E4%B9%9F%E5%8F%AF%E8%83%BD%E6%9C%89%E5%BD%B1%E5%93%8D/"
-      title="损失函数（Loss）也可能有影响"
+  <a class="article-nav-btn left  disabled "
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
-      
-        损失函数（Loss）也可能有影响
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/10/24/%E6%89%B9%E6%AC%A1%EF%BC%88batch%EF%BC%89%E5%92%8C%E5%8A%A8%E9%87%8F%EF%BC%88momentum%EF%BC%89/"
-      title="批次（batch）和动量（momentum)"
+      href="/2025/11/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7/"
+      title="机器学习的可解释性"
      >
 
     <p class="title-text">
       
-        批次（batch）和动量（momentum)
+        机器学习的可解释性
         
     </p>
     <i class="fa-solid fa-angle-right"></i>
