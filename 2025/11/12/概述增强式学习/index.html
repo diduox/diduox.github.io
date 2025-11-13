@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<!-- 数学公式渲染（KaTeX 自动识别 $...$ 和 $$...$$） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\[', right: '\\]', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });"></script>
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>概述增强式学习 | 超级迪多的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="在RL里面，我们遇到的问题是这样的： 当我们给机器一个输入的时候，我们不知道最佳的输出应该是什么。 当我们发现要搜集有标注的资料很困难的时候，人类也不知道正确答案的时候，也许就是可以考虑使用RL的时候。 在学习的时候，机器虽然不知道正确答案是什么，但是机器会知道什么是好，什么是不好。 What is RL?（Three steps in ML） 在RL里面，我们会有一个Actor，还有一个Envi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="概述增强式学习">
+<meta property="og:url" content="https://diduox.github.io/2025/11/12/%E6%A6%82%E8%BF%B0%E5%A2%9E%E5%BC%BA%E5%BC%8F%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="超级迪多的博客">
+<meta property="og:description" content="在RL里面，我们遇到的问题是这样的： 当我们给机器一个输入的时候，我们不知道最佳的输出应该是什么。 当我们发现要搜集有标注的资料很困难的时候，人类也不知道正确答案的时候，也许就是可以考虑使用RL的时候。 在学习的时候，机器虽然不知道正确答案是什么，但是机器会知道什么是好，什么是不好。 What is RL?（Three steps in ML） 在RL里面，我们会有一个Actor，还有一个Envi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251108175329010.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251108181151297.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251108182019402.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251108185101620.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251109105629461.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251109110216759.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251109110606620.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251110161205846.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251110162015502.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251110165806723.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251110165744387.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112103914547.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112105214185.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112110643572.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112112919229.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112113948269.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112115011686.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112152529743.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112155500740.png">
+<meta property="article:published_time" content="2025-11-12T07:58:51.200Z">
+<meta property="article:modified_time" content="2025-11-12T07:58:31.945Z">
+<meta property="article:author" content="迪多">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="深度学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251108175329010.png">
+  
+    <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>超级迪多的博客 </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+      <a id="nav-rss-link" class="nav-icon mobile-hide" href="/atom.xml" title="RSS 订阅">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M198-120q-25.846 0-44.23-18.384-18.384-18.385-18.384-44.23 0-25.846 18.384-44.23 18.384-18.385 44.23-18.385 25.846 0 44.23 18.385 18.384 18.384 18.384 44.23 0 25.845-18.384 44.23Q223.846-120 198-120Zm538.385 0q-18.846 0-32.923-13.769-14.076-13.769-15.922-33.23-8.692-100.616-51.077-188.654-42.385-88.039-109.885-155.539-67.5-67.501-155.539-109.885Q283-663.462 182.385-672.154q-19.461-1.846-33.23-16.23-13.769-14.385-13.769-33.846t14.076-32.922q14.077-13.461 32.923-12.23 120.076 8.692 226.038 58.768 105.961 50.077 185.73 129.846 79.769 79.769 129.846 185.731 50.077 105.961 58.769 226.038 1.231 18.846-12.538 32.922Q756.461-120 736.385-120Zm-252 0q-18.231 0-32.423-13.461t-18.653-33.538Q418.155-264.23 348.886-333.5q-69.27-69.27-166.501-84.423-20.077-4.462-33.538-18.961-13.461-14.5-13.461-33.346 0-19.076 13.884-33.23 13.884-14.153 33.115-10.922 136.769 15.384 234.384 112.999 97.615 97.615 112.999 234.384 3.231 19.23-10.538 33.115Q505.461-120 484.385-120Z"/></svg>
+      </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">Home</a>
+    
+      <a class="nav-dropdown-link" href="/archives">Archives</a>
+    
+      <a class="nav-dropdown-link" href="/about">About</a>
+    
+    
+      <a class="nav-dropdown-link" href="/atom.xml" title="RSS 订阅">RSS</a>
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+        <image src=/images/avatar.jpg></image>
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">迪多 </div>
+      <div class="dot"></div>
+      <div class="subtitle">枝江月亮，将我照亮；<br>枝江太阳，暖我心房。 </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://twitter.com" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://store.steampowered.com" title="Steam"><i class="fa-brands fa-steam"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">最新文章</h3>
+      <ul>
+        
+          <a class="recent-link" href="/2025/11/13/%E6%9C%BA%E5%99%A8%E7%BB%88%E8%BA%AB%E5%AD%A6%E4%B9%A0/" title="机器终身学习" >
+            <div class="recent-link-text">
+              机器终身学习
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2025/11/12/%E6%A6%82%E8%BF%B0%E5%A2%9E%E5%BC%BA%E5%BC%8F%E5%AD%A6%E4%B9%A0/" title="概述增强式学习" >
+            <div class="recent-link-text">
+              概述增强式学习
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2025/11/07/%E6%A6%82%E8%BF%B0%E9%A2%86%E5%9F%9F%E8%87%AA%E9%80%82%E5%BA%94%EF%BC%88Domain%20Adaptation%EF%BC%89/" title="概述领域自适应（Domain Adaptation）" >
+            <div class="recent-link-text">
+              概述领域自适应（Domain Adaptation）
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2025/11/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7/" title="机器学习的可解释性" >
+            <div class="recent-link-text">
+              机器学习的可解释性
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2025/11/06/%E6%9D%A5%E8%87%AA%E4%BA%BA%E7%B1%BB%E7%9A%84%E6%81%B6%E6%84%8F%E6%94%BB%E5%87%BB%EF%BC%88Adversarial%20Attack%EF%BC%89/" title="来自人类的恶意攻击（Adversarial Attack）" >
+            <div class="recent-link-text">
+              来自人类的恶意攻击（Adversarial Attack）
+            </div>
+          </a>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                学习笔记
+                <div class="category-count">21</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+                个人博客
+                <div class="category-count">1</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-概述增强式学习" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        概述增强式学习
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2025-11-12T07:58:51.200Z" itemprop="datePublished">2025-11-12</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            8.5k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p>在RL里面，我们遇到的问题是这样的：</p>
+<p>当我们给机器一个输入的时候，我们不知道最佳的输出应该是什么。</p>
+<p>当我们发现要搜集有标注的资料很困难的时候，人类也不知道正确答案的时候，也许就是可以考虑使用RL的时候。</p>
+<p>在学习的时候，机器虽然不知道正确答案是什么，但是机器会知道什么是好，什么是不好。</p>
+<p><strong>What is RL?（Three steps in ML）</strong></p>
+<p>在RL里面，我们会有一个Actor，还有一个Environment；Actor和Environment会进行互动。</p>
+<p>Environment会给Actor一个Observation，即Actor的输入；Actor接收到Observation之后会有一个输出，这个输出叫做Action。</p>
+<p>这个Action会去影响Environment，Environment就会给予新的Observation。</p>
+<p>所以Actor本身就是一个Function，$Action=f(Observation)$。</p>
+<p>在互动的过程中Environment会不断地给Actor一些Reward，告诉其采取的Action是好的，还是不好的。</p>
+<p>我们要找的Function的目标是去Maximizing我们从Environment获取到的Reward的总和。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251108175329010.png" style="zoom:33%;" /></p>
+<p>以太空侵略者为例：</p>
+<p><strong>Step 1：Function with Unknown</strong></p>
+<p>含有未知数的Function，就是我们的Actor。在RL里面，我们的Actor就是一个Network，我们一般叫它Policy Network。</p>
+<p>这个Network的输入就是游戏的画面，它的输出就是每一个可以采取的行为的分数。</p>
+<p>至于Network的架构可以由自己来设计，如果输入是画面，我们就可以用CNN来处理。</p>
+<p>最后机器会采取哪一个Action，取决于每一个Action得到的分数。</p>
+<p>常见的做法是直接把这个分数当作一个几率，然后按照这个几率去随机决定要采取哪一个Action。</p>
+<p>在多数RL的应用里面，一般都不用最大值而是采取随机。</p>
+<p>采取随机有一个好处，即使输入的是同样的游戏画面，机器采取的行为也会有所不同，在很多的游戏里面，这种随机性往往是很重要的。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251108181151297.png" style="zoom:33%;" /></p>
+<p><strong>Step2：Define “Loss”</strong></p>
+<p>从游戏开始到结束的整个过程，被称之为一个Episode。</p>
+<p>在整个游戏的过程中，机器会采取非常多的行为，每个行为都可能得到Reward，把所有的Reward集合起来，我们就得到正常游戏的Total Reward。</p>
+<p>Total Reward就是我们想去最大化的东西。</p>
+<p>我们可以把负的Total Reward当作我们的Loss。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251108182019402.png" style="zoom:33%;" /></p>
+<p><strong>Step 3：Optimization</strong></p>
+<p>环境输出一个$s_1$，$s_1$会变成Actor的输入，Actor接下来会输出$a_1$，$a_1$又变成环境的输入，环境输出$s_2$。</p>
+<p>这个互动的过程会不断的继续下去，直到满足游戏终止的条件。</p>
+<p>这些$s$和$a$形成的Sequence，又叫做Trajectory，我们用$\tau$来表示Trajectory。</p>
+<p>根据这个互动的过程，Machine会得到Reward，我们可以把Reward也想象成是一个Function。</p>
+<p>通常我们在决定Reward的时候只看Action是不够的，我们还要看现在的Observation才可以。</p>
+<p>所以Reward是一个Function，这个Function拿$a$和$s$当作输入，产生$r$当作输出。</p>
+<p>把所有的$r$集合起来，就得到$R$，即Total Reward，也是我们要去Maximize的对象。</p>
+<p>这个Optimization的问题是这样的：我们要找一组Network（Actor）里面的参数，它可以让这个$R$的数值越大越好。</p>
+<p>但是RL困难的地方是，这不是一个一般的Optimization的问题：</p>
+<ul>
+<li>Actor的输出是有随机性的，同样的$s$每次产生的$a$不一定会一样。</li>
+<li>Env和Reward根本就不是Network，其只是一个黑箱，根本就不知道里面发生了什么事。</li>
+<li>Env和Reward往往也是具有随机性的，给定同样的行为，系统会怎么回应也是有变数的(装备暴击……)。</li>
+</ul>
+<p>所以RL真正的难点就是怎么解一个Optimization的问题。</p>
+<p>RL和GAN有异曲同工之妙。</p>
+<p>在RL里面Actor就相当于是Generator，Env和Reward就像是Discriminator，我们要去调Generator的参数，让Discriminator的参数越大越好。</p>
+<p>但是在RL的问题里面Env和Reward不是Network，所以我们没有办法用一般的梯度下降法来调整参数。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251108185101620.png" style="zoom:33%;" /></p>
+<p><strong>Policy Gradient</strong></p>
+<p>如何让Actor在看到某一个特定的Observation的时候，采取一个特定的行为？</p>
+<p>我们可以把其看作是一个分类的问题：</p>
+<p>$s$是Actor的输入，$\hat{a}$ 是我们的Label，接下来就可以计算Actor的输出 $a$ 和 $\hat{a}$ 之间的Cross-entropy。</p>
+<p>接下来定义一个Loss，Loss等于交叉熵，然后再去Learn一个$\theta$ 这个 $\theta$ 可以让Loss最小。</p>
+<p>接下来就可以让Actor学到面对特定的画面时，采取特定的行为。</p>
+<p>如果我们希望看到某一个Observation的时候，让Actor千万不要采取某一个行动应该怎么做？</p>
+<p>把Loss定义为负的交叉熵，然后去Minimize这个L，也就是让交叉熵越大越好，让$a$和$\hat{a}$的距离越远越好。</p>
+<p>假设我们要让我们的Actor看到$s$的时候采取$\hat{a}$，看到$s’$的时候不要采取$\hat{a’}$，我们就可以把Loss定义为:$L = e_1 - e_2$。</p>
+<p>然后我们去Minimize我们的Loss，也就是让$e_1$越小越好，让$e_2$越大越好。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251109105629461.png" style="zoom:33%;" /></p>
+<p> 如果我们想要训练一个Actor，我们就需要搜集一些训练资料。</p>
+<p>然后就可以定义一个Loss function，然后就可以去训练自己的Actor来Minimize这个Loss Function。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251109110216759.png" style="zoom:33%;" /></p>
+<p>更进一步，每个行为并不只是有好或者不好，它是有程度的差别的。</p>
+<p>也许有很好的，一般好的，较差的，非常差的。</p>
+<p>现在每一个$s$和$\hat{a}$的pair，它有对应的一个分数，这个分数代表说，我们多希望机器在看到$s$的时候，执行$\hat{a}$这个行为。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251109110606620.png" style="zoom:33%;" /></p>
+<p>不希望Actor执行$a$这个动作代表想要让$a$执行其他的动作，而不是什么都不做，因为什么都不做也是一种动作。</p>
+<p>目前所做的行为和Supervised-Learning没有什么不同，真正的重点是在我们<strong>怎么定义$A$</strong>上。</p>
+<p><strong>Version0（最简单但是不正确）</strong></p>
+<p>我们先设想有一个随机的Actor，然后这个Actor去和Env做互动，让我们搜集到$s$和$a$的pair。</p>
+<p>我们通常会让Actor做多个Episode，以期待搜集到足够的资料。</p>
+<p>接下来，我们去评价每一个Step所采取的Action，评价完之后，我们就可以用评价完的结果$A$来训练我们的Actor。</p>
+<p>假设在某一个Step s1，我们执行了a1，然后得到Reward r1，Reward如果是正的，也许就代表这个Action是好的；如果Reward是负的，也许就代表这个Action是不好的。</p>
+<p>我们直接把Reward r1,r2，当作是A1,A2。</p>
+<p>但是Version0是一个非常短视的Actor。</p>
+<p>因为每一个行为都会影响接下来的发展，所以每一个行为并不是独立的。</p>
+<p>并且我们在与Env互动的时候具有<strong>Reward delay</strong>，有时候我们需要牺牲短期的利益，以换取更长程的目标。</p>
+<p>在太空侵略者里面，Actor会倾向于一直开火。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251110161205846.png" style="zoom:33%;" /></p>
+<p><strong>Version1（Cumulated Reward）</strong></p>
+<p>a1有多好，并不只取决于r1，而是取决于a1之后发生所有的事情。</p>
+<p>我们会把执行完a1以后，所有得到的Reward，r1,r2,r3……rn通通加起来。</p>
+<p>$A_1=G_1=r_1+r_2+r_3+……r_n$</p>
+<p>我们用$G_1$当作评估一个Action好不好的标准。</p>
+<p>把未来所有的Reward加起来评估Action的好坏就是<strong>Cumulated Reward</strong>。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251110162015502.png" style="zoom:33%;" /></p>
+<p><strong>Version2（Discount factor）</strong></p>
+<p>假设一个游戏非常的长，前面的的Action对于后面的Reward的关系有那么大吗？</p>
+<p>也许得到$r_N$的功劳不应该归功于$a_1$。</p>
+<p>我们会在r前面乘一个Discount factor，这个factor是一个小于1的值。</p>
+<p>$A_1 = G_1’ = r_1+\lambda r_2+\lambda^2r_3…… (\lambda &lt; 1)$</p>
+<p>我们就可以把离$a_1$较近的Reward给予较大的权重，离$a_1$较远的Reward给予较小的权重。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251110165806723.png" style="zoom:33%;" /></p>
+<p><strong>Version3（Normalization）</strong></p>
+<p>要对$A$进行标准化。</p>
+<p>因为好和坏是相对的，假设如果游戏采取每个行动的最低分就是10分，那么得到10分其实是坏的。</p>
+<p>假设在游戏里面，每一个行为都会给我们正的分数，只是有大有小的不同。</p>
+<p>那么所有的$G$算出来都是正的，有些行为其实是不好的，但仍然会鼓励我们的Model去采取这些行为。</p>
+<p>一个最简单的标准化的行为就是把所有的 $G$ 减去一个 baseline $b$，目的就是让$G$有正有负。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251110165744387.png" style="zoom:33%;" /></p>
+<p><strong>Policy Gradient</strong></p>
+<ul>
+<li>使用$\theta^0$作为参数来随机初始化Actor</li>
+<li>进行Training迭代，从 $i = 1 $ to $ T$<ul>
+<li>使用 Actor $\theta^{i-1}$ 来与环境进行互动</li>
+<li>收集数据{$s_1,a_1$}，{$s_2,a_2$}，……，{$s_N,a_N$}</li>
+<li>计算$A_1,A_2,….,A_N$</li>
+<li>计算Loss值$L$</li>
+<li>$\theta ^i \leftarrow \theta^{i-1} - \eta\nabla L $</li>
+</ul>
+</li>
+</ul>
+<p>一般的Training的Data Collection都是在For循环之外，但是在RL里面，更新一次参数就要Data Collection一次，所以RL的训练非常花时间。</p>
+<p>原因：资料是由$\theta^{i-1}$搜集出来的，这是$\theta^{i-1}$和环境互动出来的结果，这是$\theta^{i-1}$的经验，这些经验可以用来Update$\theta^{i-1}$的参数，但是也许不适合拿来更新$\theta^{i}$的参数。</p>
+<p><strong>On-policy v.s. Off-policy</strong></p>
+<p>要被训练的Actor 和 要拿来和环境互动的Actor 是同一个 —-&gt; On-policy（较好）</p>
+<p>要被训练的Actor 和 要拿来和环境互动的Actor 不是同一个 —-&gt; Off-policy</p>
+<p>Off-policy的Learning可以想办法让$\theta^{i}$根据$\theta^{i-1}$所搜集的资料来进行学习，这样做的好处是减少收集资料的次数。</p>
+<p><strong>Off-policy -&gt; Proximal Policy Optimization(PPO)</strong></p>
+<p>Off-policy的重点就是，在训练的Network，要知道自己和别人之间的差距。</p>
+<p>它要有意识的知道说，它和与环境互动的Actor是不一样的。</p>
+<p><strong>Collection Training Data: Exploration</strong></p>
+<p>Actor在采取行为的时候是有一些随机性的，而这个随机性非常的重要，很多时候随机性不够，就会Train不起来。</p>
+<p>假设一个初始的Actor，它永远只会向右移动，它从来都不知道要开火；如果它从来都没有采取开火这个行为，你就永远不知道开火这个行为它是好还是不好。</p>
+<p>即假设有一个Action从来都没有被执行过，你就不会知道这个Actor是好还是不好。</p>
+<p>所以我们期待和环境进行互动的Actor它的随机性可以大一点，这样我们才能收集到比较多的比较丰富的资料。</p>
+<p>为了让Actor的随机性大一点，甚至在Training的时候，有人会刻意加大Actor输出的Distribution的Entropy，让他在训练的时候比较容易Sample到那些几率比较低的行为。</p>
+<p>或者直接在Actor的Distribution上面加Noise，让他每一次采取的行动都不一样。</p>
+<hr>
+<p><strong>Critic</strong></p>
+<p>Critic：有一个Actor，其参数为$\theta$ ，Critic要评估这个Actor看到某一个Observation，接下来它可能会得到多少的Reward。</p>
+<p>Value function$V^{\theta}(s)$（一种Critic）：输入是$s$，也就是现在的状况；$V$具有上标 $\theta$ ，代表$V$ 观察的对象是参数为 $\theta$ 的Actor；其输出是一个Scalar，代表看到当前的状况，接下来得到的Discounted cumulated reward是多少。</p>
+<p>我们虽然可以通过把游戏玩到底的方式得到Discounted cumulated reward，但是$V^{\theta}(s)$</p>
+<p>的能力就是未卜先知，只看$s$就可以预测Actor的表现。</p>
+<p>强调：$V^{\theta}(s)$的输出是与当前的Actor有关系的，同样的$s$不同的Actor应该得到不同的结果。</p>
+<p><strong>如何训练一个$V^{\theta}(s)$</strong></p>
+<p><strong>Monte-Carlo（MC） based approach</strong></p>
+<p>把Actor拿去和Env互动，互动很多轮，得到游戏的记录。</p>
+<p>假设看到$s_a$，接下来的cumulated reward会是 $G’_a$ ，这就是Value Function的一笔训练资料，如果看到$s_a$作为输入，输出$V^{\theta}(s_a)$应该要和$G’_a$越接近越好。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112103914547.png" style="zoom:33%;" /></p>
+<p><strong>Temporal-difference（TD）approach</strong></p>
+<p>不用玩完整场游戏就可以得到训练资料，因为有的游戏也许永远都不会结束。</p>
+<p>只需要在看到某个$s<em>t$的时候，Actor执行了$a_t$，得到Reward$r_t$，接下来再看到$s</em>{t+1}$的画面，之后以此类推。</p>
+<p>$V^{\theta}(s<em>t) = r_t+\lambda r</em>{t+1}+\lambda^2r_{t+2}…… (\lambda &lt; 1)$</p>
+<p>$V^{\theta}(s<em>{t+1}) = r</em>{t+1}+\lambda r_{t+2}…… (\lambda &lt; 1)$</p>
+<p>$V^{\theta}(s<em>t) = \lambda V^{\theta}(s</em>{t+1}) + r_t$</p>
+<p>我们有上面的资料就可以训练一个Value Function，让$V^{\theta}(s<em>t) - \lambda V^{\theta}(s</em>{t+1})$的值与 $r_t$ 越接近越好。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112105214185.png" style="zoom:33%;" /></p>
+<p><strong>MC v.s. TD</strong></p>
+<p>MC和TD拿来计算同样的资料，算出的Value Function很有可能是不一样的。</p>
+<p>Monte-Carlo：$V^{\theta}(s_a)$ = 0</p>
+<p>Temporal-difference：$V^{\theta}(s_a) = V^{\theta}(s_b) + r$</p>
+<p>对于Monte-Carlo而言，其直接观测我们得到的资料。</p>
+<p>对于Temporal-difference，其背后的假设是 $s_a$ 和 $s_b$ 是没有关系的，看到$s_a$ 再看到$s_b$，并不会影响$s_b$的Reward。  </p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112110643572.png" style="zoom:33%;" /></p>
+<p><strong>Version3.5</strong></p>
+<p>把Normalization的$b$变为$V^{\theta}(s_1)$。</p>
+<p>$A_1=G’_1-b \rightarrow A_1 = G’_1 - V^{\theta}(s_1)$</p>
+<p>$V^{\theta}(s_t)$代表：看到某一个画面 $s_t$ 之后，接下来会得到的Cumulative Reward。因为游戏具有随机性，所以这个Reward是一个期望值，并且在看到$s_t$的时候，Actor也不一定会执行$a_t$这个Action，因为Actor本身具有随机性。把产生的所有结果平均起来，就是$V^{\theta}(s_t)$。</p>
+<p>$G’_t$ 代表：在$s_t$的画面下，执行$a_t$以后，接下来会得到的Cumulative Reward。</p>
+<p>${s_t,a_t} A_t = G_t’ - V^{\theta}(s_t)$</p>
+<p>如果$A_t &gt; 0$，代表这个Action是比Sample到的Action更好的，$a_t$大于随机执行的一个Action。</p>
+<p>如果$A_t &lt; 0$，代表随机Sample出来的Action的期望值大于$a_t$这个Action的期望值。</p>
+<p>$G’_t$ 是一个Simple的结果，而$V^{\theta}(s_t)$是很多条路径平均以后的结果。</p>
+<p>我们用一个Simple减去平均，结果可能会有误差，因为一个Simple可能会特别好，或者特别差。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112112919229.png" style="zoom:33%;"/></p>
+<p><strong>Version4（Advantage Actor-Critic）</strong></p>
+<p>用平均去减掉平均。</p>
+<p>执行$a<em>t$之后得到Reward $r_t$ ，然后得到下一个画面$s</em>{t+1}$，把$s<em>{t+1}$接着玩下去有很多不同的可能，每个可能通通会得到一个Reward，把这些Reward平均起来，就是$V^{\theta}(s</em>{t+1})$。</p>
+<p>${s<em>t,a_t} A_t = r_t + V^{\theta}(s</em>{t+1}) +V^{\theta}(s_t)$</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112113948269.png" style="zoom:33%;" /></p>
+<p><strong>Tip of Actor-Critic</strong></p>
+<p>Actor是一个Network，Critic也是一个Network。</p>
+<p>Actor这个Network吃一个游戏画面当作输入，输出是每一个Action的分数。</p>
+<p>Critic吃一个游戏画面当作输入，输出是一个输出，代表接下来会得到的Cumulative的Reward。</p>
+<p>这两个Network输入是一样的东西，代表它们有部分的参数可以共用。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112115011686.png" style="zoom:33%;" /></p>
+<p><strong>Outlook ：Deep Q Network（DQN）</strong></p>
+<p><strong>Reward Shaping</strong></p>
+<p>假设多数的时候Reward都是0，只有非常低的概率，才会得到一个巨大的Reward的时候，意味着我们不管$A$怎么算都是0，我们根本不知道Action是好是坏，无法Train一个Actor。</p>
+<p>举例：教一个机器手臂去拧螺丝，只有成功把螺丝栓进去，才得到Reward；没有把螺丝栓进去，Reward就是0。</p>
+<p>遇到这种状况，我们要想办法去提供额外的Reward，来引导我们的Agent学习，即（Reward Shaping）。</p>
+<p>Reward Shaping是需要Domain Knowledge的。</p>
+<p>在Reward Shaping里面有一个有趣而又知名的做法——Curiosity Based的Reward Shaping。</p>
+<p>给机器加上好奇心，好奇心就是要探索新的事物，在原来的Reward之外，我们加上一个Reward：如果机器在活动过程中看到新的东西，它就被加分。</p>
+<p>新的东西必须是有意义的新，而不是无谓的新。</p>
+<p>假设我们要求Agent要一直看到新的东西，如果画面背景有一个杂讯，那杂讯会不断的变化，所以对Agent来说，杂讯是新的东西，也许Agent就不会去探索新的环境了。</p>
+<p><strong>No Reward ：Learning from Demonstration</strong></p>
+<p>假设连Reward都没有，该如何Train一个Actor呢？</p>
+<p>Reward一般只在一些比较Artificial的环境里面容易被定义出来，比如说游戏。</p>
+<p>在真实的环境中，有时候我们根本不知道要如何定义Reward出来；如果想一些Reward出来让机器学，并且Reward没有想好，Machine可能会产生非常奇怪的行为。</p>
+<p><strong>Imitation Learning</strong></p>
+<p>在Imitation Learning里面，我们假设Actor仍然可以和环境互动，但是不会从环境得到Reward，Env仍然会送出Observation给Actor，Actor仍然会做出回应。</p>
+<p>虽然我们没有Reward，但是我们有Expert的示范。</p>
+<p>我们找很多人类，也去和这个环境互动，把人类和环境的互动记录下来，这些记录就是Expert的示范$\hat{\tau} $。</p>
+<p>我们要凭借这些示范，还有和环境的互动来进行学习。</p>
+<p>让机器去复制人类的行为叫做<em>Behavior Cloning</em>。</p>
+<p>但是人类和机器观察到的$s$会是不一样的，机器可能不会学到人类平常不会经历的状态下，到底应该如何处理。</p>
+<p>还有，机器不知道什么行为应该模仿，什么行为不该模仿，它只能完全复制人类的行为。</p>
+<p><strong>Inverse Reinforcement Learning</strong></p>
+<p>从Expert的示范和Env，去反推Reward应该长什么样子，也就是Reward Function是学出来的。</p>
+<p>学出一个Reward Function之后，就可以用一般的RL，来学Actor。</p>
+<p>Reward Function是学出来的，也许我们只能学出比较简单的Reward Function，但是简单的Reward Function并不代表学出来的Actor一定也会是简单的。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112152529743.png" style="zoom:33%;" /></p>
+<p>Principle：老师的行为是最棒的。（老师的行为可以取得最高的Reward）</p>
+<p>Basic idea：</p>
+<ul>
+<li>初始化一个Actor</li>
+<li>在每一轮迭代中<ul>
+<li>Actor与环境互动，搜集自己的Trajectories</li>
+<li>定义一个Reward Function，老师的行为得到的Reward必须要高于学生得到的Reward</li>
+<li>Actor去更新自己的参数，来最大化自己的Reward</li>
+</ul>
+</li>
+<li>最终能得到一个Reward Function</li>
+</ul>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251112155500740.png" style="zoom:33%;" /></p>
+<p>Actor = Generator</p>
+<p>Reward function = Discriminator</p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2025/11/13/%E6%9C%BA%E5%99%A8%E7%BB%88%E8%BA%AB%E5%AD%A6%E4%B9%A0/"
+      title="机器终身学习"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        机器终身学习
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2025/11/07/%E6%A6%82%E8%BF%B0%E9%A2%86%E5%9F%9F%E8%87%AA%E9%80%82%E5%BA%94%EF%BC%88Domain%20Adaptation%EF%BC%89/"
+      title="概述领域自适应（Domain Adaptation）"
+     >
+
+    <p class="title-text">
+      
+        概述领域自适应（Domain Adaptation）
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2025 迪多<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>
