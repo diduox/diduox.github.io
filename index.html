@@ -160,7 +160,19 @@
       <h3 class="widget-title">最新文章</h3>
       <ul>
         
-          <a class="recent-link" href="/2025/12/06/md/" title="我恨《深度学习详解》" >
+          <a class="recent-link" href="/2026/03/17/%E4%BB%A5BERT%E4%B8%BA%E4%BE%8B%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D%EF%BC%9A%E5%A6%82%E4%BD%95%E6%8A%8A%E8%B6%85%E5%8F%82%E6%95%B0%E6%8D%A2%E7%AE%97%E6%88%90%E5%8F%AF%E5%AD%A6%E4%B9%A0%E5%8F%82%E6%95%B0%E7%9A%84%E5%A4%A7%E5%B0%8F/" title="以BERT为例简要介绍：如何把超参数换算成可学习参数的大小" >
+            <div class="recent-link-text">
+              以BERT为例简要介绍：如何把超参数换算成可学习参数的大小
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/03/15/LayerNorm%E4%B8%8EBatchNorm/" title="LayerNorm与BatchNorm" >
+            <div class="recent-link-text">
+              LayerNorm与BatchNorm
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2025/12/06/%E6%88%91%E6%81%A8%E3%80%8A%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%AF%A6%E8%A7%A3%E3%80%8B/" title="我恨《深度学习详解》" >
             <div class="recent-link-text">
               我恨《深度学习详解》
             </div>
@@ -175,18 +187,6 @@
           <a class="recent-link" href="/2025/11/12/%E6%A6%82%E8%BF%B0%E5%A2%9E%E5%BC%BA%E5%BC%8F%E5%AD%A6%E4%B9%A0/" title="概述增强式学习" >
             <div class="recent-link-text">
               概述增强式学习
-            </div>
-          </a>
-        
-          <a class="recent-link" href="/2025/11/07/%E6%A6%82%E8%BF%B0%E9%A2%86%E5%9F%9F%E8%87%AA%E9%80%82%E5%BA%94%EF%BC%88Domain%20Adaptation%EF%BC%89/" title="概述领域自适应（Domain Adaptation）" >
-            <div class="recent-link-text">
-              概述领域自适应（Domain Adaptation）
-            </div>
-          </a>
-        
-          <a class="recent-link" href="/2025/11/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7/" title="机器学习的可解释性" >
-            <div class="recent-link-text">
-              机器学习的可解释性
             </div>
           </a>
         
@@ -206,7 +206,7 @@
       <div class="category-box">
             <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
                 学习笔记
-                <div class="category-count">21</div>
+                <div class="category-count">23</div>
             </a>
         
             <a class="category-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
@@ -237,7 +237,7 @@
    
 
 
-<article id="post-md" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-以BERT为例简要介绍：如何把超参数换算成可学习参数的大小" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
    
   <div class="article-inner">
     <div class="article-main">
@@ -248,7 +248,173 @@
   
     
       <h1 itemprop="name">
-        <a class="p-name article-title" href="/2025/12/06/md/">我恨《深度学习详解》</a>
+        <a class="p-name article-title" href="/2026/03/17/%E4%BB%A5BERT%E4%B8%BA%E4%BE%8B%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D%EF%BC%9A%E5%A6%82%E4%BD%95%E6%8A%8A%E8%B6%85%E5%8F%82%E6%95%B0%E6%8D%A2%E7%AE%97%E6%88%90%E5%8F%AF%E5%AD%A6%E4%B9%A0%E5%8F%82%E6%95%B0%E7%9A%84%E5%A4%A7%E5%B0%8F/">以BERT为例简要介绍：如何把超参数换算成可学习参数的大小</a>
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-03-17T06:38:38.000Z" itemprop="datePublished">2026-03-17</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            1.1k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              以BERT为例简要介绍：如何把超参数换算成可学习参数的大小
+In this work, we denote the number of layers (i.e., Transformer blocks) as L, the hidden size as H, and the number of self-attention heads as A.3 We primarily report results on two model sizes: BERTBASE (L=12, H=768, A=12, Total Parameters=110M) and BERTLARGE (L=24, H=1024, A=16, Total Parameters=340M).
+
+BERT模型里面的可学习参数主要来源于两块：嵌入层和Transformer块
+嵌入层是一个矩阵，输入是一个字典的大小(BERT里面是30K)(每个one-hot代表一个token，虽然是以索引的方式输入)，输出等于隐藏单元的个数H（输出时，每个Token会变成一个向量，每个向量有H维），输出会进入Transformer块...
+            
+          </div>
+        
+      </div>
+
+         
+    </div>
+    
+     
+    <a class="right-panel  non-pic  "
+      
+      href="/2026/03/17/%E4%BB%A5BERT%E4%B8%BA%E4%BE%8B%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D%EF%BC%9A%E5%A6%82%E4%BD%95%E6%8A%8A%E8%B6%85%E5%8F%82%E6%95%B0%E6%8D%A2%E7%AE%97%E6%88%90%E5%8F%AF%E5%AD%A6%E4%B9%A0%E5%8F%82%E6%95%B0%E7%9A%84%E5%A4%A7%E5%B0%8F/" 
+    >
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+   
+
+
+<article id="post-LayerNorm与BatchNorm" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2026/03/15/LayerNorm%E4%B8%8EBatchNorm/">LayerNorm与BatchNorm</a>
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-03-15T09:44:44.000Z" itemprop="datePublished">2026-03-15</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            942 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              我们通过跟BatchNorm来对比去解释一下什么是LayerNorm；
+以及说为什么我们在变长（输出长度不同）的应用里面不使用BatchNorm.
+
+我们考虑一个最简单的二维输入情况，即输入是一个矩阵。
+每一行是一个样本，每一列是一个特征。
+BatchNorm所做的事情，就是把每一个列，即每一个特征，把它存在一个小的mini-batch里面，使它的的均值变成0，方差变成1。（把向量本身的均值减掉，然后在除以它的方差）
+即算的是不同数据里面的统一特征的均值。
+算均值的时候，是在每一个小批量（batch）里面，即在这个向量里面算出其的均值和方差。
+在训练的时候可以做小批量；在预测的时候会把一个全局的均值算出来，在预测的时候使用。
+BatchNorm还会学一个λ，β出来；就是说我们可以把这个向量通过学习放成一个方差为某个值，均值为某个值的东西。
+
+
+LayerNorm做的事情就是对每个样本做了Normalization，而不是对某个特征做。
+BatchNorm是把每一个列的均值变0，方差变1；LayerNorm把每一个行的均值变0，方差变1。
+
+
+在Transformer或者是正常的R...
+            
+          </div>
+        
+      </div>
+
+         
+    </div>
+    
+     
+    <a class="right-panel  non-pic  "
+      
+      href="/2026/03/15/LayerNorm%E4%B8%8EBatchNorm/" 
+    >
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+   
+
+
+<article id="post-我恨《深度学习详解》" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2025/12/06/%E6%88%91%E6%81%A8%E3%80%8A%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%AF%A6%E8%A7%A3%E3%80%8B/">我恨《深度学习详解》</a>
       </h1>
     
   
@@ -292,7 +458,7 @@
      
     <a class="right-panel  non-pic  "
       
-      href="/2025/12/06/md/" 
+      href="/2025/12/06/%E6%88%91%E6%81%A8%E3%80%8A%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%AF%A6%E8%A7%A3%E3%80%8B/" 
     >
        
       <i class="fa-solid fa-angle-right non-pic"></i>
@@ -915,172 +1081,6 @@ BERT一般用在自然语言处理上，所以BERT的输入一般是一排文字
 
 
 
-   
-
-
-<article id="post-生成式对抗网络(GAN)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-   
-  <div class="article-inner">
-    <div class="article-main">
-      <header class="article-header">
-        
-<div class="main-title-bar">
-  <div class="main-title-dot"></div>
-  
-    
-      <h1 itemprop="name">
-        <a class="p-name article-title" href="/2025/10/30/%E7%94%9F%E6%88%90%E5%BC%8F%E5%AF%B9%E6%8A%97%E7%BD%91%E7%BB%9C(GAN)/">生成式对抗网络(GAN)</a>
-      </h1>
-    
-  
-</div>
-
-        <div class='meta-info-bar'>
-          <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-30T13:38:38.000Z" itemprop="datePublished">2025-10-30</time>
-</div>
-          <div class="need-seperator meta-info">
-            <div class="meta-cate-flex">
-  
-    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
-  
-</div>
-  
-          </div>
-          <div class="wordcount need-seperator meta-info">
-            4.6k 词 
-          </div>
-        </div>
-        
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
-
-      </header>
-      <div class="e-content article-entry" itemprop="articleBody">
-        
-          <div class="truncate-text">
-            
-              Network as Generator
-把Network当作是个Generator来使用，原来输入的只有一个x；
-现在除了x还要加上一个random variable $z$ ，这个$z$ 是通过一个简单分布(Simple Distribution)生成出来的，能知道表达式的分布都是简单分布(正态，均匀，伯努利……)。
-比如说可以把$x$ ，$z$ 直接接起来，当作输入；也可以把$x$ ，$z$相加，变成一个输入。
-每次输入的$z$都是从分布中随机生成的，生成的值是一个符合概率密度公式的随机结果。
-可以输出一个分布(distribution)的Network，我们就叫它Generator。
-
-为什么输出需要是一个分布?
-如果在训练集里面，一个输入对应两个输出。
-让机器的输出是有几率的，让机器不再是一个单一的输出，而是一个几率的分布。
-比如说我们用二项分布，那么输出就有两种可能性。
-我们想要让一个Function有同样的输入，但是有不同的输出，而且这些不同的输出都是对的
-GAN(赣)
-
-Unconditional generation
-
-不输入x，只输入z，z是通过Distrib...
-            
-          </div>
-        
-      </div>
-
-         
-    </div>
-    
-     
-    <a class="right-panel  non-pic  "
-      
-      href="/2025/10/30/%E7%94%9F%E6%88%90%E5%BC%8F%E5%AF%B9%E6%8A%97%E7%BD%91%E7%BB%9C(GAN)/" 
-    >
-       
-      <i class="fa-solid fa-angle-right non-pic"></i>
-       
-    </a>
-     
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-   
-
-
-<article id="post-Homework 3  Image Classification" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-   
-  <div class="article-inner">
-    <div class="article-main">
-      <header class="article-header">
-        
-<div class="main-title-bar">
-  <div class="main-title-dot"></div>
-  
-    
-      <h1 itemprop="name">
-        <a class="p-name article-title" href="/2025/10/29/Homework%203%20%20Image%20Classification/">Homework  3 Image Classification</a>
-      </h1>
-    
-  
-</div>
-
-        <div class='meta-info-bar'>
-          <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-29T09:46:46.000Z" itemprop="datePublished">2025-10-29</time>
-</div>
-          <div class="need-seperator meta-info">
-            <div class="meta-cate-flex">
-  
-    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
-  
-</div>
-  
-          </div>
-          <div class="wordcount need-seperator meta-info">
-            588 词 
-          </div>
-        </div>
-        
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
-
-      </header>
-      <div class="e-content article-entry" itemprop="articleBody">
-        
-          <div class="truncate-text">
-            
-              Easy Baseline 44.862 (accuracy, %)
-直接运行代码。
-Medium Baseline 52.807 (accuracy, %)
-对含有标注的数据进行数据增强。
-12345678910111213141516train_tfm = transforms.Compose([        transforms.Resize((128, 128)),        # 从原图中随机裁剪一片区域 面积占比(0.8,1.0) 宽高占比(0.9,1.1) 再将其大小变为128*128        transforms.RandomResizedCrop(128, scale=(0.8, 1.0), ratio=(0.9, 1.1)),        # 随机进行水平反转        transforms.RandomHorizontalFlip(p=0.5),  # 50% 概率水平翻转        # 颜色变换        transforms.ColorJitter(            brightness=0.2,  # 随机改变亮度 ±20...
-            
-          </div>
-        
-      </div>
-
-         
-    </div>
-    
-     
-    <a class="right-panel  non-pic  "
-      
-      href="/2025/10/29/Homework%203%20%20Image%20Classification/" 
-    >
-       
-      <i class="fa-solid fa-angle-right non-pic"></i>
-       
-    </a>
-     
-  </div>
-  
-</article>
-
-
-
-
-
-
-
 
   <nav id="page-nav">
     <!-- 在第二页时 page.prev_link 不知为何无法返回正确的链接 -->
@@ -1102,7 +1102,7 @@ Medium Baseline 52.807 (accuracy, %)
   
   <div id="footer-info" class="inner">
     
-    &copy; 2025 迪多<br>
+    &copy; 2026 迪多<br>
     Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
   </div>
 </footer>

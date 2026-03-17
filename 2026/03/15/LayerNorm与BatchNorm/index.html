@@ -27,22 +27,33 @@
   
 
   
-  <title>归档: 2025/12 | 超级迪多的博客</title>
+  <title>LayerNorm与BatchNorm | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="机器学习，深度学习，精神分析，二次元鉴赏">
-<meta property="og:type" content="website">
-<meta property="og:title" content="超级迪多的博客">
-<meta property="og:url" content="https://diduox.github.io/archives/2025/12/index.html">
+  <meta name="description" content="我们通过跟BatchNorm来对比去解释一下什么是LayerNorm； 以及说为什么我们在变长（输出长度不同）的应用里面不使用BatchNorm.  我们考虑一个最简单的二维输入情况，即输入是一个矩阵。 每一行是一个样本，每一列是一个特征。 BatchNorm所做的事情，就是把每一个列，即每一个特征，把它存在一个小的mini-batch里面，使它的的均值变成0，方差变成1。（把向量本身的均值减掉，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LayerNorm与BatchNorm">
+<meta property="og:url" content="https://diduox.github.io/2026/03/15/LayerNorm%E4%B8%8EBatchNorm/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="机器学习，深度学习，精神分析，二次元鉴赏">
+<meta property="og:description" content="我们通过跟BatchNorm来对比去解释一下什么是LayerNorm； 以及说为什么我们在变长（输出长度不同）的应用里面不使用BatchNorm.  我们考虑一个最简单的二维输入情况，即输入是一个矩阵。 每一行是一个样本，每一列是一个特征。 BatchNorm所做的事情，就是把每一个列，即每一个特征，把它存在一个小的mini-batch里面，使它的的均值变成0，方差变成1。（把向量本身的均值减掉，">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315171740037.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315172837881.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315173200832.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315173414632.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315173528680.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315173852808.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315173926896.png">
+<meta property="article:published_time" content="2026-03-15T09:44:44.000Z">
+<meta property="article:modified_time" content="2026-03-15T09:44:42.776Z">
 <meta property="article:author" content="迪多">
+<meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315171740037.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -235,44 +246,128 @@
     <div id="content-body">
        
 
-<div class="archive-main-card">
-    <div class="archive-top">
-      <div class="main-title-bar">
-        <div class="main-title-dot"></div>
-        <h1 class="article-title">归档</h1>
-      </div>    
+
+<article id="post-LayerNorm与BatchNorm" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        LayerNorm与BatchNorm
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-03-15T09:44:44.000Z" itemprop="datePublished">2026-03-15</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            942 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p>我们通过跟BatchNorm来对比去解释一下什么是LayerNorm；</p>
+<p>以及说为什么我们在变长（输出长度不同）的应用里面不使用BatchNorm.</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315171740037.png" style="zoom:50%;" /></p>
+<p>我们考虑一个最简单的二维输入情况，即输入是一个矩阵。</p>
+<p>每一行是一个样本，每一列是一个特征。</p>
+<p>BatchNorm所做的事情，就是把每一个列，即每一个特征，把它存在一个小的mini-batch里面，使它的的均值变成0，方差变成1。（把向量本身的均值减掉，然后在除以它的方差）</p>
+<p>即算的是不同数据里面的统一特征的均值。</p>
+<p>算均值的时候，是在每一个小批量（batch）里面，即在这个向量里面算出其的均值和方差。</p>
+<p>在训练的时候可以做小批量；在预测的时候会把一个全局的均值算出来，在预测的时候使用。</p>
+<p>BatchNorm还会学一个λ，β出来；就是说我们可以把这个向量通过学习放成一个方差为某个值，均值为某个值的东西。</p>
+<hr>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315172837881.png" style="zoom:50%;" /></p>
+<p>LayerNorm做的事情就是对每个样本做了Normalization，而不是对某个特征做。</p>
+<p>BatchNorm是把每一个列的均值变0，方差变1；LayerNorm把每一个行的均值变0，方差变1。</p>
+<hr>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315173200832.png" style="zoom:50%;" /></p>
+<p>在Transformer或者是正常的RNN里面，它的输入是一个三维的东西。</p>
+<p>因为其输入的是一个序列的样本，每个样本里有很多个元素。（相当于一句话里面有很多个单词）</p>
+<p>所以每个词有一个Vector，还有一个Batch的话，就变成了3D的东西。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315173414632.png" style="zoom:50%;" /></p>
+<p>如果我们还是用BatchNorm的话，我们每次是取一个特征，然后把每个样本里所有的元素以及它的整个Batch全部搞出来，把它的均值变成0，方差变成1。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315173528680.png" style="zoom:50%;" /></p>
+<p>如果是LayerNorm的话，就是横着切一下。</p>
+<p>为什么LayerNorm用的比较多：</p>
+<p>在持续的序列模型里面，每个样本的长度可能会发生变化</p>
+<p>在样本长度不同的情况下，BatchNorm的切法：</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315173852808.png" style="zoom:50%;" /></p>
+<p>在样本长度不同的情况下，LayerNorm的切法：</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260315173926896.png" style="zoom:50%;" /></p>
+<p>如果在样本长度变化比较大的时候，每次做小批量运算的时候，算出来的均值方差抖动相对来说比较大。</p>
+<p>还有一种情况，我们记下来全局的均值和方差，但是我们在预测中遇到了一个特别特别长的预测样本，由于在训练中没有见过，之前训练的均值和方差就没有那么好用。</p>
+<p>对LayerNorm来说，其是每个样本自己来算均值和方差，也不需要存一个全局的均值和方差，这样比较稳定。</p>
+
+        
+      </div>
+
+         
     </div>
     
-    
-      
-      
-        
-        <div class="year-line">
-            <div class="year-num">2025</div>
-            <div class="dot-wrapper">
-                <div class="dot"></div>
-            </div>
-            <div class="article-count">1 篇文章</div>
-        </div>
-      
-      <a class="archive-article-link" href="/2025/12/06/%E6%88%91%E6%81%A8%E3%80%8A%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%AF%A6%E8%A7%A3%E3%80%8B/" title="我恨《深度学习详解》">
-        <div class="date">12-06</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    我恨《深度学习详解》
-                
-            </div>
-        </div>
-        <div class="tags">
-            
-        </div>
-      </a>
-    
+     
   </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2026/03/17/%E4%BB%A5BERT%E4%B8%BA%E4%BE%8B%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D%EF%BC%9A%E5%A6%82%E4%BD%95%E6%8A%8A%E8%B6%85%E5%8F%82%E6%95%B0%E6%8D%A2%E7%AE%97%E6%88%90%E5%8F%AF%E5%AD%A6%E4%B9%A0%E5%8F%82%E6%95%B0%E7%9A%84%E5%A4%A7%E5%B0%8F/"
+      title="以BERT为例简要介绍：如何把超参数换算成可学习参数的大小"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        以BERT为例简要介绍：如何把超参数换算成可学习参数的大小
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2025/12/06/%E6%88%91%E6%81%A8%E3%80%8A%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%AF%A6%E8%A7%A3%E3%80%8B/"
+      title="我恨《深度学习详解》"
+     >
+
+    <p class="title-text">
+      
+        我恨《深度学习详解》
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
     </div>
     <div id="footer-wrapper">
       <footer id="footer">
