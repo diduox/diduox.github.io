@@ -27,33 +27,24 @@
   
 
   
-  <title>概述领域自适应（Domain Adaptation） | 超级迪多的博客</title>
+  <title>小岛经济学书摘 | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="假设训练资料和测试资料的分布不一样，应该怎么办呢？ Domain shift: Training and testing data have different distributions. 模型输入资料有变化 一旦训练资料和测试资料中间有一些差异，他们中间的分布是不一样的，在训练资料上训练出来的模型，在测试资料上就有可能会坏掉。 比如输入的资料是黑白的数字，但是要识别的数字却是彩色的。 模型输出">
+  <meta name="description" content="欧文还担心另外一种可能性更大也更危险的选择：政府不作为（其实这也正是政府的选择）。当时的选择是，究竟是面对现实解决问题，还是将问题留给下一代人。当权者选择了将问题留给下一代人，而我们就是那下一代人。  高松灯原来你真的是走资派啊😅，原来凯恩斯把我当日本人整。  努力使有限的资源（每种资源都是有限的）产生最大的效益以尽可能满足人类的需求，这就是经济这一概念最简单的定义。 牢记这一点，我们就很容易">
 <meta property="og:type" content="article">
-<meta property="og:title" content="概述领域自适应（Domain Adaptation）">
-<meta property="og:url" content="https://diduox.github.io/2025/11/07/%E6%A6%82%E8%BF%B0%E9%A2%86%E5%9F%9F%E8%87%AA%E9%80%82%E5%BA%94%EF%BC%88Domain%20Adaptation%EF%BC%89/index.html">
+<meta property="og:title" content="小岛经济学书摘">
+<meta property="og:url" content="https://diduox.github.io/2026/03/18/%E5%B0%8F%E5%B2%9B%E7%BB%8F%E6%B5%8E%E5%AD%A6%E4%B9%A6%E6%91%98/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="假设训练资料和测试资料的分布不一样，应该怎么办呢？ Domain shift: Training and testing data have different distributions. 模型输入资料有变化 一旦训练资料和测试资料中间有一些差异，他们中间的分布是不一样的，在训练资料上训练出来的模型，在测试资料上就有可能会坏掉。 比如输入的资料是黑白的数字，但是要识别的数字却是彩色的。 模型输出">
+<meta property="og:description" content="欧文还担心另外一种可能性更大也更危险的选择：政府不作为（其实这也正是政府的选择）。当时的选择是，究竟是面对现实解决问题，还是将问题留给下一代人。当权者选择了将问题留给下一代人，而我们就是那下一代人。  高松灯原来你真的是走资派啊😅，原来凯恩斯把我当日本人整。  努力使有限的资源（每种资源都是有限的）产生最大的效益以尽可能满足人类的需求，这就是经济这一概念最简单的定义。 牢记这一点，我们就很容易">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107194855714.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107200250253.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107202744446.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107205823816.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107211451409.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107212731720.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107213119386.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107213630475.png">
-<meta property="article:published_time" content="2025-11-07T13:37:37.000Z">
-<meta property="article:modified_time" content="2025-11-07T13:37:45.331Z">
+<meta property="article:published_time" content="2026-03-18T13:39:39.000Z">
+<meta property="article:modified_time" content="2026-03-18T13:39:40.702Z">
 <meta property="article:author" content="迪多">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107194855714.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -247,7 +238,7 @@
        
 
 
-<article id="post-概述领域自适应（Domain Adaptation）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-小岛经济学书摘" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -260,7 +251,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        概述领域自适应（Domain Adaptation）
+        小岛经济学书摘
       </h1>
     
   
@@ -268,106 +259,97 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-11-07T13:37:37.000Z" itemprop="datePublished">2025-11-07</time>
+  <time class="dt-published" datetime="2026-03-18T13:39:39.000Z" itemprop="datePublished">2026-03-18</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+    未分类
   
 </div>
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            3.1k 词 
+            1.7k 词 
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+  <span class="article-tag">no tags</span>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p>假设训练资料和测试资料的分布不一样，应该怎么办呢？</p>
-<p><strong>Domain shift</strong>: Training and testing data have different distributions.</p>
-<p><strong>模型输入资料有变化</strong></p>
-<p>一旦训练资料和测试资料中间有一些差异，他们中间的分布是不一样的，在训练资料上训练出来的模型，在测试资料上就有可能会坏掉。</p>
-<p>比如输入的资料是黑白的数字，但是要识别的数字却是彩色的。</p>
-<p><strong>模型输出分布有变化</strong></p>
-<p>在训练资料上面，每一个数字出现的几率都是一样的，但是在测试资料上面，可能每一个输出的几率是不一样的。</p>
-<p>比如在训练资料里面0-9的数字各有10个，而在测试资料里面0的数字有91个，其余各有1个。</p>
-<p><strong>模型输入输出关系改变</strong></p>
-<p>也许在测试资料里面一个叫”0”的数据，在测试资料里面变为”1”。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107194855714.png" style="zoom:33%;" /></p>
-<p>训练的资料我们说来自<strong>Source Domain</strong>，测试的资料我们说来自<strong>Target Domain</strong>。</p>
-<p><strong>Domain Adaptation</strong></p>
-<p>我们有一堆训练资料，这些资料来源于Source Domain，而且这些训练资料是有标注的。</p>
-<p>但是我们希望再用这些资料，训练出一个模型，这个模型可以用在不一样的Domain上。</p>
-<p>为此，在训练的时候，我们就必须对现在测试资料所在的Target Domain有所了解。</p>
-<ul>
-<li>在Target Domain上有一大堆资料，并且这些资料还有Label。</li>
-</ul>
-<p>不需要做Domain Adaptation，直接拿Target Domain的资料来进行训练即可。</p>
-<ul>
-<li>在Target Domain上有一点资料，并且这些资料还有Label。</li>
-</ul>
-<p>用这些有标注的资料来微调在Source Domain上训练出来的模型。</p>
-<p>但是要小心Overfit，不要在Target Domain的资料上跑太多的Iteration。</p>
-<ul>
-<li>在Target Domain上有一大堆资料，但是这些资料没有Label。</li>
-</ul>
-<p>一个最Basic的Idea是这样的：</p>
-<p>我们想要找一个Feature Extractor(Network)，这个Network吃一张图片作为输入，吐出一个Feature。</p>
-<p>虽然Source Domain和Target Domain的image在表面上看起来不一样，但是Feature Extractor会把他们不一样的地方拿掉，只抽取出它们共同的部分。</p>
-<p>那不管是来自Source Domain的图片，还是来自Target Domain的图片，只要通过这个Feature Extractor之后，它得到的Feature是没有差别的，它们看起来有一样的分布。</p>
-<p>那这样就可以用这些Feature，在Source Domain上训练一个模型，直接用在Target Domain上面。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107200250253.png" style="zoom:33%;" /></p>
-<p><strong>如何找出Feature Extractor？</strong></p>
-<p><strong>Domain Adversarial Training</strong></p>
-<p>我们可以把一个一般的Classifier，分成Feature Extractor和Label Predictor两部分。</p>
-<p>假设Image的Classifier有10层，那我们可以把前五层当作Feature Extractor，后五层当作Label Predictor。</p>
-<p>一个Classifier哪些部分算是Feature Extractor，哪些部分算是Label Predictor，这个是可以自己决定的，就相当于是Hyper-parameter。</p>
-<p>我们期待把Source Domain上有标注的资料丢进去，和训练一般的分类器一样，让其通过Feature Extractor和Label Predictor而产生正确的答案。</p>
-<p>我们把Target Domain上没有标注的图片丢进Image Classifier，然后我们把Feature Extractor的Output拿出来看。</p>
-<p>我们希望Source Domain丢进去的Feature和Target Domain丢进去的Feature，看起来要分不出差异。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107202744446.png" style="zoom:33%;" /></p>
-<p>为此我们要借由<strong>Domain Adversarial Training</strong>的技术。</p>
-<p>我们要训练一个Domain的Classifier，其为一个二元的分类器。</p>
-<p>其把Factor当作输入，要判断这个Factor是来自Source Domain还是Target Domain.</p>
-<p>而Feature Extractor的目标就是要想办法骗过这个Domain Classifier。</p>
-<p>在这个游戏里面，也许对Generator优势太大了，其要骗过Generator完全不需要花什么力气，只要让自己的输出永远为0就好了，这样的话Discriminator就无法分辨这个Factor来自于哪个Domain。</p>
-<p>但其实这件事情是不会发生的，因为Label Predictor也需要这个Feature，让其能够判断输入的图片属于哪个类别。</p>
-<p>假设Label Predictor的参数为$\theta_p$，Domain Classifier的参数叫做$\theta_d$，Feature Extractor的参数叫做$\theta_f$。</p>
-<p>Source Domain上的Image是有Label的，所以我们算它的交叉熵，根据它的交叉熵，我们可以定出一个Loss。</p>
-<p>然后对于Domain Classifier而言，它要想办法去分辨Source Domain和Target Domain的差距，它要做一个二元分类的问题，这个分类的问题有一个Loss叫做$L_d$。</p>
-<p>我们要找一个$\theta_p$ 让Loss越小越好；我们还要找一个$\theta_d$，让$L_d$越小越好。</p>
-<p>而Feature Extractor要做的事情是站在Label Predictor这边，捅Domain Classifier一刀，它要做和Domain Classifier相反的事情（让Factor不能分辨出其原Domain）。</p>
-<p>所以$\theta_f^* = minL - L_d$ 找一组参数$\theta_f$，让$L-L_d$的值越小越好。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107205823816.png" style="zoom:33%;" /></p>
-<p><strong>Limitation</strong></p>
-<p>我们应该让Target data的Factor的分布远离Source data的分界点(Source data有很多不同的种类)。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107211451409.png" style="zoom:33%;" /></p>
-<p>如何让这些方形远离这个分界点呢？</p>
-<p>最简单的做法：</p>
-<p>现在有很多Unlabeled的图片，丢到Feature Extractor再丢到Label Predictor以后，我们不知道其是哪一个类别，但是我们希望其离Boundary越远越好。</p>
-<p>如果今天输出的结果非常的集中，就说明交叉熵小，离Boundary远；如果今天输出的每一个类别都非常的接近，就说明交叉熵大，离Boundary近。</p>
-<p>我们希望把Unlabeled Image丢进Feature Extractor，再丢进Label Predictor输出的结果离Boundary越远越好，也就是说其结果应该集中在某一个类别上。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107212731720.png" style="zoom:33%;" /></p>
-<p><strong>Outlook</strong></p>
-<p>Target Domain是没有Label的，我们根本不知道Target Domain里面有什么样的类别。</p>
-<p>如果Target Domain和Source Domain的类别不同，让Source Domain的Feature和Target Domain的Feature完全Match在一起，本来就是有问题的方法。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107213119386.png" style="zoom:33%;" /></p>
-<p>还有一个比较严峻的状况，当不止没有Label，并且Data还很少(Target Domain只有一张)。</p>
-<p><strong>Testing Time Training。</strong></p>
-<p>还有更严峻的状况，我们对Target Domain一无所知。</p>
-<p>这时候问题就叫做<strong>Domain Generalization</strong>。</p>
-<p>Domain Generalization还分为两种状况。</p>
-<ul>
-<li>训练资料非常丰富，本来就包含了各式各样不同的Domain。</li>
-<li>训练资料只有一个Domain，而测试资料有多个Domain。</li>
-</ul>
-<p>最后放一个我喜欢的表情包。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251107213630475.png" style="zoom:33%;" /></p>
+          <blockquote>
+<p>欧文还担心另外一种可能性更大也更危险的选择：政府不作为（其实这也正是政府的选择）。当时的选择是，究竟是面对现实解决问题，还是将问题留给下一代人。当权者选择了将问题留给下一代人，而我们就是那下一代人。</p>
+</blockquote>
+<p>高松灯原来你真的是走资派啊😅，原来凯恩斯把我当日本人整。</p>
+<blockquote>
+<p>努力使有限的资源（每种资源都是有限的）产生最大的效益以尽可能满足人类的需求，这就是经济这一概念最简单的定义。</p>
+<p>牢记这一点，我们就很容易理解经济增长的原因：找到了生产人类所需物品的更好方式。</p>
+</blockquote>
+<p>满足人民日益增长的美好需求哈哈。</p>
+<blockquote>
+<p>大多数经济学家认为，给老百姓更多的钱花就可以增加需求，但是这种做法并不能改变真正的需求，只会使人们花更多的钱购买已经生产出来的商品。只有增加供给才能切实满足人们更多的需求。</p>
+</blockquote>
+<p>卧槽，这是不是有点太右了。</p>
+<p>也就是说：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>理论</th>
+<th>核心</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>凯恩斯主义</strong></td>
+<td>需求决定经济</td>
+</tr>
+<tr>
+<td><strong>奥地利学派</strong></td>
+<td>供给和资本决定经济</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>消费贷款如果不能提高产能的话，这笔贷款无论是对贷款人还是借款人来说都是一种负担。</p>
+</blockquote>
+<p>不要开花呗懂不懂？</p>
+<blockquote>
+<p>储蓄创造了资本，而资本使生产扩大成为可能，所以储蓄起来的一美元对经济产生的积极影响要大于消费掉的一美元。对于这一点，你不必费力向经济学家或者政治家解释。</p>
+</blockquote>
+<p>你觉得是劝你花钱的人会害你？还是劝你存钱的人会害你？🤔</p>
+<blockquote>
+<p>在贷款方面，他对最可靠的（还款能力最强的）借款人收取最低利率，对风险较高的借款人收取较高的利率作为高风险的补偿。</p>
+<p>贷款利率又决定了银行能支付给储户的利息。存款利率是随存款年限递增的。存款年限越长，造成银行存鱼短缺的风险越低。因此，如果储户愿意长期储蓄，获得的利率也就较高，进行短期储蓄的储户所获利率则较低。</p>
+</blockquote>
+<p>原来如此:slightly_smiling_face:</p>
+<blockquote>
+<p>第一，该机制的前提是：美联储的一小撮人要比数百万独立决断的民众（或者叫“市场”）更清楚什么是恰当的利率水平。但是，美联储跟利率没有任何关系。它既不产生储蓄，也不会因为贷款变成坏账而蒙受损失。积累储蓄的是民众，而且银行能否获利取决于自身的管理水平。如果没有这种关联，借贷必然是低效的。</p>
+<p>第二，美联储的决定总是基于政治考量而非经济因素。因为低利率能够使经济表面上表现更好，降低还款压力，还能帮金融公司赚钱，所以很多人都喜欢低利率。谋求连任的总统往往鼓吹更低的利率，并对美联储施压。对于美联储的决策者来说，他们自然也希望自己被看作拯救经济的好人，而不愿被当作将经济推向低谷的吝啬鬼。</p>
+</blockquote>
+<p>肉食者鄙，未能远谋。看来:red_circle:二代确实比富二代牛逼。</p>
+<blockquote>
+<p>基础设施建设投资会对经济产生巨大的影响。然而，只有在收益大于支出时，这种投资才有效果。反之，这些项目就是在浪费资源并阻碍经济增长。</p>
+<p>目前，很多政治家和经济学家都错误地认为：基础设施建设投资并不是可能带来长期收益的投资，而是增加就业和提振经济的直接手段。</p>
+</blockquote>
+<p>所以说别瞎寄吧修路和盖房求求了，向银行借钱成了一笔烂账最后还要老百姓还。</p>
+<blockquote>
+<p>政治家们成功地让民众相信，唯利是图的私营公司一有机会就会榨取民众的血汗钱。他们用来证明这些论点的证据多半都是从情感上煽动，引起民众的共鸣。其实我们更能确定的是，政府对于公共设施和服务的垄断几乎必然会造成效率低下和贪污腐败。</p>
+<p>如果政府工程入不敷出且服务质量很差，自由市场的原则也无法帮助其走出困境。政府通常会通过提高税收填补漏洞。这样一来，不仅浪费了社会资源，也降低了人们的生活水平。</p>
+</blockquote>
+<p>我勒个哈耶克的大手，吓死我了。</p>
+<blockquote>
+<p>可是美国国内那些制作T恤衫的失业工人怎么办呢？如果他们的雇主不能在生产T恤衫上找到竞争优势，这些工人只能去找别的工作。但是，提供就业岗位并非经济的目的。经济的目的是不断提高生产力。</p>
+<p>保留无效率的劳动力和资本使用方式对整个社会是没有好处的。如果美国在T恤衫生产方面没有竞争优势，那么它就应该找到自己具有优势的行业。</p>
+</blockquote>
+<p>我勒个社达，我勒个时代的阵痛，我勒个工人大下岗，哈耶克你饶了我吧。</p>
+<blockquote>
+<p>他发现人们喜欢免费的东西，同理，人们痛恨纳税。因此，他想出了一个计划：如果他能找到一个方法让岛民们以为他免费给予了他们一些东西，那么他就能够得到无条件的支持。不幸的是，政府所有的一切都来自税款。参议员自己又不捕鱼，他们如果不索取就没法给予。怎么可能给予比索取的多呢？</p>
+</blockquote>
+<p>不要一遍剥削我还一边打着为我好的旗号啊，苦我吃了，名怎么还不是我的？</p>
 
         
       </div>
@@ -380,27 +362,22 @@
   
     
 <nav id="article-nav">
-  <a class="article-nav-btn left "
-    
-      href="/2025/11/12/%E6%A6%82%E8%BF%B0%E5%A2%9E%E5%BC%BA%E5%BC%8F%E5%AD%A6%E4%B9%A0/"
-      title="概述增强式学习"
+  <a class="article-nav-btn left  disabled "
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
-      
-        概述增强式学习
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/11/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7/"
-      title="机器学习的可解释性"
+      href="/2026/03/17/%E4%BB%A5BERT%E4%B8%BA%E4%BE%8B%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D%EF%BC%9A%E5%A6%82%E4%BD%95%E6%8A%8A%E8%B6%85%E5%8F%82%E6%95%B0%E6%8D%A2%E7%AE%97%E6%88%90%E5%8F%AF%E5%AD%A6%E4%B9%A0%E5%8F%82%E6%95%B0%E7%9A%84%E5%A4%A7%E5%B0%8F/"
+      title="以BERT为例简要介绍：如何把超参数换算成可学习参数的大小"
      >
 
     <p class="title-text">
       
-        机器学习的可解释性
+        以BERT为例简要介绍：如何把超参数换算成可学习参数的大小
         
     </p>
     <i class="fa-solid fa-angle-right"></i>
