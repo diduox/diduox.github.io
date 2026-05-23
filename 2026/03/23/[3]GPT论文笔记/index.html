@@ -27,24 +27,28 @@
   
 
   
-  <title>Homework  3 Image Classification | 超级迪多的博客</title>
+  <title>[03]GPT论文笔记 | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="Easy Baseline 44.862 (accuracy, %) 直接运行代码。 Medium Baseline 52.807 (accuracy, %) 对含有标注的数据进行数据增强。 12345678910111213141516train_tfm &#x3D; transforms.Compose([        transforms.Resize((128, 128)),        # 从">
+  <meta name="description" content="Abstract虽然无标签文本语料丰富，但是用与具体任务的有标签语料很少。 用无标签文本预训练模型，之后再使用有标签文本进行微调，效果很好。（这不是就是BERT吗？虽然BERT是后发的论文） 我们这样得出来的模型，比那些专门为任务而设计结构的模型表现得还要好。 ConclusionGPT通过生成式预训练和判别式微调，使与任务无关的模型有了强大能力以及世界知识，并且能处理长距离依赖。 无监督训练很有">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Homework  3 Image Classification">
-<meta property="og:url" content="https://diduox.github.io/2025/10/29/Homework%203%20%20Image%20Classification/index.html">
+<meta property="og:title" content="[03]GPT论文笔记">
+<meta property="og:url" content="https://diduox.github.io/2026/03/23/[3]GPT%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="Easy Baseline 44.862 (accuracy, %) 直接运行代码。 Medium Baseline 52.807 (accuracy, %) 对含有标注的数据进行数据增强。 12345678910111213141516train_tfm &#x3D; transforms.Compose([        transforms.Resize((128, 128)),        # 从">
+<meta property="og:description" content="Abstract虽然无标签文本语料丰富，但是用与具体任务的有标签语料很少。 用无标签文本预训练模型，之后再使用有标签文本进行微调，效果很好。（这不是就是BERT吗？虽然BERT是后发的论文） 我们这样得出来的模型，比那些专门为任务而设计结构的模型表现得还要好。 ConclusionGPT通过生成式预训练和判别式微调，使与任务无关的模型有了强大能力以及世界知识，并且能处理长距离依赖。 无监督训练很有">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-10-29T09:46:46.000Z">
-<meta property="article:modified_time" content="2025-10-29T09:47:13.032Z">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260323165747273.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260323193536240.png">
+<meta property="article:published_time" content="2026-03-23T11:36:36.000Z">
+<meta property="article:modified_time" content="2026-05-23T13:09:52.799Z">
 <meta property="article:author" content="迪多">
 <meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260323165747273.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -238,7 +242,7 @@
        
 
 
-<article id="post-Homework 3  Image Classification" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-[3]GPT论文笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -251,7 +255,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        Homework  3 Image Classification
+        [03]GPT论文笔记
       </h1>
     
   
@@ -259,7 +263,7 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-29T09:46:46.000Z" itemprop="datePublished">2025-10-29</time>
+  <time class="dt-published" datetime="2026-03-23T11:36:36.000Z" itemprop="datePublished">2026-03-23</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
@@ -270,24 +274,61 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            588 词 
+            2.3k 词 
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p><strong>Easy Baseline</strong> 44.862 (accuracy, %)</p>
-<p>直接运行代码。</p>
-<p><strong>Medium Baseline</strong> 52.807 (accuracy, %)</p>
-<p>对含有标注的数据进行数据增强。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">train_tfm = transforms.Compose([</span><br><span class="line">        transforms.Resize((<span class="number">128</span>, <span class="number">128</span>)),</span><br><span class="line">        <span class="comment"># 从原图中随机裁剪一片区域 面积占比(0.8,1.0) 宽高占比(0.9,1.1) 再将其大小变为128*128</span></span><br><span class="line">        transforms.RandomResizedCrop(<span class="number">128</span>, scale=(<span class="number">0.8</span>, <span class="number">1.0</span>), ratio=(<span class="number">0.9</span>, <span class="number">1.1</span>)),</span><br><span class="line">        <span class="comment"># 随机进行水平反转</span></span><br><span class="line">        transforms.RandomHorizontalFlip(p=<span class="number">0.5</span>),  <span class="comment"># 50% 概率水平翻转</span></span><br><span class="line">        <span class="comment"># 颜色变换</span></span><br><span class="line">        transforms.ColorJitter(</span><br><span class="line">            brightness=<span class="number">0.2</span>,  <span class="comment"># 随机改变亮度 ±20%</span></span><br><span class="line">            contrast=<span class="number">0.2</span>,  <span class="comment"># 随机改变对比度 ±20%</span></span><br><span class="line">            saturation=<span class="number">0.2</span>,  <span class="comment"># 随机改变饱和度 ±20%</span></span><br><span class="line">            hue=<span class="number">0.05</span>  <span class="comment"># 随机改变色相 ±0.05</span></span><br><span class="line">        ),</span><br><span class="line">        <span class="comment"># 没有数据集预训练参数 在这里就不加normalize了</span></span><br><span class="line">        transforms.ToTensor(),</span><br><span class="line">    ])</span><br></pre></td></tr></table></figure>
-<p><strong>Hard Baseline</strong> 82.138 (accuracy, %)</p>
-<p>使用没有标注的数据来进行学习。</p>
-<p>提示：半监督学习和自监督学习。</p>
-<p>暂未学习到。</p>
+          <h5 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h5><p>虽然无标签文本语料丰富，但是用与具体任务的有标签语料很少。</p>
+<p>用无标签文本预训练模型，之后再使用有标签文本进行微调，效果很好。（这不是就是BERT吗？虽然BERT是后发的论文）</p>
+<p>我们这样得出来的模型，比那些专门为任务而设计结构的模型表现得还要好。</p>
+<h5 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h5><p>GPT通过生成式预训练和判别式微调，使与任务无关的模型有了强大能力以及世界知识，并且能处理长距离依赖。</p>
+<p>无监督训练很有前途，使用无监督训练实现显著的性能提升是可能的。</p>
+<h5 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h5><p>从原始文本进行学习对于减轻监督学习的依赖至关重要，此外，即使在有充足监督数据的情况下，使用无监督学习也能显著提升性能。（例如自己学习的Embeddings）</p>
+<p>从未标注文本中获得超越词级别的信息有两个挑战：</p>
+<p>1.不知道使用什么任务对模型进行预训练。（BERT中是NSP和填空）</p>
+<p>2.不知道怎么把训练好的模型迁移到下游任务中。</p>
+<p>在GPT中，我们使用半监督方法，先无监督预训练模型，再有监督运用到下游任务上。</p>
+<p>GPT用Transformer架构，因为其能记住并利用很远的信息(自注意力机制)，迁移性能好。</p>
+<p>结果是GPT表现很好，使用零样本(zero-shot)行为可以证明，模型在预训练阶段已经学到了通用的语言知识。</p>
+<h5 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h5><h6 id="Semi-supervised-learning-for-NLP"><a href="#Semi-supervised-learning-for-NLP" class="headerlink" title="Semi-supervised learning for NLP"></a>Semi-supervised learning for NLP</h6><p>最早的无监督学习是用未标注数据的统计信息作为特征(词频，n-gram，PMI)，之后发展到使用Embeddings，但是其只能捕捉word-level的信息。</p>
+<p>近期的方法已经开始探索句子级和短语级的Embeddings了。</p>
+<h6 id="Unsupervised-pre-training"><a href="#Unsupervised-pre-training" class="headerlink" title="Unsupervised pre-training"></a>Unsupervised pre-training</h6><p>研究表明，预训练可以作为一种正则化手段，从而提升深度神经网络的泛化能力。</p>
+<p>在GPT之前，也有使用语言模型先进行预训练的，然后在任务上进行有监督的微调；但是其使用是LSTM，预测能力较短，并且需要为不同的目标引入大量新的参数。</p>
+<h6 id="Auxiliary-training-objectives"><a href="#Auxiliary-training-objectives" class="headerlink" title="Auxiliary training objectives"></a>Auxiliary training objectives</h6><p>添加辅助的无监督训练目标是半监督学习的另一种方式。早期方法通常通过多任务学习或在主任务中引入辅助目标（如词性标注、分块、命名实体识别或语言模型）来提升性能。</p>
+<p>虽然GPT把预训练阶段的语言模型目标也看作一种”辅助目标”，但是无监督预训练本身已足够强大。</p>
+<h5 id="Framework"><a href="#Framework" class="headerlink" title="Framework"></a>Framework</h5><h6 id="Unsupervised-pre-training-1"><a href="#Unsupervised-pre-training-1" class="headerlink" title="Unsupervised pre-training"></a>Unsupervised pre-training</h6><p>使用的目标函数是预测下一个Token的条件概率，参数为$\theta$，使用SGD进行训练。</p>
+<p>使用Transformer的Decoder作为语言模型。</p>
+<h6 id="Supervised-fine-tuning"><a href="#Supervised-fine-tuning" class="headerlink" title="Supervised fine-tuning"></a>Supervised fine-tuning</h6><p>进行完预训练之后，我们将模型参数适配到有监督的目标任务上。</p>
+<p>输入为Token序列${x_1,x_2,x_3}$，输出为$y$，传入预训练模型之后，得到Transformer的激活表示$h_l^m$，将其在输入到一个新的线性输出层，再进行SoftMax用来预测$y$。</p>
+<p>此外，在微调过程中将语言模型作为一个辅助目标，有助于训练：(1)提升泛化能力(2)加快收敛速度。（即在进行微调时，一起做预训练所作的下文预测）</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260323165747273.png" style="zoom:50%;" /></p>
+<h6 id="Task-specific-input-transformations"><a href="#Task-specific-input-transformations" class="headerlink" title="Task-specific input transformations"></a>Task-specific input transformations</h6><p>对于文本分类这种任务，可以直接进行微调。</p>
+<p>但是有些任务（问答，文本蕴含）的输入是结构化的，因为我们预训练在连续的文本序列，所以我们要对其的输入进行改造。</p>
+<p>GPT使用遍历式方法（traversal-style），将结构化输入转换为模型可以处理的有序token序列。避免对模型架构进行大量修改。</p>
+<p>对于上图的<strong>Similarity</strong>任务，将输入序列包含两种句子顺序，并分别处理，最后在逐元素相加，输出到线性层里。</p>
+<p>对于<strong>Multiple Choice</strong>任务，我们将相同的上下文和每一个候选答案拼接起来。</p>
+<h5 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h5><h6 id="Setup"><a href="#Setup" class="headerlink" title="Setup"></a>Setup</h6><p>使用 BooksCorpus 数据集进行预训练，因为其包含大量连续的长文本，使得生成式模型能学习基于长距离信息进行建模，并且效果很好。</p>
+<p>还有能用数据集是 1B Word Benchmark，但是其在句子层面打乱了顺序，破坏了长距离结构。（这是GPT拷打ELMo用的数据集不够好）</p>
+<p>GPT的模型基本遵循<strong>原始的Transformer</strong>，使用<strong>Adam</strong>优化算法，学习率先从0线性增长，然后使用余弦退火策略逐渐衰减至0。</p>
+<p>使用<strong>LayerNorm</strong>，所以只需要简单的权重初始化；使用<strong>BPE</strong>(bytepair encoding)词表，使用0.1的<strong>Dropout</strong>进行正则化。</p>
+<p>使用改进版的<strong>L2正则化</strong>方法，对非偏置项和非偏执参数施加衰减系数$w$=0.01。（除了β和LayerNorm里面以外的$w$）。</p>
+<p>使用<strong>GLUE</strong>激活函数，使用<strong>可学习的位置Embeddings</strong>，而不是Transformer的正弦函数编码。</p>
+<p>对于数据预处理，使用ftfy库进行数据清洗，对文本和标点进行标准化处理，使用spaCy分词器进行分词。</p>
+<p>在微调时，除了某些特殊的超参数，都使用预训练时的配置。</p>
+<h6 id="Supervised-fine-tuning-1"><a href="#Supervised-fine-tuning-1" class="headerlink" title="Supervised fine-tuning"></a>Supervised fine-tuning</h6><p>我还以为会讲什么怎么进行有监督训练微调，结果都是说我们的GPT模型比别人要厉害。</p>
+<h5 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h5><p>无监督预训练迁移到有监督目标任务的层数越多，性能越好。</p>
+<p>这表明预训练模型的每一层都包含对解决目标任务有用的功能。</p>
+<p>对于与预训练的Transformer为什么如此有效，有两个假设：</p>
+<p>1.底层的生成模型在为了提升自己语言建模能力，执行了我们用于评估的许多任务。</p>
+<p>2.相比于LSTM，Transformer的更有结构的注意力记忆更有利于迁移。</p>
+<p>Transformer的归纳偏置有利于知识迁移。</p>
+<p>接下来是消融实验：</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260323193536240.png" style="zoom:50%;" /></p>
 
         
       </div>
@@ -302,25 +343,25 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2025/10/30/%E7%94%9F%E6%88%90%E5%BC%8F%E5%AF%B9%E6%8A%97%E7%BD%91%E7%BB%9C(GAN)/"
-      title="生成式对抗网络(GAN)"
+      href="/2026/05/13/%5BModern%20Agent%5D%2002%20langchainlanggraph%20%E5%9C%A8%E5%AE%9E%E7%8E%B0%20ReAct%20%E7%9A%84%E5%B7%AE%E5%BC%82%EF%BC%8Clangsmith%20%E7%9B%91%E6%8E%A7%E7%9A%84%E5%B0%8F%20tips/"
+      title="[Modern Agent] 02 langchainlanggraph 在实现 ReAct 的差异，langsmith 监控的小 tips"
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
       
-        生成式对抗网络(GAN)
+        [Modern Agent] 02 langchainlanggraph 在实现 ReAct 的差异，langsmith 监控的小 tips
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/10/27/Batch%20Normalization/"
-      title="Batch Normalization（批次标准化）"
+      href="/2026/03/19/%5B02%5DBERT%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"
+      title="[02]BERT论文笔记"
      >
 
     <p class="title-text">
       
-        Batch Normalization（批次标准化）
+        [02]BERT论文笔记
         
     </p>
     <i class="fa-solid fa-angle-right"></i>

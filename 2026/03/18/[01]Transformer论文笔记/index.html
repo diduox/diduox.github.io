@@ -27,24 +27,32 @@
   
 
   
-  <title>Homework  3 Image Classification | 超级迪多的博客</title>
+  <title>[01]Transformer论文笔记 | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="Easy Baseline 44.862 (accuracy, %) 直接运行代码。 Medium Baseline 52.807 (accuracy, %) 对含有标注的数据进行数据增强。 12345678910111213141516train_tfm &#x3D; transforms.Compose([        transforms.Resize((128, 128)),        # 从">
+  <meta name="description" content="Abstract从摘要来看，encoder和decoder也不是Transformer原创的，早在CNN和RNN里面就有涉猎了。 Attention也是早就有的东西了，只是Tranformer这篇论文证明了，只要Attention机制，模型就能跑的很好，同时我们只使用Attention模块，还是计算更加平行，同时显著的缩短了训练时间。 同时摘要还提到，无论训练数据大，还是小，我们模型的泛化能力都不">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Homework  3 Image Classification">
-<meta property="og:url" content="https://diduox.github.io/2025/10/29/Homework%203%20%20Image%20Classification/index.html">
+<meta property="og:title" content="[01]Transformer论文笔记">
+<meta property="og:url" content="https://diduox.github.io/2026/03/18/[01]Transformer%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="Easy Baseline 44.862 (accuracy, %) 直接运行代码。 Medium Baseline 52.807 (accuracy, %) 对含有标注的数据进行数据增强。 12345678910111213141516train_tfm &#x3D; transforms.Compose([        transforms.Resize((128, 128)),        # 从">
+<meta property="og:description" content="Abstract从摘要来看，encoder和decoder也不是Transformer原创的，早在CNN和RNN里面就有涉猎了。 Attention也是早就有的东西了，只是Tranformer这篇论文证明了，只要Attention机制，模型就能跑的很好，同时我们只使用Attention模块，还是计算更加平行，同时显著的缩短了训练时间。 同时摘要还提到，无论训练数据大，还是小，我们模型的泛化能力都不">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-10-29T09:46:46.000Z">
-<meta property="article:modified_time" content="2025-10-29T09:47:13.032Z">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260324141017998.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260317194726920.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260317203545113.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260317203833148.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260317204029661.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260324142028480.png">
+<meta property="article:published_time" content="2026-03-18T07:55:55.000Z">
+<meta property="article:modified_time" content="2026-05-23T13:09:42.639Z">
 <meta property="article:author" content="迪多">
 <meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260324141017998.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -238,7 +246,7 @@
        
 
 
-<article id="post-Homework 3  Image Classification" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-[01]Transformer论文笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -251,7 +259,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        Homework  3 Image Classification
+        [01]Transformer论文笔记
       </h1>
     
   
@@ -259,7 +267,7 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-29T09:46:46.000Z" itemprop="datePublished">2025-10-29</time>
+  <time class="dt-published" datetime="2026-03-18T07:55:55.000Z" itemprop="datePublished">2026-03-18</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
@@ -270,24 +278,96 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            588 词 
+            3k 词 
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p><strong>Easy Baseline</strong> 44.862 (accuracy, %)</p>
-<p>直接运行代码。</p>
-<p><strong>Medium Baseline</strong> 52.807 (accuracy, %)</p>
-<p>对含有标注的数据进行数据增强。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">train_tfm = transforms.Compose([</span><br><span class="line">        transforms.Resize((<span class="number">128</span>, <span class="number">128</span>)),</span><br><span class="line">        <span class="comment"># 从原图中随机裁剪一片区域 面积占比(0.8,1.0) 宽高占比(0.9,1.1) 再将其大小变为128*128</span></span><br><span class="line">        transforms.RandomResizedCrop(<span class="number">128</span>, scale=(<span class="number">0.8</span>, <span class="number">1.0</span>), ratio=(<span class="number">0.9</span>, <span class="number">1.1</span>)),</span><br><span class="line">        <span class="comment"># 随机进行水平反转</span></span><br><span class="line">        transforms.RandomHorizontalFlip(p=<span class="number">0.5</span>),  <span class="comment"># 50% 概率水平翻转</span></span><br><span class="line">        <span class="comment"># 颜色变换</span></span><br><span class="line">        transforms.ColorJitter(</span><br><span class="line">            brightness=<span class="number">0.2</span>,  <span class="comment"># 随机改变亮度 ±20%</span></span><br><span class="line">            contrast=<span class="number">0.2</span>,  <span class="comment"># 随机改变对比度 ±20%</span></span><br><span class="line">            saturation=<span class="number">0.2</span>,  <span class="comment"># 随机改变饱和度 ±20%</span></span><br><span class="line">            hue=<span class="number">0.05</span>  <span class="comment"># 随机改变色相 ±0.05</span></span><br><span class="line">        ),</span><br><span class="line">        <span class="comment"># 没有数据集预训练参数 在这里就不加normalize了</span></span><br><span class="line">        transforms.ToTensor(),</span><br><span class="line">    ])</span><br></pre></td></tr></table></figure>
-<p><strong>Hard Baseline</strong> 82.138 (accuracy, %)</p>
-<p>使用没有标注的数据来进行学习。</p>
-<p>提示：半监督学习和自监督学习。</p>
-<p>暂未学习到。</p>
+          <h5 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h5><p>从摘要来看，encoder和decoder也不是Transformer原创的，早在CNN和RNN里面就有涉猎了。</p>
+<p>Attention也是早就有的东西了，只是Tranformer这篇论文证明了，只要Attention机制，模型就能跑的很好，同时我们只使用Attention模块，还是计算更加平行，同时显著的缩短了训练时间。</p>
+<p>同时摘要还提到，无论训练数据大，还是小，我们模型的泛化能力都不错。</p>
+<p><strong>Conclusion</strong></p>
+<p>就是说，我们的模型吊打在两个翻译任务上吊打之前的所有模型；</p>
+<p>我们未来有两个目标：一是把Transformer运用到不同的模态中。比如说音频和图像；二是说减少生成过程中的顺序性。</p>
+<h5 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h5><p>RNN，LSTM，GRN一直都很厉害。</p>
+<p>由于这些模型本身的限制，顺序计算成为了性能的约束。(即使我们已经做了很多优化)</p>
+<p>注意力机制可以使输入输出没有内建位置偏置(只知道词与词相不相关，不知道位置信息)，可以平行化。但是之前的研究中，注意力机制都和循环网络绑在一起了。</p>
+<p>所以我们提出了只要Attention的Transformer，平行化，算的快，而且效果好。</p>
+<h5 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h5><p>也有一些用卷积实现的，不顺序计算的模型；但是它们的输入输出之间的计算受到位置的影响，导致很难学到两个遥远位置的依赖关系，并且复杂度是线性增长。</p>
+<p>使用Transformer的注意力机制，token之间的路径长度始终为常数。虽然注意力机制降低分辨率，但是多头注意力机制可以弥补。</p>
+<p>在端到端的神经网络中，使用注意力机制的循环神经网络比不适用注意力机制的循环神经网络表现要好。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260324141017998.png" style="zoom:50%;" /></p>
+<h5 id="Model-Architecture"><a href="#Model-Architecture" class="headerlink" title="Model Architecture"></a>Model Architecture</h5><p>encoder将输入序列的符号表示$x$变成连续表示$z$，decoder用$z$生成输出序列$y$。</p>
+<p>模型是自回归的，即输出作为下一步的输入。</p>
+<p><del>我又要放一张已经被所有地球人看烂的Transformer架构图了。</del></p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260317194726920.png" style="zoom:33%;" /></p>
+<h6 id="Encoder-and-Decoder-Stacks"><a href="#Encoder-and-Decoder-Stacks" class="headerlink" title="Encoder and Decoder Stacks"></a>Encoder and Decoder Stacks</h6><p>一个编码器由N=6个相同的层组成，每个层包含两个子层。</p>
+<p>第一个层是多头注意力机制，第二个头是全连接神经网络。</p>
+<p>子层之间使用残差连接，然后进行<strong>Layer Normailzation</strong>（层归一化）。</p>
+<p>所有输出维度都是$d_{model} = 512$。</p>
+<p>解码器和编码器大体相同，但是有第三个子层。</p>
+<p>同时输入的embedding向量会向右偏移一个位置。</p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>解码器先输入起始符预测第一个词，然后把第一个词作为输入，预测第二个词。</p>
+</blockquote>
+<p>第一个子层使用掩码多头注意力机制，保证$i$的预测只依赖比$i$小的编号。</p>
+<h6 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h6><p>Q，K，V，没什么好讲的。</p>
+<h6 id="Scaled-Dot-Product-Attention"><a href="#Scaled-Dot-Product-Attention" class="headerlink" title="Scaled Dot-Product Attention"></a>Scaled Dot-Product Attention</h6><p>$Attention(Q,K,V)=softmax(\frac{QK^T}{\sqrt{d_k}})V$</p>
+<p>Scaled 指要将得到的向量除以$\sqrt{d_k}$，因为当$d_k$较大的时候，点积的数值会变得很大，使softmax函数处于梯度极小的区域（十分接近one-hot）。</p>
+<p>Dot-Product指点积注意力。</p>
+<p>有两种注意力，点积注意力和加性注意力，点积更快，更节省空间，因为其可以使用优化后的矩阵乘法来实现。</p>
+<h6 id="Multi-Head-Attention"><a href="#Multi-Head-Attention" class="headerlink" title="Multi-Head Attention"></a>Multi-Head Attention</h6><p>将原来的Q,K,V 做 $h$ 个不同的线性投影，映射到维度$d_q,d_k,d_v$；然后并行执行注意力函数，得到$d_v$维的输出向量，将其进行拼接，<strong>再进行</strong>一次线性投影得到最终的输出值，这就是多头注意力。</p>
+<p>多头注意力可得到不同特征的信息（类比于识别不同特征的卷积核）。</p>
+<h6 id="Applications-of-Attention-in-our-Model"><a href="#Applications-of-Attention-in-our-Model" class="headerlink" title="Applications of Attention in our Model"></a>Applications of Attention in our Model</h6><p>在encoder-decoder联合的Attention层中：</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260317203545113.png" style="zoom:33%;" /></p>
+<p>Q(绿色)来自上一层的解码器输出，K和V来自编码器的输出。</p>
+<p>这是为了使decoder的每个位置都有输入序列中的信息，模拟序列到序列。</p>
+<p>在encoder的Attention层中：</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260317203833148.png" style="zoom:33%;" /></p>
+<p>Q,K,V都来自encoder上一层的输出， 每一层都是对上一层表示的变换（residual + attention + FFN)。</p>
+<p>在decoder的Attention层中：</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260317204029661.png" style="zoom:33%;" /></p>
+<p>Q,K,V都来自decoder上一层的输出，decoder可以有上一层的信息。</p>
+<p>同时使用掩码(Mask)防止前面看到后面的信息，即在softmax之前，将后面的值设为$-∞$。</p>
+<h6 id="Position-wise-Feed-Forward-Networks"><a href="#Position-wise-Feed-Forward-Networks" class="headerlink" title="Position-wise Feed-Forward Networks"></a>Position-wise Feed-Forward Networks</h6><p>还有一个全连接神经网络(两层)，中间使用ReLU激活函数。</p>
+<p>$FFN(x)=max(0,xW_1+b_1)W_2+b_2$</p>
+<p>输入和输出的维度为 512，隐藏层（中间层）维度为 2048。</p>
+<h6 id="Embeddings-and-Softmax"><a href="#Embeddings-and-Softmax" class="headerlink" title="Embeddings and Softmax"></a>Embeddings and Softmax</h6><p>我们将token转为vector的embedding矩阵是学出来的。</p>
+<p>对于encoder，decoder的embedding矩阵和softmax的线性变换矩阵，这些矩阵共享参数。</p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>encoder和decoder的矩阵是将token变为vector，而softmax的矩阵是将概率的vector变为token，即之前矩阵的转置，所有它们可以共享参数。</p>
+</blockquote>
+<p>我们为了train的稳定，要将embedding矩阵乘以$\sqrt{d_k}$，据说是为了保持词向量的方差，使其适应后续层的训练。</p>
+<h6 id="Positional-Encoding"><a href="#Positional-Encoding" class="headerlink" title="Positional Encoding"></a>Positional Encoding</h6><p>因为模型没有循环和卷积，所以我们需要给token注入位置相关的信息。</p>
+<p>在encoder和decoder的底部加入位置编码，这个编码可以学习，也可以固定（性能几乎一样）。</p>
+<p>Transformer使用的是不同频率的正弦和余弦函数，直接和vector相加即可。</p>
+<p>这种函数形式有两个好处：易于学习相对位置，可扩展。</p>
+<h5 id="Why-Self-Attention"><a href="#Why-Self-Attention" class="headerlink" title="Why Self-Attention"></a>Why Self-Attention</h5><p>和RNN,CNN比，使用自注意力机制的三个好处。</p>
+<p>1.每一层的计算复杂度低，2.可并行化的计算量多，3.在长序列中表现好。</p>
+<p>在自注意力层中，token之间的最长距离是$O(1)$，所以当序列长度$n$&lt;维度$d$的时候，自注意力层比循环层更快。</p>
+<p>为了提升在超长序列的计算性能，可以只看token附近大小为$r$的邻域，使最长距离变为$O(n/r)$，还有待研究。</p>
+<p>自注意力有个额外优势：可解释性更强(详见附录插图)。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260324142028480.png" style="zoom:50%;" /></p>
+<h5 id="Training"><a href="#Training" class="headerlink" title="Training"></a>Training</h5><p>句子使用BPE(byte-pair encoding)编码，即把词拆成子词，防止词典过大。</p>
+<p>在训练时使用Adam优化器，并使用公式动态调整学习率。</p>
+<p>在热身的时候学习率线性增长(前面找快点)，热身结束后，按照步数的平方根倒数衰减。</p>
+<p>用了三种正则化方式：</p>
+<p>1.Dropout，在每个子层都用了，并且在进入encoder和decoder之前的位置编码之后，也用了一次。</p>
+<p>2.Label Smoothing，不将标签视为绝对的one-hot向量，而是平滑一下。</p>
+<p>3.论文没提，<del>可能是Weight Decay</del> ChatGPT告诉我，如果论文没有提，就不要猜。</p>
+<h5 id="Results"><a href="#Results" class="headerlink" title="Results"></a>Results</h5><p>效果比别的模型好，成本比别的模型低。</p>
+<h4 id="Core-Contributions"><a href="#Core-Contributions" class="headerlink" title="Core Contributions"></a>Core Contributions</h4><ol>
+<li>完全基于 Attention，去除 RNN/CNN</li>
+<li>提出 Multi-Head Attention</li>
+<li>提出 Positional Encoding</li>
+<li>显著提升并行计算能力</li>
+</ol>
 
         
       </div>
@@ -302,25 +382,25 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2025/10/30/%E7%94%9F%E6%88%90%E5%BC%8F%E5%AF%B9%E6%8A%97%E7%BD%91%E7%BB%9C(GAN)/"
-      title="生成式对抗网络(GAN)"
+      href="/2026/03/18/%E5%B0%8F%E5%B2%9B%E7%BB%8F%E6%B5%8E%E5%AD%A6%E4%B9%A6%E6%91%98/"
+      title="小岛经济学书摘"
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
       
-        生成式对抗网络(GAN)
+        小岛经济学书摘
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/10/27/Batch%20Normalization/"
-      title="Batch Normalization（批次标准化）"
+      href="/2026/03/17/%E4%BB%A5BERT%E4%B8%BA%E4%BE%8B%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D%EF%BC%9A%E5%A6%82%E4%BD%95%E6%8A%8A%E8%B6%85%E5%8F%82%E6%95%B0%E6%8D%A2%E7%AE%97%E6%88%90%E5%8F%AF%E5%AD%A6%E4%B9%A0%E5%8F%82%E6%95%B0%E7%9A%84%E5%A4%A7%E5%B0%8F/"
+      title="以BERT为例简要介绍：如何把超参数换算成可学习参数的大小"
      >
 
     <p class="title-text">
       
-        Batch Normalization（批次标准化）
+        以BERT为例简要介绍：如何把超参数换算成可学习参数的大小
         
     </p>
     <i class="fa-solid fa-angle-right"></i>

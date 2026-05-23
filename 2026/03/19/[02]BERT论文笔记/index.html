@@ -27,24 +27,31 @@
   
 
   
-  <title>Homework  3 Image Classification | 超级迪多的博客</title>
+  <title>[02]BERT论文笔记 | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="Easy Baseline 44.862 (accuracy, %) 直接运行代码。 Medium Baseline 52.807 (accuracy, %) 对含有标注的数据进行数据增强。 12345678910111213141516train_tfm &#x3D; transforms.Compose([        transforms.Resize((128, 128)),        # 从">
+  <meta name="description" content="AbstractBERT，Bidirectional Encoder Representations from Transformers（来自Transformer的双向编码器表示）。 所有层考虑上下文(Transformer只考虑前面)，使用未标注文本(自监督训练)。 预训练之后只需要添加一个输出层就能微调到适合多个任务。 BERT概念简单，实证有用，吊打所有模型。 Conclusion丰富的无">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Homework  3 Image Classification">
-<meta property="og:url" content="https://diduox.github.io/2025/10/29/Homework%203%20%20Image%20Classification/index.html">
+<meta property="og:title" content="[02]BERT论文笔记">
+<meta property="og:url" content="https://diduox.github.io/2026/03/19/[02]BERT%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="Easy Baseline 44.862 (accuracy, %) 直接运行代码。 Medium Baseline 52.807 (accuracy, %) 对含有标注的数据进行数据增强。 12345678910111213141516train_tfm &#x3D; transforms.Compose([        transforms.Resize((128, 128)),        # 从">
+<meta property="og:description" content="AbstractBERT，Bidirectional Encoder Representations from Transformers（来自Transformer的双向编码器表示）。 所有层考虑上下文(Transformer只考虑前面)，使用未标注文本(自监督训练)。 预训练之后只需要添加一个输出层就能微调到适合多个任务。 BERT概念简单，实证有用，吊打所有模型。 Conclusion丰富的无">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-10-29T09:46:46.000Z">
-<meta property="article:modified_time" content="2025-10-29T09:47:13.032Z">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260318202701397.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260318205723971.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260319102145459.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260319103208377.png">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260319104357172.png">
+<meta property="article:published_time" content="2026-03-19T02:45:45.000Z">
+<meta property="article:modified_time" content="2026-05-23T13:09:33.855Z">
 <meta property="article:author" content="迪多">
 <meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260318202701397.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -238,7 +245,7 @@
        
 
 
-<article id="post-Homework 3  Image Classification" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-[02]BERT论文笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -251,7 +258,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        Homework  3 Image Classification
+        [02]BERT论文笔记
       </h1>
     
   
@@ -259,7 +266,7 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-29T09:46:46.000Z" itemprop="datePublished">2025-10-29</time>
+  <time class="dt-published" datetime="2026-03-19T02:45:45.000Z" itemprop="datePublished">2026-03-19</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
@@ -270,24 +277,79 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            588 词 
+            2.3k 词 
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p><strong>Easy Baseline</strong> 44.862 (accuracy, %)</p>
-<p>直接运行代码。</p>
-<p><strong>Medium Baseline</strong> 52.807 (accuracy, %)</p>
-<p>对含有标注的数据进行数据增强。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">train_tfm = transforms.Compose([</span><br><span class="line">        transforms.Resize((<span class="number">128</span>, <span class="number">128</span>)),</span><br><span class="line">        <span class="comment"># 从原图中随机裁剪一片区域 面积占比(0.8,1.0) 宽高占比(0.9,1.1) 再将其大小变为128*128</span></span><br><span class="line">        transforms.RandomResizedCrop(<span class="number">128</span>, scale=(<span class="number">0.8</span>, <span class="number">1.0</span>), ratio=(<span class="number">0.9</span>, <span class="number">1.1</span>)),</span><br><span class="line">        <span class="comment"># 随机进行水平反转</span></span><br><span class="line">        transforms.RandomHorizontalFlip(p=<span class="number">0.5</span>),  <span class="comment"># 50% 概率水平翻转</span></span><br><span class="line">        <span class="comment"># 颜色变换</span></span><br><span class="line">        transforms.ColorJitter(</span><br><span class="line">            brightness=<span class="number">0.2</span>,  <span class="comment"># 随机改变亮度 ±20%</span></span><br><span class="line">            contrast=<span class="number">0.2</span>,  <span class="comment"># 随机改变对比度 ±20%</span></span><br><span class="line">            saturation=<span class="number">0.2</span>,  <span class="comment"># 随机改变饱和度 ±20%</span></span><br><span class="line">            hue=<span class="number">0.05</span>  <span class="comment"># 随机改变色相 ±0.05</span></span><br><span class="line">        ),</span><br><span class="line">        <span class="comment"># 没有数据集预训练参数 在这里就不加normalize了</span></span><br><span class="line">        transforms.ToTensor(),</span><br><span class="line">    ])</span><br></pre></td></tr></table></figure>
-<p><strong>Hard Baseline</strong> 82.138 (accuracy, %)</p>
-<p>使用没有标注的数据来进行学习。</p>
-<p>提示：半监督学习和自监督学习。</p>
-<p>暂未学习到。</p>
+          <h5 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h5><p>BERT，Bidirectional Encoder Representations from Transformers（来自Transformer的双向编码器表示）。</p>
+<p>所有层考虑上下文(Transformer只考虑前面)，使用未标注文本(自监督训练)。</p>
+<p>预训练之后只需要添加一个输出层就能微调到适合多个任务。</p>
+<p>BERT概念简单，实证有用，吊打所有模型。</p>
+<h5 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h5><p>丰富的无监督预训练是语言理解系统必不可少的。</p>
+<p>BERT的贡献是把上述结论从单向框架推广到多向框架，并且这样的预训练模型在NLP任务上有很强的泛用性。</p>
+<h5 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h5><p>预训练在NLP任务上很有用。</p>
+<p>将预训练用在下游任务有两种方法:<strong>feature-based</strong>和<strong>fine-tuning</strong>。</p>
+<p><strong>feature-based</strong>是ELMo在用，<strong>fine-tuning</strong>是GPT在用；但是它们的预训练都是单向(unidirectional)语言模型。</p>
+<p>单向的语言模型限制了预训练的能力，这种限制对句子级(sentence-level)任务不好，对使用微调的词元级(token-level)任务有很大危害，因为token-level任务要考虑上下文信息。</p>
+<p>BERT改善了基于微调的方法，使用掩码语言模型<strong>MLM</strong>(Masked Language Model)和下一句预测（Next Sentence Prediction）两个任务进行预训练。</p>
+<h5 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h5><h6 id="1-Unsupervised-Feature-based-Approaches"><a href="#1-Unsupervised-Feature-based-Approaches" class="headerlink" title="1 Unsupervised Feature-based Approaches"></a>1 Unsupervised Feature-based Approaches</h6><p>预训练的词嵌入(embeddings)很重要,相比从零开始学习嵌入效果更好。</p>
+<p>ELMo及其前辈对词嵌入做了推广，也使用左右方向的拼接，但其是基于特征(Feature-based)的，而不是基于深度双向的。</p>
+<h6 id="2-Unsupervised-Fine-tuning-Approaches"><a href="#2-Unsupervised-Fine-tuning-Approaches" class="headerlink" title="2 Unsupervised Fine-tuning Approaches"></a>2 Unsupervised Fine-tuning Approaches</h6><p>从未标注文本中训练词嵌入参数，并在有监督的下游任务进行微调，仅需少量参数就可从零学习。</p>
+<h6 id="3-Transfer-Learning-from-Supervised-Data"><a href="#3-Transfer-Learning-from-Supervised-Data" class="headerlink" title="3 Transfer Learning from Supervised Data"></a>3 Transfer Learning from Supervised Data</h6><p>对有监督的大数据任务进行迁移学习。</p>
+<h5 id="BERT"><a href="#BERT" class="headerlink" title="BERT"></a>BERT</h5><p>BERT的使用有两个步骤<strong>pre-training</strong> and <strong>fine-tuning</strong>。</p>
+<p>对每个具体任务使用不同的<strong>Label Data</strong>进行 <strong>fine-tuning</strong>，生成不同的模型。</p>
+<p>BERT的特点：预训练架构和下游任务架构之间的区别特别小。</p>
+<p>对于句子对而言，其会被打包到同一序列中，并通过两种方式区分句子。</p>
+<p>1.使用特殊token<strong>[SEP]</strong>将两个句子分开。</p>
+<p>2.添加一个学习的embedding到每一个token，来表示其属于哪一个句子。</p>
+<p><strong>input = segment embeddings + position embeddings + position embeddings</strong></p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260318202701397.png" style="zoom: 50%;" /></p>
+<h6 id="Pre-training-BERT"><a href="#Pre-training-BERT" class="headerlink" title="Pre-training BERT"></a>Pre-training BERT</h6><p>用了两个任务来pre-train <strong>BERT</strong>。</p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>这两个任务是同时进行的</p>
+<p>在一条输入中，<strong>MLM 和 NSP 同时训练</strong>，共享同一个 Transformer 编码器参数。</p>
+</blockquote>
+<p>任务一：MLM（Masked LM）</p>
+<p>即随机Mask输入中一定比例的Token，然后预测这些被Mask的Token。</p>
+<p>但是其存在一个问题：预训练和微调之间不一致，因为在微调阶段不会出现[Mask]标记。</p>
+<p>所以我们有三种替换方式：80%用[Mask]标记替换，10%用一个随机词替换，10%保持该词不变。</p>
+<p>任务二：NSP（Next Sentence Prediction）</p>
+<p>对二分类的下一句预测任务进行预训练，选用句子A和句子B。</p>
+<p>50% 的情况下，B 是紧跟在 A 后的真实句子;50% 的情况下，B 是语料库中随机选择的一句句子</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260318205723971.png" style="zoom: 50%;" /></p>
+<p>如图所示，[CLS]对应的向量C就是对应NSP任务。</p>
+<p>预训练语料用了<strong>BooksCorpus</strong>和<strong>English Wikipedia</strong>。</p>
+<h6 id="Fine-tuning-BERT"><a href="#Fine-tuning-BERT" class="headerlink" title="Fine-tuning BERT"></a>Fine-tuning BERT</h6><p>微调非常简单，只需要将任务特定的输入和输出插入BERT，并对所有参数进行端到端的微调即可。</p>
+<p>预训练的句子A和句子B举例：</p>
+<ul>
+<li>同义转换任务中的句子对</li>
+<li>推理任务中的假设-前提对</li>
+<li>问答任务中的问题-段落对</li>
+<li>文本分类或序列标注中的单句-空对</li>
+</ul>
+<p>Token表示处理词级任务，[CLS]处理分类任务。</p>
+<p>并且微调非常省资源。</p>
+<h5 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h5><p>简单来说就是BERT在很多任务上表现都很棒，并且写了一些实现在具体任务时的训练参数。</p>
+<h5 id="Ablation-Studies（消融实验）"><a href="#Ablation-Studies（消融实验）" class="headerlink" title="Ablation Studies（消融实验）"></a>Ablation Studies（消融实验）</h5><p>消融实验时深度学习和机器学习用的方法，用来<strong>研究模型中各个组件对整体性能的贡献。</strong></p>
+<h6 id="1-Effect-of-Pre-training-Tasks"><a href="#1-Effect-of-Pre-training-Tasks" class="headerlink" title="1 Effect of Pre-training Tasks"></a>1 Effect of Pre-training Tasks</h6><p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260319102145459.png" style="zoom:50%;" /></p>
+<p>总体含义就是BERT比NO NSP 和 LTR + NO NSP表现要好，即使加上一个随机初始化的BiLSTM也是如此。</p>
+<p>就是表明双向深度很重要，MLM和NSP任务很重要。</p>
+<h6 id="2-Effect-of-Model-Size"><a href="#2-Effect-of-Model-Size" class="headerlink" title="2 Effect of Model Size"></a>2 Effect of Model Size</h6><p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260319103208377.png" style="zoom: 50%;" /></p>
+<p>更大的模型带来了稳定的准确率提升，即使是现在最大的模型(TransformerLARGE)，使其变得更大(BERTLARGE)性能也会提升。</p>
+<p>并且如果较大模型经过了充足的预训练，其在<strong>小规模的任务</strong>上也会带来显著提升。</p>
+<h6 id="3-Feature-based-Approach-with-BERT"><a href="#3-Feature-based-Approach-with-BERT" class="headerlink" title="3 Feature-based Approach with BERT"></a>3 Feature-based Approach with BERT</h6><p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260319104357172.png" style="zoom:50%;" /></p>
+<p>BERT其实有两种用法：<strong>fine-tuning(微调)</strong>和<strong>feature-based(特征方法)</strong></p>
+<p>微调就是把整个BERT拿过来，然后接一个分类层，再一起训练。</p>
+<p>特征方法就是BERT不动，只用其输出的向量，之后再接一个新模型。</p>
+<p>因为有些任务不适合Transformer结构，而且为了省算力，所以采用特征方法。</p>
+<p>结论是微调最好，特征稍逊一点点。</p>
+<p>BERT 不仅可以“整体训练”（fine-tune），也可以“当特征提取器用”，而且效果依然很好。</p>
 
         
       </div>
@@ -302,25 +364,25 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2025/10/30/%E7%94%9F%E6%88%90%E5%BC%8F%E5%AF%B9%E6%8A%97%E7%BD%91%E7%BB%9C(GAN)/"
-      title="生成式对抗网络(GAN)"
+      href="/2026/03/23/%5B3%5DGPT%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"
+      title="[03]GPT论文笔记"
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
       
-        生成式对抗网络(GAN)
+        [03]GPT论文笔记
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/10/27/Batch%20Normalization/"
-      title="Batch Normalization（批次标准化）"
+      href="/2026/03/18/%E5%B0%8F%E5%B2%9B%E7%BB%8F%E6%B5%8E%E5%AD%A6%E4%B9%A6%E6%91%98/"
+      title="小岛经济学书摘"
      >
 
     <p class="title-text">
       
-        Batch Normalization（批次标准化）
+        小岛经济学书摘
         
     </p>
     <i class="fa-solid fa-angle-right"></i>
