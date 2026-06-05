@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<!-- 数学公式渲染（KaTeX 自动识别 $...$ 和 $$...$$） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\[', right: '\\]', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });"></script>
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>留档[1]对于中文新词检测方法的疑问与看法 | 超级迪多的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="[!NOTE] 本文章仅用于留档，请移步A Chinese New Word Detection Approach Based on Independence Testing  1.这个2018年的论文，以下简称论文，是研究新词检测的，因为其影响着分词、信息检索和自动翻译的能力。有什么证据证明一个好的新词检测可以影响着后面吗？比如说一个做什么分词或者自动翻译的项目，换了更好的新词检测表现更好了？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="留档[1]对于中文新词检测方法的疑问与看法">
+<meta property="og:url" content="https://diduox.github.io/2026/06/04/%E5%AF%B9%E4%BA%8E%E4%B8%AD%E6%96%87%E6%96%B0%E8%AF%8D%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95%E7%9A%84%E7%96%91%E9%97%AE%E4%B8%8E%E7%9C%8B%E6%B3%95/index.html">
+<meta property="og:site_name" content="超级迪多的博客">
+<meta property="og:description" content="[!NOTE] 本文章仅用于留档，请移步A Chinese New Word Detection Approach Based on Independence Testing  1.这个2018年的论文，以下简称论文，是研究新词检测的，因为其影响着分词、信息检索和自动翻译的能力。有什么证据证明一个好的新词检测可以影响着后面吗？比如说一个做什么分词或者自动翻译的项目，换了更好的新词检测表现更好了？">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-04T11:42:42.000Z">
+<meta property="article:modified_time" content="2026-06-04T11:43:59.385Z">
+<meta property="article:author" content="迪多">
+<meta property="article:tag" content="NLP">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>超级迪多的博客 </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+      <a id="nav-rss-link" class="nav-icon mobile-hide" href="/atom.xml" title="RSS 订阅">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M198-120q-25.846 0-44.23-18.384-18.384-18.385-18.384-44.23 0-25.846 18.384-44.23 18.384-18.385 44.23-18.385 25.846 0 44.23 18.385 18.384 18.384 18.384 44.23 0 25.845-18.384 44.23Q223.846-120 198-120Zm538.385 0q-18.846 0-32.923-13.769-14.076-13.769-15.922-33.23-8.692-100.616-51.077-188.654-42.385-88.039-109.885-155.539-67.5-67.501-155.539-109.885Q283-663.462 182.385-672.154q-19.461-1.846-33.23-16.23-13.769-14.385-13.769-33.846t14.076-32.922q14.077-13.461 32.923-12.23 120.076 8.692 226.038 58.768 105.961 50.077 185.73 129.846 79.769 79.769 129.846 185.731 50.077 105.961 58.769 226.038 1.231 18.846-12.538 32.922Q756.461-120 736.385-120Zm-252 0q-18.231 0-32.423-13.461t-18.653-33.538Q418.155-264.23 348.886-333.5q-69.27-69.27-166.501-84.423-20.077-4.462-33.538-18.961-13.461-14.5-13.461-33.346 0-19.076 13.884-33.23 13.884-14.153 33.115-10.922 136.769 15.384 234.384 112.999 97.615 97.615 112.999 234.384 3.231 19.23-10.538 33.115Q505.461-120 484.385-120Z"/></svg>
+      </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">Home</a>
+    
+      <a class="nav-dropdown-link" href="/archives">Archives</a>
+    
+      <a class="nav-dropdown-link" href="/about">About</a>
+    
+    
+      <a class="nav-dropdown-link" href="/atom.xml" title="RSS 订阅">RSS</a>
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+        <image src=/images/avatar.jpg></image>
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">迪多 </div>
+      <div class="dot"></div>
+      <div class="subtitle">枝江月亮，将我照亮；<br>枝江太阳，暖我心房。 </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://twitter.com" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://store.steampowered.com" title="Steam"><i class="fa-brands fa-steam"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">最新文章</h3>
+      <ul>
+        
+          <a class="recent-link" href="/2026/06/04/%E5%AF%B9%E4%BA%8E%E4%B8%AD%E6%96%87%E6%96%B0%E8%AF%8D%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95%E7%9A%84%E7%96%91%E9%97%AE%E4%B8%8E%E7%9C%8B%E6%B3%95/" title="留档[1]对于中文新词检测方法的疑问与看法" >
+            <div class="recent-link-text">
+              留档[1]对于中文新词检测方法的疑问与看法
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/06/04/A%20Chinese%20New%20Word%20Detection%20Approach%20Based%20on%20Independence%20Testing/" title="A Chinese New Word Detection Approach Based on Independence Testing"" >
+            <div class="recent-link-text">
+              A Chinese New Word Detection Approach Based on Independence Testing&#34;
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/06/01/Build%20A%20Minimal%20Agent%20Loop/" title="Stage1 Build A Minimal Agent Loop" >
+            <div class="recent-link-text">
+              Stage1 Build A Minimal Agent Loop
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/05/30/Stage%200%20Understand%20What%20An%20Agent%20Is/" title="Stage0 Understand What An Agent Is" >
+            <div class="recent-link-text">
+              Stage0 Understand What An Agent Is
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/05/13/%5BModern%20Agent%5D%2002%20langchainlanggraph%20%E5%9C%A8%E5%AE%9E%E7%8E%B0%20ReAct%20%E7%9A%84%E5%B7%AE%E5%BC%82%EF%BC%8Clangsmith%20%E7%9B%91%E6%8E%A7%E7%9A%84%E5%B0%8F%20tips/" title="[Modern Agent] 02 langchainlanggraph 在实现 ReAct 的差异，langsmith 监控的小 tips" >
+            <div class="recent-link-text">
+              [Modern Agent] 02 langchainlanggraph 在实现 ReAct 的差异，langsmith 监控的小 tips
+            </div>
+          </a>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                学习笔记
+                <div class="category-count">29</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+                个人博客
+                <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E6%89%B9%E5%88%A4/">
+                论文批判
+                <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%95%99%E6%A1%A3/">
+                留档
+                <div class="category-count">1</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Agent/" rel="tag">Agent</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NLP/" rel="tag">NLP</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/agent/" rel="tag">agent</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-对于中文新词检测方法的疑问与看法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        留档[1]对于中文新词检测方法的疑问与看法
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-06-04T11:42:42.000Z" itemprop="datePublished">2026-06-04</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    <a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>><a class="meta-cate-link" href="/categories/%E7%95%99%E6%A1%A3/">留档</a>><a class="meta-cate-link" href="/categories/%E8%AE%BA%E6%96%87%E6%89%B9%E5%88%A4/">论文批判</a>
+  
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            16k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NLP/" rel="tag">NLP</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <blockquote>
+<p>[!NOTE]</p>
+<p>本文章仅用于留档，请移步A Chinese New Word Detection Approach Based on Independence Testing</p>
+</blockquote>
+<p><strong>1.这个2018年的论文，以下简称论文，是研究新词检测的，因为其影响着分词、信息检索和自动翻译的能力。有什么证据证明一个好的新词检测可以影响着后面吗？</strong><br><strong>比如说一个做什么分词或者自动翻译的项目，换了更好的新词检测表现更好了？</strong></p>
+<p>新词确实和分词器的错误占比很大，可以算一个baseline分词器的召回率，F1-score</p>
+<p>在机器翻译中，可以用BLEU来证明其作用。</p>
+<p>所以说确实可以证明新词检验的研究必要性。</p>
+<p><strong>2.什么是基于独立性检验的检测方法？什么是假设检验？</strong></p>
+<p>假设检验是统计学中用来判断“一个猜想是否成立”的决策工具。</p>
+<p>假设检验的标准流程通常包含以下四个步骤：</p>
+<ul>
+<li><strong>建立两个对立的假设</strong>：<ul>
+<li><strong>原假设（Null Hypothesis, $H_0$）</strong>：通常代表“没有效应”、“没有差异”或“纯属巧合”。（比如：这枚硬币是均匀的）。</li>
+<li><strong>备择假设（Alternative Hypothesis, $H_1$）</strong>：你真正想要证明的结论。（比如：这枚硬币不均匀）。</li>
+</ul>
+</li>
+<li><strong>收集数据并计算“统计量”</strong>：让实验数据说话。如果投掷硬币 100 次，结果正面朝上了 90 次。</li>
+<li><strong>计算概率（P值）与临界值</strong>：计算在原假设（硬币均匀）成立的前提下，出现“90次正面”这种极端情况的概率有多大。</li>
+<li><strong>做出决策</strong>：如果这个概率低到令人发指（通常低于 $5\%$ 或 $0.5\%$），我们就认为原假设在“小概率事件在一次试验中几乎不可能发生”的原则下破产了。此时，我们<strong>拒绝原假设</strong>，接受备择假设。</li>
+</ul>
+<p><strong>独立性检验</strong>是假设检验的一种具体形式（通常使用卡方检验 $\chi^2$），专门用来判断<strong>两个变量之间是“各自独立”还是“相互关联”</strong>。</p>
+<ul>
+<li>如果两个字经常凑在一起，<strong>纯粹是因为它们各自出现的频率都很高</strong>（比如“的”和“人”凑成“的人”），那它们就是<strong>独立的</strong>，不构成新词。</li>
+<li>如果两个字凑在一起的频次，<strong>远远超过了它们按概率随机碰撞的可能</strong>（比如“特”和“朗”凑成“特朗”），那它们之间就存在强烈的<strong>相关性</strong>（非独立），极有可能是一个词的一部分 。</li>
+</ul>
+<h3 id="论文中的数学落地"><a href="#论文中的数学落地" class="headerlink" title="论文中的数学落地"></a>论文中的数学落地</h3><p>为了让计算机执行这个直觉，论文引入了 $2\times2$ 列联表（Contingency Table） ：  </p>
+<p>对于任意两个相邻的字（单元）$u$ 和 $v$，统计以下四种情况的频次 ：  </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>v 紧跟在后面</strong></th>
+<th><strong>不是 v 紧跟在后面</strong></th>
+<th><strong>行总计</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>$u$ 在前面</strong></td>
+<td>$a$ （$uv$ 实际出现频次）</td>
+<td>$b$ （$u\tilde{v}$ 频次）</td>
+<td>$a+b$</td>
+</tr>
+<tr>
+<td><strong>不是 $u$ 在前面</strong></td>
+<td>$c$ （$\tilde{u}v$ 频次）</td>
+<td>$d$ （$\tilde{u}\tilde{v}$ 频次）</td>
+<td>$c+d$</td>
+</tr>
+<tr>
+<td><strong>列总计</strong></td>
+<td>$a+c$</td>
+<td>$b+d$</td>
+<td><strong>$n$ (总对数)</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>基于这个表格，基于独立性检验的检测方法展开如下：</p>
+<ol>
+<li><p><strong>设立原假设 $H_0$</strong>：在文本中，$u$ 在前面和 $v$ 在后面是<strong>完全独立的</strong>（纯属巧合） 。  </p>
+</li>
+<li><p><strong>计算理论期望值</strong>：如果它们完全独立，那么 $uv$ 理论上应该出现的频次应该是：$\text{期望频次} = n \times (\frac{a+b}{n}) \times (\frac{a+c}{n})$ 。  </p>
+</li>
+<li><p><strong>计算卡方统计量 $Q^2$</strong>：论文通过公式（2）把实际频次和理论期望值的差距算成一个得分 $Q^2$ ：  </p>
+<script type="math/tex; mode=display">Q^2 = \frac{n(ad-bc)^2}{(a+b)(c+d)(a+c)(b+d)}</script></li>
+<li><p><strong>查表决策</strong>：如果算出来的 $Q^2$ 很大，超过了卡方分布的临界值（论文中设定的显著性水平是 $0.5\%$） ，就意味着<strong>强烈拒绝独立性假设</strong> 。  </p>
+</li>
+<li><p><strong>贪心合并</strong>：算法会挑出全文本中 $Q^2$ 最大的那一对字，认为它们“最不独立”，从而把它们强制合并成一个新词（语义单元） 。  </p>
+</li>
+</ol>
+<p><strong>3.这篇文章到底是在搞分词还是在搞新词检测啊？因为未登录词会影响中文分词准确率，所以要用新词检测方法。但是一个好的新词检测方法到底是以什么影响着分词呢？ 为什么分词需要新词检测方法呢？ 即使分词分的不好，在模型中的学习不会弥补这一点吗？</strong></p>
+<p>大语言模型中Tokenizer的好坏依然很重要。所以还是有研究价值的。这个其实是在用无监督分词来做新词检测。</p>
+<p><strong>4.大家平常做信息检索、自动翻译、词性标注和文本语义分析也是要用新词检测的吗？</strong></p>
+<p>是的，但好像自注意力机制已经把这种新词检测碾死了。我们学到的自注意力就已经学到了这个新词的内部关联关系。</p>
+<p><strong>5.什么叫中文词汇识别不存在形态学规则？</strong></p>
+<p>就是没有词性变化和词缀。</p>
+<p><strong>6.文中提到“新词的统计特征可以通过以下三个标准来描述：一个新词的出现与其相邻汉字（或词汇）的出现是相互独立的。”这是作者自己设立的标准吗？但是，比如一个名词，前面就很可能有”的”,这不就是没有独立性吗？</strong></p>
+<p>是的，这是作者为了简化数学建模，自己（或沿袭前人统计学模型）所设立的一种高度理想化的“统计假设标准”。</p>
+<p>在自然语言处理中，为了用数学公式（比如卡方检验）去处理复杂的语言，研究者通常必须做一些<strong>强行简化</strong>。</p>
+<p><strong>设置极高的拒绝阈值</strong>：让卡方检验的筛选条件极其苛刻，只有当“特”和“朗”这种几乎 100% 同生共死的字对出现时才合并，从而把“的+名词”这种虽然有相关性、但相关性没有到顶的搭配刷掉。</p>
+<p>作者知道有这个问题<strong>隐式依赖停用词表（打脸了“无需先验知识”的声明）</strong>：在工业界实现类似算法时，通常必须提前把“的”、“了”、“在”等虚词过滤掉，否则算出来的全是垃圾词。如果作者也这么做了，那就违反了他在摘要里宣称的“No need of prior information（完全不需要先验知识）”。</p>
+<p>7.原文有这样的描述”在本文中，一个代表相对完整含义的中文字符串被称为<strong>语义单元</strong>（<em>semantic unit</em>）。在没有额外信息的情况下，所有的汉字都是语义单元。对于给定的文本，两个相邻语义单元组成的字符串被称为<strong>语义对</strong>（<em>semantic pair</em>）。在一个语义对中，前一个语义单元被称为该语义对的<strong>前置单元</strong>（<em>pre-unit</em>），后一个语义单元被称为该语义对的<strong>后置单元</strong>（<em>post-unit</em>）。”到底在最初的情况下，一个语义单元到底是char还是string?</p>
+<p>在最初的情况下，一个语义单元<strong>既是 char（单字），也是形式上的 string（长度为 1 的字符串）</strong></p>
+<p>8.原文有以下描述”</p>
+<p>对于给定的文本 $T$，令所有语义对的数量为 $n$，并且所有这些语义对构成假设检验的一个样本。对于一个语义单元 $u$，以 $u$ 作为前置单元的所有语义对的数量记为 $n<em>{u+}$。那么，在 $T$ 中 $u$ 作为一个语义对的前置单元的概率可以通过 $p</em>{u+} = n<em>{u+}/n$ 来估计。类似地，$n</em>{+u}$ 表示以 $u$ 作为后置单元的所有语义对的数量，而 $p_{+u}$ 是相关的概率。那么，对于任意语义单元 $u$ 和 $v$，独立性假设可以表述如下：</p>
+<p>$H_0$：对于 $T$ 中的任意语义对，$u$ 作为其前置单元的事件与 $v$ 作为其后置单元的事件是相互独立的。</p>
+<p>基于该假设，语义对 $uv$ 在 $T$ 中的频次 $n<em>{u,v}$ 可以通过 $np</em>{u+}p<em>{+v}$ 来估计。类似地，如果我们用 $\tilde{u}$ 来表示除 $u$ 之外的任意语义单元，那么 $n</em>{\tilde{u},v}$ 可以通过 $np<em>{\tilde{u}+}p</em>{+v}$ 来估计，其中 $p<em>{u+} + p</em>{\tilde{u}+} = 1$。”</p>
+<p>那么所有 语义对 都是不重叠的吗？ 所有的语义单元在这里一定属于一个 语义对 吗？</p>
+<p>最初始的语义对是怎么分的？</p>
+<p><strong>答：不是。在统计和构建样本空间时，语义对是以“滑动窗口（Sliding Window）”的方式生成的，它们之间存在深度的交叉和重叠。</strong></p>
+<p>论文在统计“所有语义对（semantic pairs）”时，是从头到尾按<strong>步长为 1</strong> 滑动切分的。因此，这篇文本包含的语义对依次为：</p>
+<ol>
+<li><code>(人, 工)</code></li>
+<li><code>(工, 智)</code></li>
+<li><code>(智, 能)</code></li>
+</ol>
+<p>在文本中间的语义单元，必然属于至少一个（通常是两个）语义对；</p>
+<p>9.原文有以下描述”根据图片 <code>image_4de2ca.png</code> 的内容，以下是该段落和公式的翻译：</p>
+<p>通过上述分析，可以构建统计量 $Q_{u,v}^2$ 来表征与 $u$ 和 $v$ 相关的语义对的总频次误差。</p>
+<script type="math/tex; mode=display">Q_{u,v}^2 = \frac{(n_{u,v} - n p_{u+} p_{+v})^2}{n p_{u+} p_{+v}} + \frac{(n_{u,\tilde{v}} - n p_{u+} p_{+\tilde{v}})^2}{n p_{u+} p_{+\tilde{v}}} + \frac{(n_{\tilde{u},v} - n p_{\tilde{u}+} p_{+v})^2}{n p_{\tilde{u}+} p_{+v}} + \frac{(n_{\tilde{u},\tilde{v}} - n p_{\tilde{u}+} p_{+\tilde{v}})^2}{n p_{\tilde{u}+} p_{+\tilde{v}}} \quad (1)</script><p>如果我们假设公式 (1) 中表示实际频次与相关估计频次之间差异 sectional/每个误差均符合正态分布，那么 $Q<em>{u,v}^2$ 符合自由度为 1 的卡方分布，即 $Q</em>{u,v}^2 \sim \chi(1)^2$。”</p>
+<p>统计量$Q<em>{u,v}^2$是怎么莫名其妙的来的？ 为什么假设实际频次与相关估计频次之间差异 sectional/每个误差均符合正态分布？ 为什么要假设？ 为什么不假设是别的分布呢？ 怎么验证这个假设是正确的呢？原文” 那么 $Q</em>{u,v}^2$ 符合自由度为 1 的卡方分布，即 $Q_{u,v}^2 \sim \chi(1)^2$。”什么是卡方分布？什么是自由度？如果其符合自由度为1卡方分布，会有什么性质呢？</p>
+<p>$Q_{u,v}^2$ 是统计学中的皮尔逊卡方检验统计量，其底层思想是：实际发生的频次，和理论上应该发生的频次，他们的总差距有多大。</p>
+<p>在统计学中，这种“差距”通常用以下通用公式来定义：</p>
+<script type="math/tex; mode=display">Q^2 = \sum \frac{(\text{实际观测频次} - \text{理论期望频次})^2}{\text{理论期望频次}}</script><p>我们对照论文里的公式（1），它其实是一个 $2\times2$ 列联表中四个格子的<strong>误差平方和</strong>：</p>
+<ol>
+<li>第一项：$u$ 后面是 $v$ 的误差。实际频次是 $n<em>{u,v}$，独立性假设下的理论期望频次是 $n p</em>{u+} p_{+v}$。</li>
+<li>第二项：$u$ 后面<strong>不是</strong> $v$（即 $\tilde{v}$）的误差。</li>
+<li>第三项：<strong>不是</strong> $u$（即 $\tilde{u}$）后面是 $v$ 的误差。</li>
+<li>第四项：既不是 $u$ 也不是 $v$（即 $\tilde{u},\tilde{v}$）的误差。</li>
+</ol>
+<p><strong>为什么分子要平方？</strong> 因为误差有正有负，如果不平方直接相加，正负误差会互相抵消。</p>
+<p><strong>为什么分母要除以理论期望频次？</strong> 这是为了“标准化归一（Scaling）”。举个例子，实际比理论多了 5 次。如果理论本该出现 10 次，多 5 次就是天大的异常（误差显著）；如果理论本该出现 10000 次，多 5 次完全是随机波动（误差不显著）。所以必须除以期望频次来消除量纲影响。</p>
+<h4 id="1-为什么要假设？（因为现实世界没办法直接穷尽）"><a href="#1-为什么要假设？（因为现实世界没办法直接穷尽）" class="headerlink" title="1. 为什么要假设？（因为现实世界没办法直接穷尽）"></a>1. 为什么要假设？（因为现实世界没办法直接穷尽）</h4><p>在统计学里，“假设”是为了构建一个<strong>理想的参照物（基准线）</strong>。</p>
+<h4 id="2-为什么是正态分布？（中心极限定理的强权）"><a href="#2-为什么是正态分布？（中心极限定理的强权）" class="headerlink" title="2. 为什么是正态分布？（中心极限定理的强权）"></a>2. 为什么是正态分布？（中心极限定理的强权）</h4><p>不假设别的分布，是因为<strong>中心极限定理（Central Limit Theorem, CLT）</strong>。</p>
+<p>论文处理的是频次。频次的本质是文本中无数次“语义对配对”实验的<strong>累加和</strong>。</p>
+<p>中心极限定理告诉我们：<strong>不管原始变量是什么分布，只要样本量（文本长度 $n$）足够大，大量独立随机变量相加之后的和（或误差），其概率分布都会无限趋近于正态分布。</strong></p>
+<h4 id="3-怎么验证这个假设是正确的呢？"><a href="#3-怎么验证这个假设是正确的呢？" class="headerlink" title="3. 怎么验证这个假设是正确的呢？"></a>3. 怎么验证这个假设是正确的呢？</h4><p>在统计学中，验证一组数据是否符合正态分布有标准的方法：</p>
+<ul>
+<li><strong>偏度与峰度检验（Skewness and Kurtosis Test）</strong></li>
+<li><strong>夏皮洛-威尔克检验（Shapiro-Wilk test）</strong></li>
+<li><strong>Q-Q图（Quantile-Quantile Plot）</strong>：看实际误差数据点的分布是否在一条直线上。</li>
+</ul>
+<p><strong>但是，批判性地来看：在真实的自然语言文本中，这个假设其实是“不完全正确”的！</strong> 正如我们在前几轮讨论中指出，语言具有“长尾效应”（齐普夫定律 Zipf’s Law），有大量低频词。对于那些只出现 1、2 次的词，其样本量根本没有达到中心极限定理要求的“足够大”，它们的误差分布是严重偏斜的（更接近泊松分布或负二项分布）。作者在这里强行认为“每个误差均符合正态分布”，是<strong>粗暴地忽略了低频长尾字串的统计特性</strong>。</p>
+<h4 id="1-什么是卡方分布（-chi-2-Distribution）？"><a href="#1-什么是卡方分布（-chi-2-Distribution）？" class="headerlink" title="1. 什么是卡方分布（$\chi^2$ Distribution）？"></a>1. 什么是卡方分布（$\chi^2$ Distribution）？</h4><p>假设有几个<strong>彼此独立</strong>的随机变量 $Z_1, Z_2, \dots, Z_k$，它们每一个都完美符合<strong>标准正态分布</strong>（均值为0，方差为1）。</p>
+<p>现在，我们把它们的平方加在一起，构成一个全新的随机变量：</p>
+<script type="math/tex; mode=display">Y = Z_1^2 + Z_2^2 + \dots + Z_k^2</script><p>这个新变量 $Y$ 所服从的概率分布，就叫做<strong>卡方分布</strong>。</p>
+<h4 id="2-什么是自由度（Degrees-of-Freedom-df-）？"><a href="#2-什么是自由度（Degrees-of-Freedom-df-）？" class="headerlink" title="2. 什么是自由度（Degrees of Freedom, $df$）？"></a>2. 什么是自由度（Degrees of Freedom, $df$）？</h4><p>自由度简而言之就是：<strong>在这个求和公式中，有多少个平方项是真正独立、可以自由变化的？</strong></p>
+<p>回到论文的 $2\times2$ 列联表，它一共包含 4 个格子（对应公式1中的4个加项）。听起来好像自由度应该是 4？</p>
+<p><strong>并不是。</strong> 因为这个矩阵受到以下<strong>硬性约束</strong>：</p>
+<ul>
+<li>4个格子的频次相加，必须等于总样本数 $n$（行总计、列总计是固定的）。</li>
+<li>只要你确定了其中 1 个格子的数值（比如 $n<em>{u,v}$），在行列总计不变的前提下，另外 3 个格子的数值就会被<strong>瞬间强制锁死</strong>（例如，右上角的格子只能是 $\text{行总计} - n</em>{u,v}$）。</li>
+</ul>
+<p>因为 4 个格子中只有 1 个格子可以自由变化，其余 3 个都是傀儡，所以<strong>它的自由度只能是 1</strong>，即 $Q_{u,v}^2 \sim \chi^2(1)$。</p>
+<h3 id="四、-符合自由度为-1-的卡方分布，有什么性质？"><a href="#四、-符合自由度为-1-的卡方分布，有什么性质？" class="headerlink" title="四、 符合自由度为 1 的卡方分布，有什么性质？"></a>四、 符合自由度为 1 的卡方分布，有什么性质？</h3><p>当一个统计量符合自由度为 1 的卡方分布时，它拥有几个对于“新词识别”至关重要的数学性质：</p>
+<ol>
+<li><p><strong>数值非负性</strong>：因为它是平方和，所以 $Q^2$ 的值永远 $\ge 0$。$Q^2$ 越接近 0，说明实际频次和独立性理论值越吻合（字与字越独立）；$Q^2$ 越大，说明越反常。</p>
+</li>
+<li><p><strong>极度不对称（右偏）</strong>：$\chi^2(1)$ 的概率密度曲线在接近 0 的地方非常高，然后向右急速下坠。这意味着，如果两个字是独立的（原假设成立），算出来的 $Q^2$ 绝大概率都缩在 0 附近。</p>
+</li>
+<li><p><strong>确定的拒绝边界（P值数学解）</strong>：</p>
+<p>这是最关键的性质。因为 $\chi^2(1)$ 的数学曲线是完全固定的，数学家早就把它的积分表（卡方临界值表）算好了。</p>
+<ul>
+<li>如果设定显著性水平为 $\alpha = 0.05$（即误判概率控制在 5% 以内），查表可知临界值是 <strong>3.84</strong>。</li>
+<li>如果设定显著性水平为 $\alpha = 0.005$（即论文中为了严格筛选设定的 0.5%），查表可知临界值是 <strong>7.88</strong>。</li>
+</ul>
+</li>
+</ol>
+<h4 id="这对论文算法有什么用？"><a href="#这对论文算法有什么用？" class="headerlink" title="这对论文算法有什么用？"></a>这对论文算法有什么用？</h4><p>这意味着作者在写 Algorithm 1 时，获得了一个完美的<strong>物理硬闸门</strong>：</p>
+<p>程序在计算任意两个相邻语义单元的 $Q_{u,v}^2$ 时，只要算出来的得分<strong>大于 7.88</strong>，算法就可以在数学上以 99.5% 的把握宣布：“这两个字绝对不是随机碰在一起的！原假设破产！它们之间有极强的语义粘性，合并它们！”</p>
+<p>10.原文“因此，为了表明该相关性确实是由 $u$ 和 $v$ 的共现所决定的，仍需要证明 $n<em>{u,v} \ge \delta n p</em>{u+} p_{+v}$，其中系数 $\delta$ 显著大于 1。”是什么意思？</p>
+<p>这句描述其实揭示了卡方独立性检验（$\chi^2$ Test）在应用到文本处理（如新词发现）时的一个<strong>致命数学漏洞</strong>，以及作者为了堵住这个漏洞而精心设计的“防线”。</p>
+<p>如果我们保持批判性思维去拆解它，这句话背后的逻辑非常精妙。</p>
+<h3 id="1-核心问题：卡方值大，不一定是因为“经常同时出现”"><a href="#1-核心问题：卡方值大，不一定是因为“经常同时出现”" class="headerlink" title="1. 核心问题：卡方值大，不一定是因为“经常同时出现”"></a>1. 核心问题：卡方值大，不一定是因为“经常同时出现”</h3><p>我们在前一轮讨论中提到，卡方统计量 $Q_{u,v}^2$ 的分子是一个平方项：</p>
+<script type="math/tex; mode=display">(n_{u,v} - n p_{u+} p_{+v})^2</script><p>在数学上，无论实际频次 $n<em>{u,v}$ 远远<strong>大于</strong>期望频次，还是远远<strong>小于</strong>期望频次，**只要它们的差值绝对值足够大，平方之后算出来的 $Q</em>{u,v}^2$ 都会是一个极大的正数。**</p>
+<p>这就会导致两种截然相反的“拒绝独立性”的情况：</p>
+<ul>
+<li><strong>情况 A（正向相关）</strong>：$u$ 和 $v$ 实际凑在一起的次数 $n_{u,v}$ <strong>远大于</strong> 理论期望值。<ul>
+<li><em>语言学含义</em>：它们之间有强烈的语义吸引力（如“特”和“朗”），这正是我们<strong>想要找的新词</strong>。</li>
+</ul>
+</li>
+<li><strong>情况 B（负向相关 / 互斥）</strong>：$u$ 和 $v$ 实际凑在一起的次数 $n_{u,v}$ <strong>远小于</strong> 理论期望值，甚至接近于 0。<ul>
+<li><em>语言学含义</em>：这两个字在汉语中极其互斥，一山不容二虎，几乎从来不一起出现（例如“的”后面极少紧跟“了”，即“的气了”）。它们在统计学上也强烈地“不独立”。</li>
+</ul>
+</li>
+</ul>
+<p><strong>危险发生了：</strong></p>
+<p>如果你单纯只看 $Q_{u,v}^2 \ge 7.88$ 就去合并字串，算法不仅会把高度正相关的“特朗普”合并起来，还会把高度负相关（互斥）的“的了”也误认为是新词合并起来！因为在卡方分布的眼里，<strong>“爱得死去活来”和“恨得老死不相往来”，算出来的得分都是一样的。</strong></p>
+<h3 id="2-作者的防线：加入方向性约束"><a href="#2-作者的防线：加入方向性约束" class="headerlink" title="2. 作者的防线：加入方向性约束"></a>2. 作者的防线：加入方向性约束</h3><p>为了强行滤掉“情况 B（负相关）”，只留下“情况 A（正相关）”，作者必须在卡方检验的基础上补上一道物理闸门。</p>
+<p>这就是原文那句话的真正含义：</p>
+<blockquote>
+<p>“为了表明该相关性确实是由 $u$ 和 $v$ 的共现（同时出现）所决定的，仍需要证明 $n<em>{u,v} \ge \delta n p</em>{u+} p_{+v}$”</p>
+</blockquote>
+<ul>
+<li><strong>$n_{u,v}$</strong>：是实际观测到的共现频次。</li>
+<li><strong>$n p<em>{u+} p</em>{+v}$</strong>：是假设它们完全独立时的理论期望频次。</li>
+<li><strong>$\delta$（显著大于 1 的系数）</strong>：比如设定 $\delta = 1.5$ 或者是动态的值。</li>
+</ul>
+<p>这句话翻译成大白话就是：</p>
+<p><strong>“算出了高分（$Q^2$ 很大）还不够，我们还必须人工检查一遍：这两个字实际凑在一起的次数（$n_{u,v}$），必须比它们纯靠运气随机碰撞的次数（期望值）还要多出好几倍（$\delta$ 倍）才行！”</strong></p>
+<p>通过这个不等式约束，算法就把那些因为“极度互斥、实际频次远低于期望值”而拿到高分的垃圾单元对，给硬生生地挡在了门外。</p>
+<p>你提出了一个非常符合直觉、而且在数学上完全行得通的方案。你问：“<strong>那我们不加这个系数，直接通过正负号来区分正相关和负相关不就行了吗？</strong>”</p>
+<p>从理论上讲，你这个想法完全切中了问题的要害。但如果我们回到作者所依赖的<strong>卡方检验（$\chi^2$ Test）的数学定义</strong>，以及他要解决的<strong>中文文本的残酷现实</strong>，就会发现作者加这个 $\delta$ 并不是为了“区分正负”，而是为了挡住另外两个更加隐蔽的“数学妖怪” 。  </p>
+<p>我们可以把你的方案和作者的方案放在一起对比，看看为什么只靠“正负号”在实际跑代码时会“破产”。</p>
+<h3 id="一、-为什么不能只靠“正负号”？（被抹杀的符号）"><a href="#一、-为什么不能只靠“正负号”？（被抹杀的符号）" class="headerlink" title="一、 为什么不能只靠“正负号”？（被抹杀的符号）"></a>一、 为什么不能只靠“正负号”？（被抹杀的符号）</h3><p>首先，在标准的卡方统计量 $Q<em>{u,v}^2$ 中，<strong>正负号在第一步就被抹杀了</strong> 。 你看公式（1）里的每一项，分子全都是<strong>平方项</strong>：$(n</em>{u,v} - n p<em>{u+} p</em>{+v})^2$ 。 因为平方了，所以不管实际频次是比期望高（正）还是比期望低（负），算出来的 $Q^2$ <strong>永远是正数</strong> 。  </p>
+<p>当然，你可能会说：“那我改一下算法，在代码里算 $Q^2$ 之前，先判断一下 $(n<em>{u,v} - n p</em>{u+} p_{+v})$ 的正负号。如果是正数，我就保留这个 $Q^2$；如果是负数（负相关），我就直接丢弃，不就不用加那个莫名其妙的系数 $\delta$ 了吗？”</p>
+<p>这就是最精彩的地方了——<strong>哪怕你用正负号过滤掉了负相关，不加 $\delta$ 依然做不出好结果。</strong></p>
+<h3 id="二、-为什么要加系数-delta-？（对抗“随机噪声”与“弱关联”）"><a href="#二、-为什么要加系数-delta-？（对抗“随机噪声”与“弱关联”）" class="headerlink" title="二、 为什么要加系数 $\delta$？（对抗“随机噪声”与“弱关联”）"></a>二、 为什么要加系数 $\delta$？（对抗“随机噪声”与“弱关联”）</h3><p>作者加 $\delta$（且要求 $\delta$ 显著大于 1），根本目的不是为了区分“正负”，而是为了在<strong>正相关（正数）的阵营里，划清“真正黏合的新词”与“纯靠运气碰上的高频搭配”的界限</strong> 。  </p>
+<p>在真实的中文语料中，存在大量“微弱的正相关”。</p>
+<p>我们设定一个场景：假设有两对字。</p>
+<ul>
+<li><p><strong>字对 A（真正的新词）</strong>：<code>[特, 朗]</code>   </p>
+<ul>
+<li>因为它们几乎总是成双成对出现，独立性原假设被疯狂打脸。</li>
+<li>它的实际频次 $n_{u,v} = 100$ 次。</li>
+<li>而如果它们完全独立，随机碰撞的理论期望频次可能只有 $n p<em>{u+} p</em>{+v} = 2$ 次。</li>
+<li>此时，实际频次是期望频次的 <strong>50倍</strong>！这是极其强烈的成词信号。</li>
+</ul>
+</li>
+<li><p><strong>字对 B（高频弱关联噪声）</strong>：<code>[的, 中]</code>（比如“的美丽的中……”、“的中国……”)</p>
+<ul>
+<li>“的”和“中”各自的出现概率（$p<em>{u+}$ 和 $p</em>{+v}$）都高得离谱 。  </li>
+<li>由于它们基数大，即便它们完全独立，随机碰撞的理论期望频次也有 $n p<em>{u+} p</em>{+v} = 100$ 次 。  </li>
+<li>但在实际文本中，因为它们太常见了，刚好凑在一起了 $105$ 次。</li>
+<li>我们来算算你的正负号：$105 - 100 = +5$（<strong>正数！正相关！</strong>）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>危险发生了：</strong> 如果我们按照你的方案，“只要是正数（正相关）就通过”： 字对 B <code>[的, 中]</code> 的差值是 $+5$，它是正相关。由于基数大，把它代入卡方公式（2）计算后，因为分子有平方，分母有各种行总计、列总计的加权，它算出来的 $Q^2$ 依然可能<strong>非常大</strong>，从而成功通过卡方检验（拒绝独立性） 。  </p>
+<p>如果我们不加约束，算法就会认为 <code>[的, 中]</code> 也是一个新词！</p>
+<h4 id="delta-此时是如何拯救算法的？"><a href="#delta-此时是如何拯救算法的？" class="headerlink" title="$\delta$ 此时是如何拯救算法的？"></a>$\delta$ 此时是如何拯救算法的？</h4><p>作者强行规定：必须满足 $n<em>{u,v} \ge \delta n p</em>{u+} p_{+v}$ 。在实验中，作者把 $\delta$ 设成了 <strong>4</strong> 。 也就是说，<strong>实际频次不仅要是正相关，还必须是理论期望频次的 4 倍以上！</strong>   </p>
+<ul>
+<li>对于字对 A <code>[特, 朗]</code>：实际 $100 \ge 4 \times 2$（即 $100 \ge 8$），<strong>成功通过</strong> 。  </li>
+<li>对于字对 B <code>[的, 中]</code>：实际 $105$。但 $\delta$ 要求必须大于 $4 \times 100 = 400$ 次。显然 $105 &lt; 400$，<strong>成功拦截</strong> ！  </li>
+</ul>
+<p>看到了吗？<strong>$\delta$ 变成了一个“倍数放大镜”</strong> 。它无视了那些仅仅因为本身出现概率高而导致实际共现“微微多出几次”的高频垃圾字串，只把聚光灯打在那些实际频次产生“爆发式暴涨”的真正新词上 。  </p>
+<p>11.调参算预训练吗？那个delta参数能用$\sqrt{n}$之类的去代替吗？</p>
+<p>不行，最终还是要加一个人工设定的启发式常数。</p>
+<p>12.原文有“如果其误差统计量处于拒绝域内，且其实际频次超过频次阈值 $threshold$，则合并和更新操作将在下一次迭代中执行。”但是在算拒绝域的时候，我们不就是用实际频次算的吗？为什么要在用一个Threshold?</p>
+<h3 id="一、-致命的“低频敏感陷阱”"><a href="#一、-致命的“低频敏感陷阱”" class="headerlink" title="一、 致命的“低频敏感陷阱”"></a>一、 致命的“低频敏感陷阱”</h3><p>卡方检验的拒绝域，只能证明“两件事是不是独立的”<strong>，但它对</strong>“频次极低、但在小样本里偶尔凑在一起”的事件，具有病态的敏感性。</p>
+<p>我们来做个极端的数学推演（也就是算法在没有 <code>threshold</code> 时会撞上的鬼）：</p>
+<p>假设你给系统输入了一篇长达 10 万字的新闻，里面有这两个字：<code>[龘, 齉]</code>（两个极度生僻的字）。</p>
+<ol>
+<li><strong>统计概率</strong>：因为它们太罕见了，在全文本里，“龘”只出现了 1 次，“”也只出现了 1 次。它们各自出现的概率 $p<em>{u+}$ 和 $p</em>{+v}$ 趋近于 0。</li>
+<li><strong>理论期望值</strong>：它们因为纯属巧合随机撞在一起的理论期望频次 $n p<em>{u+} p</em>{+v}$ 大概是 <strong>0.00001 次</strong>。</li>
+<li><strong>残酷的现实</strong>：在文章的某处，这两个字偏偏凑巧挨着出现了 <strong>1 次</strong>（即实际频次 $n_{u,v} = 1$）。</li>
+</ol>
+<p>现在，我们把数据带入卡方统计量 $Q^2$ 的公式里算一算。你会发现：</p>
+<ul>
+<li>实际频次（1次）虽然极小，但它<strong>远远碾压</strong>了理论期望值（0.00001次），足足超出了几万倍！</li>
+<li>此时分子的平方项会放得很大，算出来的 $Q^2$ 会呈现<strong>爆发式暴涨</strong>（可能飙到几百甚至几千），远远超过自由度为 1 的卡方临界值 7.88。</li>
+</ul>
+<p><strong>结论</strong>：在卡方检验看来，<code>[龘, 齉]</code> <strong>强烈地拒绝独立性假设！它毫无悬念地掉进了“拒绝域”里！</strong></p>
+<h4 id="如果没有-threshold-会发生什么？"><a href="#如果没有-threshold-会发生什么？" class="headerlink" title="如果没有 threshold 会发生什么？"></a>如果没有 <code>threshold</code> 会发生什么？</h4><p>如果完全听从卡方检验的拒绝域，算法在第一轮迭代时，就会兴高采烈地把只出现过 1 次的 <code>[龘, 齉]</code> <strong>当成置信度最高的新词合并在一起</strong>。</p>
+<p>但在人类看来，这完全是扯淡。只出现过 1 次的孤立事件，由于样本量太小，纯属噪声，根本不具备统计学意义，更不可能是稳定存在的新词（对应论文 Criteria 3：新词必须具有一定的频次，才能被人类从语境中识别 ）。  </p>
+<p>13.原文中”由于在处理之前词的数量是未知的，因此使用希普斯定律（Heaps’ law）来进行估计，即：如果文本中包含 $N$ 个词，则该文本包含 $K N^\beta$ 个不同的词。在本文中，$N$ 通过初始语义对数量 $n$ 的一半来估计。那么，频次阈值 $threshold$ 可以通过如下公式计算：</p>
+<script type="math/tex; mode=display">threshold = max(basic\_freq, (\frac{n}{2})^{1-\beta} / K).$$"什么是希普斯定律？N个词是我们根据字符串猜出来的？那么"美丽的花园"算是两个词还是一个词？β又是什么K又是什么 Threshold是什么？ 自然数？还是一个小数？公式的右半边了希普斯定律有什么关系？
+
+这一段可以说是整篇论文里**把数学模型玩得最“花”、但同时打脸也最狠**的部分。你敏锐地觉察到了这里隐藏着巨大的逻辑跳跃：希普斯定律明明是用来算“词汇量”的，怎么莫名其妙就被作者改造成用来算“频次门槛（threshold）”了？
+
+我们把这一连串问题全部拆解开，看看作者在数学上玩了什么样的“魔术”，以及你的直觉是如何再次踩中作者的漏洞的。
+
+### 一、 什么是希普斯定律（Heaps' law）？
+
+在信息检索（Information Retrieval）和语言学中，**希普斯定律**是一个著名的经验定律，用来描述**文本的总字数（或总词数）与这篇文本里包含的“不同词汇的数量”（即词表大小 Vocabulary Size）之间的非线性关系**。
+
+#### 1. 核心直觉：
+
+当你开始读一本书时，前几页几乎每个词都是你没见过的“新词”；但当你读到第 100 页时，绝大多数词都在前面出现过了，新词出现的频率会急剧变慢。
+
+也就是说，**随着文本总长度的增加，独特词汇量的增长速度是递减的。**
+
+#### 2. 标准数学公式：
+
+$$V = K \cdot N^\beta</script><ul>
+<li><strong>$N$</strong>：文本中<strong>总共包含的词的数量</strong>（Tokens，比如一本书总共有 10 万个词）。</li>
+<li><strong>$V$</strong>：这篇文本里<strong>独特的、不重复的词的数量</strong>（Types，比如这 10 万个词拆重后，其实只有 5000 个不同的单词）。</li>
+<li><strong>$K$ 和 $\beta$</strong>：是特定语言的<strong>经验常数</strong>。在英语中，通常 $K \in [10, 100]$，$\beta \in [0.4, 0.6]$。</li>
+</ul>
+<h3 id="二、-N-怎么来的？“美丽的花园”算几个词？"><a href="#二、-N-怎么来的？“美丽的花园”算几个词？" class="headerlink" title="二、 $N$ 怎么来的？“美丽的花园”算几个词？"></a>二、 $N$ 怎么来的？“美丽的花园”算几个词？</h3><p>你问得非常对：在分词之前，我们根本不知道一句话里有几个词。那么作者是怎么“猜”出 $N$ 的呢？</p>
+<p>作者用了一个极其粗暴的假设：<strong>“在最初始状态下，我认为文本里的总词数 $N$，大约等于初始语义对数量 $n$ 的一半（即 $n/2$）。”</strong></p>
+<h4 id="我们拿“美丽的花园”来做个推演："><a href="#我们拿“美丽的花园”来做个推演：" class="headerlink" title="我们拿“美丽的花园”来做个推演："></a>我们拿“美丽的花园”来做个推演：</h4><p>假设输入文本 $T =$ “<strong>美丽的花园</strong>”（共 5 个字）。</p>
+<ol>
+<li>根据我们之前第 8 轮的讨论，初始状态下每个字都是单独的单元：<code>美</code>、<code>丽</code>、<code>的</code>、<code>花</code>、<code>园</code>。</li>
+<li>通过步长为 1 的滑动窗口切出<strong>初始语义对</strong>：<code>(美, 丽)</code>、<code>(丽, 的)</code>、<code>(的, 花)</code>、<code>(花, 园)</code>。</li>
+<li>数一数，初始语义对的总数 <strong>$n = 4$</strong>。</li>
+<li>带入作者的“猜测”公式：总词数 $N = n / 2 = 4 / 2 = 2$。</li>
+</ol>
+<p><strong>那么在作者的初始世界里，“美丽的花园”被猜成了包含 2 个词。</strong></p>
+<p>在真实汉语中，如果我们正确切分，“美丽的 / 花园”确实也是 2 个词。看起来作者猜得挺准？</p>
+<p><strong>批判性审视</strong>：这完全是凑巧。如果是“中华人民共和国”（7个字，$n=6$），作者会猜它是 $6/2 = 3$ 个词。但实际上它只有 1 个词。由于中文不存在空格，作者在分词前<strong>根本无法准确知道 $N$</strong>，用 $n/2$ 来代替 $N$，纯粹是作者为了让后面希普斯定律的公式有数字可带，硬生生拍脑门做出的一个<strong>极其粗糙的数学代换</strong>。</p>
+<h3 id="三、-beta-和-K-是什么？"><a href="#三、-beta-和-K-是什么？" class="headerlink" title="三、 $\beta$ 和 $K$ 是什么？"></a>三、 $\beta$ 和 $K$ 是什么？</h3><p>它们是希普斯定律中的<strong>调节参数</strong>：</p>
+<ul>
+<li><strong>$K$</strong>：决定了词汇量增长的<strong>基础放大系数</strong>。</li>
+<li><strong>$\beta$（Beta）</strong>：是一个<strong>介于 0 到 1 之间的指数</strong>（通常在 0.5 到 0.8 之间）。因为 $\beta &lt; 1$，所以 $N^\beta$ 是一条向右上方弯曲、增速越来越慢的抛物线。它决定了文本变长时，新词产生的“减速刹车”有多灵敏。</li>
+</ul>
+<p><strong>在本文中，作者直接指定：$K = 1, \beta = 0.75$。</strong>（再次手动调参打脸）。</p>
+<h3 id="四、-Threshold-是什么？是自然数还是小数？"><a href="#四、-Threshold-是什么？是自然数还是小数？" class="headerlink" title="四、 Threshold 是什么？是自然数还是小数？"></a>四、 Threshold 是什么？是自然数还是小数？</h3><p><code>threshold</code> 是合并两个字串所需的<strong>最低绝对出现频次门槛</strong>。</p>
+<p>因为它是用来卡“出现过几次”的，在真实的程序逻辑里，它<strong>必须被强行向上取整为一个“自然数（正整数）”</strong>（比如 3 次或 4 次）。因为在现实文本里，一个词不可能出现了 3.4 次。</p>
+<h3 id="五、-公式的右半边跟希普斯定律有什么关系？（作者的数学魔术）"><a href="#五、-公式的右半边跟希普斯定律有什么关系？（作者的数学魔术）" class="headerlink" title="五、 公式的右半边跟希普斯定律有什么关系？（作者的数学魔术）"></a>五、 公式的右半边跟希普斯定律有什么关系？（作者的数学魔术）</h3><p>这是整篇论文最让人觉得“莫名其妙”也最精彩的数学强行推导。我们来看看作者是怎么把希普斯定律（算词汇量的）反向改造成算频次门槛的：</p>
+<ol>
+<li><p><strong>定义平均词频</strong>：</p>
+<p>如果一篇文本总词数是 $N$，独特的词汇量是 $V$。那么平均下来，每个独特的词在这篇文本里应该出现几次？</p>
+<script type="math/tex; mode=display">\text{平均词频} = \frac{\text{总词数}}{\text{独特词汇量}} = \frac{N}{V}</script></li>
+<li><p><strong>把希普斯定律 $V = K \cdot N^\beta$ 带入这个平均词频中</strong>：</p>
+<script type="math/tex; mode=display">\text{平均词频} = \frac{N}{K \cdot N^\beta} = \frac{1}{K} \cdot N^{1-\beta}</script></li>
+<li><p><strong>把作者猜测的 $N = n/2$ 带入</strong>：</p>
+<script type="math/tex; mode=display">\text{平均词频} = \frac{1}{K} \cdot \left(\frac{n}{2}\right)^{1-\beta}</script></li>
+</ol>
+<p><strong>惊天逆转发生了：</strong></p>
+<p>作者认为，如果一篇文章很长（$n$ 很大），那么按照希普斯定律推导，文章里的词的<strong>平均词频就会自动变高</strong>。</p>
+<p>比如短文章里一个词平均出现 2 次，长文章里一个词平均出现 20 次。</p>
+<p>因此，作者提出：<strong>我们的新词合并门槛（<code>threshold</code>），不能一成不变。它必须跟这篇文章的“平均词频”绑死！文章越长，门槛就要越高！</strong></p>
+<p>所以，公式的右半边 $\frac{(\frac{n}{2})^{1-\beta}}{K}$，<strong>本质上就是利用希普斯定律算出来的、当前文本规模下的“理论平均词频”</strong>。</p>
+<ol>
+<li><p><strong>外层加一个 <code>max(basic_freq, ...)</code></strong>：</p>
+<p>作者怕文章太短的时候（比如只有几百字），右边算出来的平均词频小于 1（比如 0.5）。如果门槛是 0.5，等于没有门槛。所以作者加了个兜底的 <code>basic_freq</code>（在本文中设为 4）。</p>
+<ul>
+<li>如果文章很短，右边算出来是 1.2，那么 <code>threshold = max(4, 1.2) = 4</code>。</li>
+<li>如果文章是几百万字的长文，右边算出来是 15.6，那么 <code>threshold = max(4, 15.6) = 16</code>（向上取整）。</li>
+</ul>
+</li>
+</ol>
+<h3 id="💡-总结作者的这波操作"><a href="#💡-总结作者的这波操作" class="headerlink" title="💡 总结作者的这波操作"></a>💡 总结作者的这波操作</h3><p>如果我们保持批判性思维，作者的这个设计看似非常有远见（实现了自适应门槛），但实际上逻辑链条上漏洞百出：</p>
+<ol>
+<li><strong>偷换概念</strong>：希普斯定律里的 $V$ 算的是<strong>所有词（包含已有的普通词）</strong>。而论文要解决的是<strong>新词检测</strong>。普通词的平均词频变高了，不代表“新词”的出现频次也一定会按这个比例变高。作者把“全局平均词频”直接等UserName为了“新词准入频次”，这是没有语言学依据的。</li>
+<li><strong>参数再次硬编码</strong>：为了让这个公式能吐出合理的数字，作者在没有数学证明的情况下，直接强行指定 $K=1, \beta=0.75$。如果换个参数，算出来的 <code>threshold</code> 就会天差地别。</li>
+</ol>
+<p>14.原文提到“第二部分（对应 <code>image_4bfea2.png</code>）</p>
+<p>这种迭代合并算法可以解决上述提到的问题。以名字“特朗普”为例：如果在某次迭代中合并了“特朗”而不是“朗普”，那么在随后的某些迭代中，“特朗”将会与“普”合并。对于“人民”和“民办”的例子，如果“人民”首先被合并，那么“人民办”和“民办”就会变成两个不同的语义对。“民”和“办”仍然可以合并，但在实际中，“人民”与“办”的合并是非常罕见的。”</p>
+<p>这个合并是怎么合并的？人民和人民办在这个分词算法里能不能同时出现？</p>
+<p>这一段讨论涉及了论文中<strong>最核心的动态演变逻辑</strong>，也就是它如何通过“贪心迭代合并”来解决中文处理中臭名昭著的<strong>交叉歧义（Overlap Ambiguity）</strong>（即“人民 / 民办”到底该怎么切）。</p>
+<p>为了帮你彻底理清这里的机制，我们把这个迭代合并的过程具象化。</p>
+<h3 id="一、-“人民”和“民办”的合并机制（它是怎么合并的？）"><a href="#一、-“人民”和“民办”的合并机制（它是怎么合并的？）" class="headerlink" title="一、 “人民”和“民办”的合并机制（它是怎么合并的？）"></a>一、 “人民”和“民办”的合并机制（它是怎么合并的？）</h3><p>算法的合并过程，实际上是一个“拼积木”<strong>的过程。 每一轮迭代，算法只会挑选全文本中</strong>卡方值 $Q^2$ 最大（也就是黏合度最高、最不独立）的那“一个”语义对<strong>进行合并，然后</strong>立刻刷新全文本的状态，进入下一轮。</p>
+<p>我们用一句话来模拟原文的场景：假设文本是“<strong>发展人民办学</strong>”。</p>
+<h4 id="初始状态（第-0-轮）："><a href="#初始状态（第-0-轮）：" class="headerlink" title="初始状态（第 0 轮）："></a>初始状态（第 0 轮）：</h4><p>每个字都是独立的语义单元（用中括号表示），初始语义对有：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[发, 展]`、`[展, 人]`、`[人, 民]`、`[民, 办]`、`[办, 学]</span><br></pre></td></tr></table></figure>
+<h4 id="关键的第-1-轮迭代："><a href="#关键的第-1-轮迭代：" class="headerlink" title="关键的第 1 轮迭代："></a>关键的第 1 轮迭代：</h4><p>算法计算了所有的二元组合，发现 <code>[人]</code> 和 <code>[民]</code> 凑在一起的卡方值 $Q^2$ 是全场最高的（因为“人民”是一个极度高频的成熟词汇，严重违反独立性假设）。</p>
+<ul>
+<li><p><strong>合并动作</strong>：算法将 <code>[人]</code> 和 <code>[民]</code> 强制锁死，打包成一个<strong>全新的、长度为 2 的字符串语义单元</strong> —— <code>[人民]</code>。</p>
+</li>
+<li><p><strong>刷新文本</strong>：此时，原来的 5 个单字文本，在算法的视野里瞬间变成了 4 个语义单元：</p>
+<blockquote>
+<p><code>[发] [展] [人民] [办] [学]</code></p>
+</blockquote>
+</li>
+</ul>
+<h4 id="紧接着的第-2-轮迭代（重点来了）："><a href="#紧接着的第-2-轮迭代（重点来了）：" class="headerlink" title="紧接着的第 2 轮迭代（重点来了）："></a>紧接着的第 2 轮迭代（重点来了）：</h4><p>现在，系统重新通过滑动窗口生成“新的语义对样本空间”。此时的语义对变成了：</p>
+<ol>
+<li><code>([发], [展])</code></li>
+<li><code>([展], [人民])</code></li>
+<li><code>([人民], [办])</code>  $\rightarrow$ <strong>这就是原文说的“人民办”语义对</strong></li>
+<li><code>([办], [学])</code></li>
+</ol>
+<p>发现了吗？因为 <code>[人]</code> 和 <code>[民]</code> 已经变成了一块不可分割的刚性水泥板 <code>[人民]</code>，<strong>原本存在的二元对 <code>([民], [办])</code>（民办）在物理上直接被“挤碎”消失了！</strong></p>
+<p>此时，如果算法去算 <code>([人民], [办])</code> 的卡方值，会发现“人民”后面跟着“办”的概率极低（纯属巧合），因此这一对的卡方值会非常小，绝对进不去拒绝域。所以，算法<strong>永远不会</strong>把它们合并成 <code>[人民办]</code>。</p>
+<h3 id="二、“人民”和“民办”在这个算法里能不能同时出现？"><a href="#二、“人民”和“民办”在这个算法里能不能同时出现？" class="headerlink" title="二、“人民”和“民办”在这个算法里能不能同时出现？"></a>二、“人民”和“民办”在这个算法里能不能同时出现？</h3><p>在“同一段特定的上下文”<strong>里，它们</strong>绝对不能同时出现；但在“同一篇大文本的不同地方”<strong>，它们</strong>可以各自独立出现。</p>
+<p>这里需要区分“上下文位置”和“全局词库”：</p>
+<h4 id="1-在同一个局部位置（如“发展人民办学”）：不能同时出现（非此即彼）"><a href="#1-在同一个局部位置（如“发展人民办学”）：不能同时出现（非此即彼）" class="headerlink" title="1. 在同一个局部位置（如“发展人民办学”）：不能同时出现（非此即彼）"></a>1. 在同一个局部位置（如“发展人民办学”）：不能同时出现（非此即彼）</h4><p>因为算法是排他的。一旦“人”和“民”在第1轮结合成了 <code>[人民]</code>，那么这个特定位置的“民”就无法再和右边的“办”结合成“民办”了。这就叫“先到先得”。</p>
+<p>原文作者之所以对这个结果很得意，是因为他觉得：</p>
+<ul>
+<li>如果系统先合成了 <code>[人民]</code>，剩下的“办学”依然可以被切出来，这符合“人民 / 办学”的正确语义。</li>
+<li>反之，如果另一句话是“<strong>这属于民办学校</strong>”，因为在这个语境里没有“人”字，“民”和“办”就会顺利结合成 <code>[民办]</code>。</li>
+</ul>
+<h4 id="2-在全局的统计样本里：可以同时存在于列表中"><a href="#2-在全局的统计样本里：可以同时存在于列表中" class="headerlink" title="2. 在全局的统计样本里：可以同时存在于列表中"></a>2. 在全局的统计样本里：可以同时存在于列表中</h4><p>如果这是一篇很大的新闻，前半句提到了“人民”，后半句提到了“民办”。</p>
+<p>在全局统计时，<code>([人], [民])</code> 算出来的卡方值很大，<code>([民], [办])</code> 算出来的卡方值也很大。</p>
+<ul>
+<li>只要这两个字对<strong>在不同的物理位置</strong>各自发光，算法就会在不同的迭代轮次里，把它们分别加入到最终的 <code>semanticUnit List</code>（新词/词汇列表）中。</li>
+</ul>
+<h3 id="三、-顺着逻辑，给作者挑一个“严重穿帮”的致命伤"><a href="#三、-顺着逻辑，给作者挑一个“严重穿帮”的致命伤" class="headerlink" title="三、 顺着逻辑，给作者挑一个“严重穿帮”的致命伤"></a>三、 顺着逻辑，给作者挑一个“严重穿帮”的致命伤</h3><p>你读到这里，如果继续保持批判性思维，会发现作者用“特朗普”和“人民办”做例子，其实<strong>彻底暴露了该算法在工程实现上的巨大灾难——多米诺骨牌式误切</strong>。</p>
+<p>我们来看看作者吹捧的“特朗普”例子：</p>
+<blockquote>
+<p>“如果在某次迭代中合并了‘特朗’而不是‘朗普’，那么在随后的某些迭代中，‘特朗’将会与‘普’合并。”</p>
+</blockquote>
+<p>这看起来很完美对不对？但作者漏掉了一个极其恐怖的现实：<strong>如果第一步合错了怎么办？</strong></p>
+<h4 id="我们来做一个“翻车”推导："><a href="#我们来做一个“翻车”推导：" class="headerlink" title="我们来做一个“翻车”推导："></a>我们来做一个“翻车”推导：</h4><p>假设文本里出现了一句话：“<strong>这几头特大朗普普通人都不认识</strong>”（意思：这几头特大的、像朗讯公司那样的普通人都认识）。</p>
+<ol>
+<li>由于“特”和“朗”在这个长文本里可能刚好因为别的缘故高频共现了，算法在第一轮贪心合并时，误把“特大朗普”里的“特”和“朗”连在了一起，变成了 <code>[特朗]</code>。</li>
+<li>一旦变成 <code>[特朗]</code>，原来的文本在这一段就被强行锁死成了：<code>[这几头] [特朗] [大] [普]...</code>。</li>
+<li>对不起了，“朗普”这个词在这个位置<strong>永远死去了</strong>，因为“朗”已经被“特”拐跑了。后面的迭代无论怎么修补，也只能做出 <code>[特朗] + [大]</code> 或者 <code>[特朗] + [普]</code> 这种完全错误的怪胎。</li>
+</ol>
+<h4 id="总结这个算法的本质："><a href="#总结这个算法的本质：" class="headerlink" title="总结这个算法的本质："></a>总结这个算法的本质：</h4><p>这个算法是一个“单向不可逆”的贪心算法。</p>
+<ul>
+<li>它的合并就像<strong>结婚</strong>，一旦在某一轮两个单元领了证（合并），全文本重新洗牌，其他潜在的搭配（交叉歧义）就会被瞬间强行拆散。</li>
+<li>现代高级的分词算法（如 CRF、或者基于 Viterbi 算法的隐马尔可夫模型）都是“全局动态规划”的。它们会把“人民+办”和“人+民办”这两种可能性都画在图上，最后算一条总概率最高的路径，允许“反悔”和整体权衡。</li>
+</ul>
+<p>而这篇论文的算法<strong>不允许反悔</strong>。正如你所看到的，它靠着“先到先得”的霸道逻辑来消除歧义。一旦第一步因为统计误差合错了一个字，后面就会引发一连串的雪崩式切分错误。</p>
+<p>你现在明白为什么“人民办”和“民办”在局部会互相排挤了吗？这种“一刀切、不许反悔”的贪心迭代合并，你觉得它在处理极其复杂的含糊句子时，能比得过现代大模型的整体理解吗？</p>
+<p>14.得到新词是怎么判断的？ 把分出来的词和现有词库进行比较吗？ 如果是这样的话，这个论文不还是一种分词方法吗？ 为什么要写成新词发现？ 因为其分词效果没有使用语料库的效果好吗？</p>
+<h3 id="1-得到新词是怎么判断的？真的是把分出来的词和现有词库进行比较吗？"><a href="#1-得到新词是怎么判断的？真的是把分出来的词和现有词库进行比较吗？" class="headerlink" title="1. 得到新词是怎么判断的？真的是把分出来的词和现有词库进行比较吗？"></a>1. 得到新词是怎么判断的？真的是把分出来的词和现有词库进行比较吗？</h3><p><strong>答：是的，完全被你猜中了。它就是通过“对齐词典、排除已有词”来生硬地判断新词的。</strong></p>
+<p>在论文的第 4 节“实验与分析（Experiments and Analysis）”中，作者终于露出了狐尾。他是这么做的：</p>
+<ol>
+<li>让他的迭代合并算法（Algorithm 1）在一堆新闻文本上狂跑，最后吐出一个包含几千个“高凝聚力字符串”的列表（比如包含“特朗普”、“人民”、“芯片”、“积极废人”）。</li>
+<li><strong>掏出一本现成的标准汉语词典</strong>（比如《现代汉语词典》或者当时已知的常用词库）。</li>
+<li><strong>查表过滤</strong>：拿列表里的词去查词典。<ul>
+<li>如果词典里<strong>已经有了</strong>（比如“人民”），那就认为这是“已有词（Existing Words）”，在算“新词指标”时把它排除掉。</li>
+<li>如果词典里<strong>查不到</strong>（比如“特朗普”、“积极废人”），算法就一拍大腿宣布：“看！我抓到新词（New Words）了！”</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-如果是这样，这不还是一种分词方法吗？为什么要写成“新词发现”？"><a href="#2-如果是这样，这不还是一种分词方法吗？为什么要写成“新词发现”？" class="headerlink" title="2. 如果是这样，这不还是一种分词方法吗？为什么要写成“新词发现”？"></a>2. 如果是这样，这不还是一种分词方法吗？为什么要写成“新词发现”？</h3><p><strong>答：从技术底座来看，它 100% 就是一种“无监督分词方法（Unsupervised Word Segmentation）”。写成“新词发现”纯粹是一种聪明的“学术包装”和“投机取巧”。</strong></p>
+<p>在学术界，这种“挂羊头卖狗肉”的包装有两层精明的考量：</p>
+<h4 id="考量一：避开分词赛道的顶级神仙打架"><a href="#考量一：避开分词赛道的顶级神仙打架" class="headerlink" title="考量一：避开分词赛道的顶级神仙打架"></a>考量一：避开分词赛道的顶级神仙打架</h4><p>如果作者把题目写成《一种基于独立性检验的中文分词方法》，那这篇论文在审稿阶段就会被直接枪毙。</p>
+<p>因为中文分词是一个发展了三十年、极度内卷的成熟赛道。当时基于深度学习（双向 LSTM-CRF）、基于大语料库预训练（BERT、HanLP、Jieba）的分词器，准确率轻轻松松都在 <strong>95% ~ 98%</strong> 以上。</p>
+<p>作者这个纯靠单篇文本统计、不能反悔的贪心合并算法，如果去跟这些工业级分词器<strong>硬碰硬比拼整体分词准确率，会被瞬间秒杀得连渣都不剩</strong>。</p>
+<h4 id="考量二：利用“新词发现”作为挡箭牌"><a href="#考量二：利用“新词发现”作为挡箭牌" class="headerlink" title="考量二：利用“新词发现”作为挡箭牌"></a>考量二：利用“新词发现”作为挡箭牌</h4><p>如果写成“新词发现（New Word Detection）”，作者就可以理直气壮地掩盖自己分词效果差的缺陷：</p>
+<ul>
+<li>哪怕我的算法把“发展人民办学”切成了怪胎，审稿人质疑时，作者可以说：“没关系呀，我这篇论文的重点本来就不是做日常分词，我是为了捞出词典里没有的‘新词’。你瞧，我不是把‘特朗普’和‘积极废人’精准捞出来了吗？这就叫成功！”</li>
+<li><strong>新词发现</strong>这个任务本身没有公认的、统一的标杆词典，它允许更高的错误率。这种包装给算法的粗暴和不成熟留下了巨大的“免责空间”。</li>
+</ul>
+<h3 id="3-因为其分词效果没有使用语料库的效果好吗？"><a href="#3-因为其分词效果没有使用语料库的效果好吗？" class="headerlink" title="3. 因为其分词效果没有使用语料库的效果好吗？"></a>3. 因为其分词效果没有使用语料库的效果好吗？</h3><p><strong>答：是的，它的实际分词效果，远远落后于那些基于海量语料库（有监督学习）训练出来的现代分词模型。</strong></p>
+<p>我们可以用一张对比表，来看看“不使用语料库”让作者付出了多么惨痛的代价：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><strong>维度</strong></th>
+<th><strong>现代语料库分词（如基于有监督/大模型的深度学习）</strong></th>
+<th><strong>本篇论文的方法（无语料库、纯单篇统计）</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>底层依据</strong></td>
+<td>记住了几亿字文本里人类真正的切分习惯</td>
+<td>只看当前这篇短文里几个方块字的“碰撞概率”</td>
+</tr>
+<tr>
+<td><strong>应对交叉歧义</strong></td>
+<td>精准。能根据上下文完美识别“人民 / 办学”和“民办 / 学校”</td>
+<td>霸道。先到先得，合错一个字，后面全盘崩溃</td>
+</tr>
+<tr>
+<td><strong>低频词处理</strong></td>
+<td>稳定。有全局语料库背书，知道低频词不是噪声</td>
+<td>瘫痪。必须靠人工加 <code>threshold=4</code> 来强行阉割低频词</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>正因为没有大型语料库和预训练的加持，这个算法就像是一个盲人摸象的系统。它在处理长文本时，因为数据量大，卡方检验还能勉强发挥作用；但在处理短文本、或者语法结构复杂的句子时，分词效果会变得非常粗糙和碎片化。</p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left  disabled "
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2026/06/04/A%20Chinese%20New%20Word%20Detection%20Approach%20Based%20on%20Independence%20Testing/"
+      title="A Chinese New Word Detection Approach Based on Independence Testing""
+     >
+
+    <p class="title-text">
+      
+        A Chinese New Word Detection Approach Based on Independence Testing&#34;
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2026 迪多<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>
