@@ -27,31 +27,24 @@
   
 
   
-  <title>损失函数（Loss）也可能有影响 | 超级迪多的博客</title>
+  <title>ACL2025-LLM分词+AC自动机 | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="损失函数（Loss）也可能有影响 把分类(Classification)当作回归(Regression)来看。 把类别(Class)也变成数字，让y和Class的编号越接近越好。  如果分类的时候Class1和Class2之间并没有联系，那么这种划分Class的方法就不是一个好的方法。 Class as one-hot vector  两两Class的距离都是一样的。  对于回归问题，输出的是一个">
+  <meta name="description" content="Paper: Segment First or Comprehend First? Explore the Limit of Unsupervised Word Segmentation with Large Language Models1. Meta Year: 2025   Venue: arXiv [cs.CL]   Link: https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2505.196">
 <meta property="og:type" content="article">
-<meta property="og:title" content="损失函数（Loss）也可能有影响">
-<meta property="og:url" content="https://diduox.github.io/2025/10/25/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%88Loss%EF%BC%89%E4%B9%9F%E5%8F%AF%E8%83%BD%E6%9C%89%E5%BD%B1%E5%93%8D/index.html">
+<meta property="og:title" content="ACL2025-LLM分词+AC自动机">
+<meta property="og:url" content="https://diduox.github.io/2026/07/06/ACL2025-LLM%E5%88%86%E8%AF%8D+AC%E8%87%AA%E5%8A%A8%E6%9C%BA/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="损失函数（Loss）也可能有影响 把分类(Classification)当作回归(Regression)来看。 把类别(Class)也变成数字，让y和Class的编号越接近越好。  如果分类的时候Class1和Class2之间并没有联系，那么这种划分Class的方法就不是一个好的方法。 Class as one-hot vector  两两Class的距离都是一样的。  对于回归问题，输出的是一个">
+<meta property="og:description" content="Paper: Segment First or Comprehend First? Explore the Limit of Unsupervised Word Segmentation with Large Language Models1. Meta Year: 2025   Venue: arXiv [cs.CL]   Link: https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2505.196">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135506754.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135707071.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135851757.png">
-<meta property="og:image" content="c:\Users\%E6%A1%82%E7%89%A9%E9%AA%91%E5%A3%AB\AppData\Roaming\Typora\typora-user-images\image-20251025140902721.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025142809015.png">
-<meta property="article:published_time" content="2025-10-25T06:31:31.000Z">
-<meta property="article:modified_time" content="2025-10-25T06:31:49.386Z">
+<meta property="article:published_time" content="2026-07-06T12:17:17.000Z">
+<meta property="article:modified_time" content="2026-07-06T12:17:39.475Z">
 <meta property="article:author" content="迪多">
-<meta property="article:tag" content="机器学习">
-<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="中文分词">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135506754.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -260,7 +253,7 @@
        
 
 
-<article id="post-损失函数（Loss）也可能有影响" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-ACL2025-LLM分词+AC自动机" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -273,7 +266,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        损失函数（Loss）也可能有影响
+        ACL2025-LLM分词+AC自动机
       </h1>
     
   
@@ -281,46 +274,84 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-25T06:31:31.000Z" itemprop="datePublished">2025-10-25</time>
+  <time class="dt-published" datetime="2026-07-06T12:17:17.000Z" itemprop="datePublished">2026-07-06</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-    <a class="meta-cate-link" href="/categories/NLP/">NLP</a>><a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>><a class="meta-cate-link" href="/categories/%E7%95%99%E6%A1%A3/">留档</a>><a class="meta-cate-link" href="/categories/%E8%AE%BA%E6%96%87%E6%89%B9%E5%88%A4/">论文批判</a>
+    未分类
   
 </div>
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            482 词 
+            2.1k 词 
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D/" rel="tag">中文分词</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p><strong>损失函数（Loss）也可能有影响</strong></p>
-<p>把分类(Classification)当作回归(Regression)来看。</p>
-<p>把类别(Class)也变成数字，让y和Class的编号越接近越好。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135506754.png" style="zoom:33%;" /></p>
-<p>如果分类的时候Class1和Class2之间并没有联系，那么这种划分Class的方法就不是一个好的方法。</p>
-<p><strong>Class as one-hot vector</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135707071.png" style="zoom:33%;" /></p>
-<p>两两Class的距离都是一样的。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135851757.png" style="zoom: 33%;" /></p>
-<p>对于回归问题，输出的是一个数值；</p>
-<p>而对于分类问题，输出的是一个向量，并且这个向量要先通过softmax之后，再与Label进行比较。</p>
-<p><strong>为什么要加Softmax(粗略的解释)？</strong></p>
-<p>$\hat{y}$ 的值里面只有0和1，而$y$里面有任何值，所有要通过softmax把y的值放到0和1之间。</p>
-<p><strong>Soft-max</strong><br><img src="C:\Users\桂物骑士\AppData\Roaming\Typora\typora-user-images\image-20251025140902721.png" alt="image-20251025140902721" style="zoom:33%;" /></p>
-<p>$exp(y_i)$ 就是把 $y$ 作为指数幂，把 $e$ 提到 $y$ 次方 :arrow_right: $e^{y_i}$</p>
-<p>并且Soft-max会让大的值和小的值之间的差距更大。</p>
-<p><strong>Loss of Classification</strong></p>
-<p>Cross-entropy(交叉熵)比Mean Square Error(MSE)更加适用于分类。</p>
-<p>举例的方法来说明原因：</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025142809015.png" style="zoom:33%;" /></p>
+          <h1 id="Paper-Segment-First-or-Comprehend-First-Explore-the-Limit-of-Unsupervised-Word-Segmentation-with-Large-Language-Models"><a href="#Paper-Segment-First-or-Comprehend-First-Explore-the-Limit-of-Unsupervised-Word-Segmentation-with-Large-Language-Models" class="headerlink" title="Paper: Segment First or Comprehend First? Explore the Limit of Unsupervised Word Segmentation with Large Language Models"></a>Paper: Segment First or Comprehend First? Explore the Limit of Unsupervised Word Segmentation with Large Language Models</h1><h2 id="1-Meta"><a href="#1-Meta" class="headerlink" title="1. Meta"></a>1. Meta</h2><ul>
+<li><strong>Year</strong>: 2025  </li>
+<li><strong>Venue</strong>: arXiv [cs.CL]  </li>
+<li><strong>Link</strong>: <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2505.19631">https://arxiv.org/abs/2505.19631</a> (GitHub: <a target="_blank" rel="noopener" href="https://github.com/hkr04/LLACA">https://github.com/hkr04/LLACA</a> )  </li>
+</ul>
+<h2 id="2-Method"><a href="#2-Method" class="headerlink" title="2. Method"></a>2. Method</h2><ul>
+<li><p><strong>核心模块1：基于LLM的无监督词典提取 (LLM-WS)</strong></p>
+<p>利用LLM在无标注的目标领域语料上跑Zero-shot分词，本质上是把大模型当成一个高成本的“领域候选词挖掘机”。</p>
+</li>
+<li><p><strong>核心模块2：知识蒸馏AC自动机 (LLACA)</strong></p>
+<p>用点互信息（PMI）过滤掉LLM吐出来的幻觉词/高噪组合。把过滤后的词表塞进AC自动机（Trie树+失配指针），在线上文本匹配时实现 $O(N)$ 的高吞吐线性扫描。</p>
+</li>
+<li><p><strong>关键公式/结构：可变 n-gram 概率模型与维特比解码</strong></p>
+<p>不再采用固定的Unigram概率，而是通过AC树结构寻找当前路径词 $w$ 的最长公共前缀节点（即最近有效状态 $\text{prev}(w)$），以此计算条件概率，最后用标准的Viterbi算法在有向无环图（DAG）上倒推全局最优切分路径。</p>
+<script type="math/tex; mode=display">p(w) = \frac{\text{count}(w)}{\sum_{w_{i} \in \text{sub-Trie}(\text{prev}(w))} \text{count}(w_{i})}</script></li>
+</ul>
+<h2 id="3-Module"><a href="#3-Module" class="headerlink" title="3. Module"></a>3. Module</h2><p>抛开论文宏大的叙事，这个系统在工程实现上真正运转的只有以下两个底层模块：</p>
+<h3 id="1-离线-LLM-领域词典引导生成"><a href="#1-离线-LLM-领域词典引导生成" class="headerlink" title="1. 离线 LLM 领域词典引导生成"></a>1. 离线 LLM 领域词典引导生成</h3><ul>
+<li><p><strong>输入</strong>：未标注的领域原始语料（Raw Corpus）。</p>
+</li>
+<li><p><strong>操作</strong>：把语料切分成 $\sqrt{\text{Total}}$ 大小的Batch送给LLM做分词，利用大模型的预训练常识进行初步切分。</p>
+</li>
+<li><p><strong>后处理（核心）</strong>：单纯靠LLM会引入严重的翻译幻觉或delimiters错位。这里引入 <strong>PMI（点互信息）</strong> 作为硬性过滤规则：</p>
+<script type="math/tex; mode=display">\text{PMI}(w) = \min_{1 \le i < n} \log \frac{p(w_{1..n})}{p(w_{1..i}) \cdot p(w_{i+1..n})}</script><p>只有内部凝聚度（PMI）超过 Top Ratio 阈值的词才允许进入最终词典，以此用传统统计学手段强行修正大模型的“胡言乱语”。</p>
+</li>
+</ul>
+<h3 id="2-基于前缀状态转移的“可变-n-gram”维特比图搜索"><a href="#2-基于前缀状态转移的“可变-n-gram”维特比图搜索" class="headerlink" title="2. 基于前缀状态转移的“可变 n-gram”维特比图搜索"></a>2. 基于前缀状态转移的“可变 n-gram”维特比图搜索</h3><ul>
+<li><p><strong>输入</strong>：PMI过滤后的高频领域词典及其在语料中的频数（Count）。</p>
+</li>
+<li><p><strong>概率计算逻辑</strong>：</p>
+<ul>
+<li>构建一条Trie树，每个节点的词定义其 <code>prev(w)</code> 为从根节点出发到它路径上最近的“终态节点”（即长词内部包含的短独立词）。</li>
+<li>计算当前词 $w$ 的条件概率时，分母不再是全数字总和，而是<strong>其父前缀节点所管辖的子树（sub-Trie）内所有词的频数总和</strong>。</li>
+<li>如果当前词在树中找不到任何前缀路径，模型会自动退化回常规的全局一元模型（Unigram Probability）。</li>
+</ul>
+</li>
+<li><p><strong>最优路径构建</strong>：在匹配阶段，利用AC自动机对文本进行一趟扫描，找出所有可能的词匹配并连成一个DAG图。每个位置计算状态转移概率：</p>
+<script type="math/tex; mode=display">\text{Score}(s) = \max_{s'} \left[ \log P(s' \rightarrow s) + \log P(s') \right]</script><p>最后从文本末尾（EOS）沿着记录的最高概率前驱节点反向回溯（Backtrack），输出最终的分词边界。</p>
+</li>
+</ul>
+<h2 id="4-Strength-Weakness"><a href="#4-Strength-Weakness" class="headerlink" title="4. Strength / Weakness"></a>4. Strength / Weakness</h2><ul>
+<li>✔ <strong>Strength</strong>:<ul>
+<li><strong>白嫖大模型常识</strong>：利用LLM的上下文理解能力，在线下低成本解决传统无监督分词最头疼的“动态歧义”问题。</li>
+</ul>
+</li>
+<li>✖ <strong>Weakness</strong>:<ul>
+<li><strong>“伪高效”的叙事陷阱</strong>：宣称比LLM在线分词快几千倍，本质上是<strong>把大模型的推理延迟打包转嫁到了“离线词典构建”阶段</strong>，端到端启动成本极高。</li>
+<li><strong>动态迁移差（无法应对Real-time OOV）</strong>：线上运行本质是个静态词典，<strong>对真正的线上实时未登录词毫无抵抗力</strong>，必须重新花几个小时跑大模型去重新蒸馏词典。</li>
+<li><strong>指标迎合</strong>：评测时靠OpenCC转换和硬调参数去迎合传统标准，大模型的“完美语义”在硬指标上容易水土不服。</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-Reusable-modules（重点）"><a href="#5-Reusable-modules（重点）" class="headerlink" title="5. Reusable modules（重点）"></a>5. Reusable modules（重点）</h2><ul>
+<li>[x] <strong>data construction (大模型冷启动字典挖掘)</strong>: 灌入垂直领域的Raw Log让大模型Zero-shot提取特定术语，作为新业务冷启动的种子词典。</li>
+<li>[x] <strong>loss (统计学幻觉过滤器)</strong>: 对大模型生成/抽取的文本，反向扔回语料库计算<strong>PMI（点互信息）</strong>，用凝聚度作硬门槛，低成本干掉LLM的胡言乱语。</li>
+<li>[x] <strong>encoding (大模型能力的传统结构编译)</strong>: 遵循“LLM线下做Explorer（提供先验），传统算法线上做Executor（提供速度）”。把大模型沉淀的知识离线编译进Trie树/AC自动机+Viterbi，线上CPU零成本、毫秒级平替。</li>
+</ul>
+<h2 id="6-Notes-optional"><a href="#6-Notes-optional" class="headerlink" title="6. Notes (optional)"></a>6. Notes (optional)</h2><p>感觉LLM构建词典和最后的AC自动机算概率是可取的，可以用于改进别的东西。</p>
 
         
       </div>
@@ -335,25 +366,25 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2025/10/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88CNN%EF%BC%89/"
-      title="卷积神经网络（CNN）"
+      href="/2026/07/07/ACM2021-%E5%86%8D%E6%AC%A1%E9%A2%84%E8%AE%AD%E7%BB%83+%E5%85%A8%E8%AF%8D%E6%8E%A9%E7%A0%81/"
+      title="ACM2021-再次预训练+全词掩码"
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
       
-        卷积神经网络（CNN）
+        ACM2021-再次预训练+全词掩码
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/10/25/%E8%87%AA%E5%8A%A8%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87%EF%BC%88Learning%20Rate%EF%BC%89/"
-      title="自动调整学习率（Learning Rate）"
+      href="/2026/06/04/%E5%AF%B9%E4%BA%8E%E4%B8%AD%E6%96%87%E6%96%B0%E8%AF%8D%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95%E7%9A%84%E7%96%91%E9%97%AE%E4%B8%8E%E7%9C%8B%E6%B3%95/"
+      title="留档[1]对于中文新词检测方法的疑问与看法"
      >
 
     <p class="title-text">
       
-        自动调整学习率（Learning Rate）
+        留档[1]对于中文新词检测方法的疑问与看法
         
     </p>
     <i class="fa-solid fa-angle-right"></i>

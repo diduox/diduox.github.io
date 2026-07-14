@@ -27,31 +27,24 @@
   
 
   
-  <title>损失函数（Loss）也可能有影响 | 超级迪多的博客</title>
+  <title>ACM2021-再次预训练+全词掩码 | 超级迪多的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="损失函数（Loss）也可能有影响 把分类(Classification)当作回归(Regression)来看。 把类别(Class)也变成数字，让y和Class的编号越接近越好。  如果分类的时候Class1和Class2之间并没有联系，那么这种划分Class的方法就不是一个好的方法。 Class as one-hot vector  两两Class的距离都是一样的。  对于回归问题，输出的是一个">
+  <meta name="description" content="Paper: Domain-Specific Language Model Pretraining for Biomedical Natural Language Processing    1. Meta Year: 2021    Venue: ACM (Vol. 1, No. 1) &#x2F; arXiv    Link: https:&#x2F;&#x2F;doi.org&#x2F;10.1145&#x2F;3458754     2.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="损失函数（Loss）也可能有影响">
-<meta property="og:url" content="https://diduox.github.io/2025/10/25/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%88Loss%EF%BC%89%E4%B9%9F%E5%8F%AF%E8%83%BD%E6%9C%89%E5%BD%B1%E5%93%8D/index.html">
+<meta property="og:title" content="ACM2021-再次预训练+全词掩码">
+<meta property="og:url" content="https://diduox.github.io/2026/07/07/ACM2021-%E5%86%8D%E6%AC%A1%E9%A2%84%E8%AE%AD%E7%BB%83+%E5%85%A8%E8%AF%8D%E6%8E%A9%E7%A0%81/index.html">
 <meta property="og:site_name" content="超级迪多的博客">
-<meta property="og:description" content="损失函数（Loss）也可能有影响 把分类(Classification)当作回归(Regression)来看。 把类别(Class)也变成数字，让y和Class的编号越接近越好。  如果分类的时候Class1和Class2之间并没有联系，那么这种划分Class的方法就不是一个好的方法。 Class as one-hot vector  两两Class的距离都是一样的。  对于回归问题，输出的是一个">
+<meta property="og:description" content="Paper: Domain-Specific Language Model Pretraining for Biomedical Natural Language Processing    1. Meta Year: 2021    Venue: ACM (Vol. 1, No. 1) &#x2F; arXiv    Link: https:&#x2F;&#x2F;doi.org&#x2F;10.1145&#x2F;3458754     2.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135506754.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135707071.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135851757.png">
-<meta property="og:image" content="c:\Users\%E6%A1%82%E7%89%A9%E9%AA%91%E5%A3%AB\AppData\Roaming\Typora\typora-user-images\image-20251025140902721.png">
-<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025142809015.png">
-<meta property="article:published_time" content="2025-10-25T06:31:31.000Z">
-<meta property="article:modified_time" content="2025-10-25T06:31:49.386Z">
+<meta property="article:published_time" content="2026-07-07T08:53:53.000Z">
+<meta property="article:modified_time" content="2026-07-07T08:53:35.703Z">
 <meta property="article:author" content="迪多">
-<meta property="article:tag" content="机器学习">
-<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="中文分词">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135506754.png">
   
     <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
   
@@ -260,7 +253,7 @@
        
 
 
-<article id="post-损失函数（Loss）也可能有影响" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-ACM2021-再次预训练+全词掩码" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -273,7 +266,7 @@
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        损失函数（Loss）也可能有影响
+        ACM2021-再次预训练+全词掩码
       </h1>
     
   
@@ -281,7 +274,7 @@
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-10-25T06:31:31.000Z" itemprop="datePublished">2025-10-25</time>
+  <time class="dt-published" datetime="2026-07-07T08:53:53.000Z" itemprop="datePublished">2026-07-07</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
@@ -292,35 +285,50 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            482 词 
+            1.6k 词 
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D/" rel="tag">中文分词</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p><strong>损失函数（Loss）也可能有影响</strong></p>
-<p>把分类(Classification)当作回归(Regression)来看。</p>
-<p>把类别(Class)也变成数字，让y和Class的编号越接近越好。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135506754.png" style="zoom:33%;" /></p>
-<p>如果分类的时候Class1和Class2之间并没有联系，那么这种划分Class的方法就不是一个好的方法。</p>
-<p><strong>Class as one-hot vector</strong></p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135707071.png" style="zoom:33%;" /></p>
-<p>两两Class的距离都是一样的。</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025135851757.png" style="zoom: 33%;" /></p>
-<p>对于回归问题，输出的是一个数值；</p>
-<p>而对于分类问题，输出的是一个向量，并且这个向量要先通过softmax之后，再与Label进行比较。</p>
-<p><strong>为什么要加Softmax(粗略的解释)？</strong></p>
-<p>$\hat{y}$ 的值里面只有0和1，而$y$里面有任何值，所有要通过softmax把y的值放到0和1之间。</p>
-<p><strong>Soft-max</strong><br><img src="C:\Users\桂物骑士\AppData\Roaming\Typora\typora-user-images\image-20251025140902721.png" alt="image-20251025140902721" style="zoom:33%;" /></p>
-<p>$exp(y_i)$ 就是把 $y$ 作为指数幂，把 $e$ 提到 $y$ 次方 :arrow_right: $e^{y_i}$</p>
-<p>并且Soft-max会让大的值和小的值之间的差距更大。</p>
-<p><strong>Loss of Classification</strong></p>
-<p>Cross-entropy(交叉熵)比Mean Square Error(MSE)更加适用于分类。</p>
-<p>举例的方法来说明原因：</p>
-<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20251025142809015.png" style="zoom:33%;" /></p>
+          <p>Paper: Domain-Specific Language Model Pretraining for Biomedical Natural Language Processing   </p>
+<h2 id="1-Meta"><a href="#1-Meta" class="headerlink" title="1. Meta"></a>1. Meta</h2><ul>
+<li><strong>Year</strong>: 2021   </li>
+<li><strong>Venue</strong>: ACM (Vol. 1, No. 1) / arXiv   </li>
+<li><strong>Link</strong>: <a target="_blank" rel="noopener" href="https://doi.org/10.1145/3458754">https://doi.org/10.1145/3458754</a>   </li>
+</ul>
+<h2 id="2-One-line-takeaway"><a href="#2-One-line-takeaway" class="headerlink" title="2. One-line takeaway"></a>2. One-line takeaway</h2><p>以生物医学为例，从零开始的领域特定预训练结果优于对通用领域模型基础上进行混合领域持续预训练。 </p>
+<h2 id="3-Problem"><a href="#3-Problem" class="headerlink" title="3. Problem"></a>3. Problem</h2><p>现有垂直领域模型（如BioBERT）多在通用模型上持续训练并沿用通用词表。作者对此提出质疑，指出由于通用与专业文本差异巨大，在数据充沛的特定领域，这种迁移学习反而会导致负迁移，限制模型性能。  </p>
+<h2 id="4-Module"><a href="#4-Module" class="headerlink" title="4. Module"></a>4. Module</h2><ul>
+<li><strong>核心模块1：从头开始的特定领域预训练（Domain-Specific Pretraining from Scratch）</strong>。模型完全不依赖通用语料，仅使用31亿词的纯PubMed医学摘要从头开始进行掩码语言模型（MLM）训练，构建了PubMedBERT 。  </li>
+<li><strong>核心模块2：全词掩码（Whole-Word Masking, WWM）</strong>：在MLM预训练中，若单词的某一子词被选中，则强制掩码其全部子词。这杜绝了模型利用词内残余子词“作弊”推测，迫使其捕获更深层的上下文语义依赖。</li>
+<li><strong>核心模块3：极简下游任务架构（Simplified Downstream Architecture）</strong>：指出在强大的自注意力预训练模型下，下游任务无需复杂的网络与标签方案。例如在NER任务中，简单的“线性分类层 + IO标签”组合，其表现与引入“Bi-LSTM/CRF + BIO/BIOUL”的复杂架构几乎完全一致。</li>
+</ul>
+<h2 id="5-Strength-Weakness"><a href="#5-Strength-Weakness" class="headerlink" title="5. Strength / Weakness"></a>5. Strength / Weakness</h2><ul>
+<li>✔ <strong>Strength</strong>:<ul>
+<li>进行了极其详尽的消融实验，清晰剥离了词表、掩码策略、数据源对预训练的独立影响 。  </li>
+<li>统一了该领域的评估标准（BLURB），并开源了SOTA模型，极大推动了社区发展 。  </li>
+</ul>
+</li>
+<li>✖ <strong>Weakness</strong>:<ul>
+<li>在预训练中加入PMC全文（Full-text）数据反而略微降低了模型性能（除非延长训练时间），且引入对抗性预训练（Adversarial pretraining）也导致了性能下降，论文未能给出深入彻底的机制性解释，仅提出了一些假说 。    </li>
+</ul>
+</li>
+</ul>
+<h2 id="6-Notes-optional"><a href="#6-Notes-optional" class="headerlink" title="6. Notes (optional)"></a>6. Notes (optional)</h2><p>英文的特定领域BERT把BPE分词方法改成了WordPiece，那中文这种本来就按字分的是怎么算的？</p>
+<p>生成和微调集差不多的文本对BERT进行二次预训练……</p>
+<p>只要超参数在合理范围内,验证集上的性能对超参数选择并不十分敏感。</p>
+<p>论文提到使用WWM好像比BPE效果好，我记得中文也要什么字/词BERT的争论。</p>
+<p>即使在通用域文本上进行预训练并采用领域内词汇表,也未带来任何益处</p>
+<p>总之,在此领域特定预训练任务中,通用域预训练并未显现出任何优势。</p>
+<p>并且通用域预训练+领域内词汇表不仅不会造成任何提升，还会导致结果下降。</p>
+<p>BERT的所谓问答任务：问答任务。对于二值(是/否)或三值(是/可能/否)问答任务,其编码方式与句子相似度任务类似。 即,在开头添加一个 [CLS] 词元,随后是问题和参考文本,并使用一个 [SEP] 词元分隔这两个文本片段。</p>
+<p>预训练数据量增加并不一定立即提升模型性能，数据质量、领域匹配程度以及训练充分程度比单纯扩大数据规模更加重要，即使增加的数据量有潜在价值，必须要纳入额外预训练周期才能充分利用这些信息。</p>
+<p>对抗预训练并不是普遍有效的方法，其效果依赖于预训练语料与下游任务之间的领域差异。对于高度匹配的领域数据，收益可能有限甚至下降。</p>
+<p>神经网络关系抽取虽然减少了人工特征设计，但可能通过记忆实体组合导致过拟合，尤其在远程监督场景中。因此常用实体虚拟化（替换为类型标签）来增强模型泛化能力。</p>
 
         
       </div>
@@ -333,27 +341,22 @@
   
     
 <nav id="article-nav">
-  <a class="article-nav-btn left "
-    
-      href="/2025/10/26/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88CNN%EF%BC%89/"
-      title="卷积神经网络（CNN）"
+  <a class="article-nav-btn left  disabled "
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
-      
-        卷积神经网络（CNN）
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/10/25/%E8%87%AA%E5%8A%A8%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87%EF%BC%88Learning%20Rate%EF%BC%89/"
-      title="自动调整学习率（Learning Rate）"
+      href="/2026/07/06/ACL2025-LLM%E5%88%86%E8%AF%8D+AC%E8%87%AA%E5%8A%A8%E6%9C%BA/"
+      title="ACL2025-LLM分词+AC自动机"
      >
 
     <p class="title-text">
       
-        自动调整学习率（Learning Rate）
+        ACL2025-LLM分词+AC自动机
         
     </p>
     <i class="fa-solid fa-angle-right"></i>
