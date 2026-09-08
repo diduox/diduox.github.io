@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<!-- 数学公式渲染（KaTeX 自动识别 $...$ 和 $$...$$） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\[', right: '\\]', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });"></script>
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>Dynamic Chain-of-Thought for Low-Resource Event Extraction | 超级迪多的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="Dynamic Chain-of-Thought for Low-Resource Event Extraction引言[12,17]从LLM中采样数据集成本高昂且不稳定，所以要在EE领域开发有效的低资源EE技术。 EE遵循清晰的逻辑结构：识别粗粒度事件类型自然会导致细粒度事件类型的发现。 一旦确认了事件类型，识别相应的角色就变得容易。这种逻辑推理通过缩小搜索空间、减少无关选择并聚焦于最可能的结果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dynamic Chain-of-Thought for Low-Resource Event Extraction">
+<meta property="og:url" content="https://diduox.github.io/2026/09/08/Dynamic%20Chain-of-Thought%20for%20Low-Resource%20Event%20Extraction/index.html">
+<meta property="og:site_name" content="超级迪多的博客">
+<meta property="og:description" content="Dynamic Chain-of-Thought for Low-Resource Event Extraction引言[12,17]从LLM中采样数据集成本高昂且不稳定，所以要在EE领域开发有效的低资源EE技术。 EE遵循清晰的逻辑结构：识别粗粒度事件类型自然会导致细粒度事件类型的发现。 一旦确认了事件类型，识别相应的角色就变得容易。这种逻辑推理通过缩小搜索空间、减少无关选择并聚焦于最可能的结果">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260808153635409.png">
+<meta property="article:published_time" content="2026-09-08T04:04:58.000Z">
+<meta property="article:modified_time" content="2026-09-08T04:04:58.000Z">
+<meta property="article:author" content="迪多">
+<meta property="article:tag" content="大语言模型">
+<meta property="article:tag" content="事件抽取">
+<meta property="article:tag" content="低资源学习">
+<meta property="article:tag" content="思维链">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260808153635409.png">
+  
+    <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>超级迪多的博客 </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+      <a id="nav-rss-link" class="nav-icon mobile-hide" href="/atom.xml" title="RSS 订阅">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M198-120q-25.846 0-44.23-18.384-18.384-18.385-18.384-44.23 0-25.846 18.384-44.23 18.384-18.385 44.23-18.385 25.846 0 44.23 18.385 18.384 18.384 18.384 44.23 0 25.845-18.384 44.23Q223.846-120 198-120Zm538.385 0q-18.846 0-32.923-13.769-14.076-13.769-15.922-33.23-8.692-100.616-51.077-188.654-42.385-88.039-109.885-155.539-67.5-67.501-155.539-109.885Q283-663.462 182.385-672.154q-19.461-1.846-33.23-16.23-13.769-14.385-13.769-33.846t14.076-32.922q14.077-13.461 32.923-12.23 120.076 8.692 226.038 58.768 105.961 50.077 185.73 129.846 79.769 79.769 129.846 185.731 50.077 105.961 58.769 226.038 1.231 18.846-12.538 32.922Q756.461-120 736.385-120Zm-252 0q-18.231 0-32.423-13.461t-18.653-33.538Q418.155-264.23 348.886-333.5q-69.27-69.27-166.501-84.423-20.077-4.462-33.538-18.961-13.461-14.5-13.461-33.346 0-19.076 13.884-33.23 13.884-14.153 33.115-10.922 136.769 15.384 234.384 112.999 97.615 97.615 112.999 234.384 3.231 19.23-10.538 33.115Q505.461-120 484.385-120Z"/></svg>
+      </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">Home</a>
+    
+      <a class="nav-dropdown-link" href="/archives">Archives</a>
+    
+      <a class="nav-dropdown-link" href="/about">About</a>
+    
+    
+      <a class="nav-dropdown-link" href="/atom.xml" title="RSS 订阅">RSS</a>
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+        <image src=/images/avatar.jpg></image>
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">迪多 </div>
+      <div class="dot"></div>
+      <div class="subtitle">枝江月亮，将我照亮；<br>枝江太阳，暖我心房。 </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://twitter.com" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://store.steampowered.com" title="Steam"><i class="fa-brands fa-steam"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">最新文章</h3>
+      <ul>
+        
+          <a class="recent-link" href="/2026/09/08/2019-01-%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%8D%81%E5%B9%B4%E5%8F%88%E5%9B%9E%E9%A1%BE2007-2017/" title="中文分词十年又回顾: 2007-2017" >
+            <div class="recent-link-text">
+              中文分词十年又回顾: 2007-2017
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/09/08/2024-05-ChatIE%20Zero-Shot%20Information%20Extraction%20via%20Chatting%20with%20ChatGPT/" title="ChatIE: Zero-Shot Information Extraction via Chatting with ChatGPT" >
+            <div class="recent-link-text">
+              ChatIE: Zero-Shot Information Extraction via Chatting with ChatGPT
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/09/08/2023-05-Aligning%20Instruction%20Tasks%20Unlocks%20Large%20Language%20Models%20%20as%20Zero-Shot%20Relation%20Extractors/" title="Aligning Instruction Tasks Unlocks Large Language Models as Zero-Shot Relation Extractors" >
+            <div class="recent-link-text">
+              Aligning Instruction Tasks Unlocks Large Language Models as Zero-Shot Relation Extractors
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/09/08/2025-08-Large%20Language%20Models%20Meet%20NLP%20A%20Survey/" title="Large Language Models Meet NLP: A Survey" >
+            <div class="recent-link-text">
+              Large Language Models Meet NLP: A Survey
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/09/08/Dynamic%20Chain-of-Thought%20for%20Low-Resource%20Event%20Extraction/" title="Dynamic Chain-of-Thought for Low-Resource Event Extraction" >
+            <div class="recent-link-text">
+              Dynamic Chain-of-Thought for Low-Resource Event Extraction
+            </div>
+          </a>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                学习笔记
+                <div class="category-count">29</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+                个人博客
+                <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E6%89%B9%E5%88%A4/">
+                论文批判
+                <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%95%99%E6%A1%A3/">
+                留档
+                <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/NLP/">
+                NLP
+                <div class="category-count">11</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/AC%E8%87%AA%E5%8A%A8%E6%9C%BA/" rel="tag">AC自动机</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Agent/" rel="tag">Agent</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NLP/" rel="tag">NLP</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/PMI/" rel="tag">PMI</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Self-Instruct/" rel="tag">Self-Instruct</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Transformer/" rel="tag">Transformer</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/agent/" rel="tag">agent</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D/" rel="tag">中文分词</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E4%BA%8B%E4%BB%B6%E6%8A%BD%E5%8F%96/" rel="tag">事件抽取</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E4%BD%8E%E8%B5%84%E6%BA%90%E5%AD%A6%E4%B9%A0/" rel="tag">低资源学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E6%8A%BD%E5%8F%96/" rel="tag">信息抽取</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%85%A8%E8%AF%8D%E6%8E%A9%E7%A0%81/" rel="tag">全词掩码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%85%B3%E7%B3%BB%E6%8A%BD%E5%8F%96/" rel="tag">关系抽取</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%90%88%E6%88%90%E6%95%B0%E6%8D%AE/" rel="tag">合成数据</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/" rel="tag">命名实体识别</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" rel="tag">大语言模型</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BA%A7%E5%BB%BA%E6%A8%A1/" rel="tag">字符级建模</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%80%9D%E7%BB%B4%E9%93%BE/" rel="tag">思维链</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%8C%87%E4%BB%A4%E5%BE%AE%E8%B0%83/" rel="tag">指令微调</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%97%A0%E5%88%86%E8%AF%8D%E5%99%A8/" rel="tag">无分词器</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E4%B8%8A%E4%B8%8B%E6%96%87%E5%AD%A6%E4%B9%A0/" rel="tag">检索增强上下文学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B8%90%E8%BF%9B%E5%BC%8F%E8%AE%AD%E7%BB%83/" rel="tag">渐进式训练</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%94%9F%E7%89%A9%E5%8C%BB%E5%AD%A6NLP/" rel="tag">生物医学NLP</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" rel="tag">知识图谱</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E8%A1%A5%E5%85%A8/" rel="tag">知识图谱补全</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%BB%BC%E8%BF%B0/" rel="tag">综述</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E8%87%AA%E6%88%91%E5%AF%B9%E9%BD%90/" rel="tag">自我对齐</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9B%B6%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0/" rel="tag">零样本学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%A2%84%E8%AE%AD%E7%BB%83/" rel="tag">预训练</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%A2%86%E5%9F%9F%E9%A2%84%E8%AE%AD%E7%BB%83/" rel="tag">领域预训练</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-Dynamic Chain-of-Thought for Low-Resource Event Extraction" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        Dynamic Chain-of-Thought for Low-Resource Event Extraction
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-09-08T04:04:58.000Z" itemprop="datePublished">2026-09-08</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    <a class="meta-cate-link" href="/categories/NLP/">NLP</a>><a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>><a class="meta-cate-link" href="/categories/%E7%95%99%E6%A1%A3/">留档</a>><a class="meta-cate-link" href="/categories/%E8%AE%BA%E6%96%87%E6%89%B9%E5%88%A4/">论文批判</a>
+  
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            4k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%8B%E4%BB%B6%E6%8A%BD%E5%8F%96/" rel="tag">事件抽取</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%8E%E8%B5%84%E6%BA%90%E5%AD%A6%E4%B9%A0/" rel="tag">低资源学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" rel="tag">大语言模型</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%80%9D%E7%BB%B4%E9%93%BE/" rel="tag">思维链</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <h2 id="Dynamic-Chain-of-Thought-for-Low-Resource-Event-Extraction"><a href="#Dynamic-Chain-of-Thought-for-Low-Resource-Event-Extraction" class="headerlink" title="Dynamic Chain-of-Thought for Low-Resource Event Extraction"></a>Dynamic Chain-of-Thought for Low-Resource Event Extraction</h2><h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>[12,17]从LLM中采样数据集成本高昂且不稳定，所以要在EE领域开发有效的<strong>低资源</strong>EE技术。</p>
+<p>EE遵循清晰的逻辑结构：识别粗粒度事件类型自然会导致细粒度事件类型的发现。</p>
+<p>一旦确认了事件类型，识别相应的角色就变得容易。这种逻辑推理通过缩小搜索空间、减少无关选择并聚焦于最可能的结果来简化抽取过程。</p>
+<p><img src="https://diduoblog-pics.oss-cn-beijing.aliyuncs.com/20260808153635409.png" style="zoom: 67%;" /></p>
+<p>以句子 “He claimed Iraqi troops had destroyed five tanks.” 为例，模型分三步逐步抽取事件：</p>
+<ol>
+<li><strong>Step 1</strong>：识别触发词和粗粒度事件类型 → 触发词 <code>destroyed</code>，类型 <code>Conflict</code></li>
+<li><strong>Step-wise Navigator</strong>：根据上一步输出，从知识库动态注入引导（如 “Conflict 有 2 种子类型：Attack、Demonstrate”），缩小下一步搜索空间</li>
+<li><strong>Step 2</strong>：细化为细粒度子类型 → <code>Conflict-Attack</code></li>
+<li><strong>Step 3</strong>：根据导航器给出的该类型角色定义（Attacker、Target、Instrument、Time、Place），抽取论元并分类角色 → <code>Attacker is troops, Target is tanks</code></li>
+</ol>
+<p><strong>最终输出</strong>：<code>trigger=destroyed, subtype=Conflict-Attack, Attacker=troops, Target=tanks</code></p>
+<p><strong>核心思想</strong>：</p>
+<ul>
+<li>层级分类（粗 → 细 → 角色）代替直接 33 类分类，缓解低资源类别不平衡</li>
+<li>导航器动态引导，减少无关选项干扰、抑制错误传播</li>
+<li>输出格式固定，可确定性解析为结构化元组</li>
+<li>训练时三步并行（用 ground truth），推理时串行逐步生成</li>
+</ul>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><h4 id="任务定义"><a href="#任务定义" class="headerlink" title="任务定义"></a>任务定义</h4><p>EE任务主要包含两个子任务：</p>
+<ol>
+<li><strong>ED（事件检测）</strong>：找触发词 + 判断事件类型</li>
+<li><strong>EAE（事件论元抽取）</strong>：已知触发词，找论元 + 判断角色</li>
+</ol>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>含义</th>
+<th>类比 NER</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>触发词（Trigger）</strong></td>
+<td>最能表达”事件发生”的那个词，如 destroyed</td>
+<td>相当于实体本身</td>
+</tr>
+<tr>
+<td><strong>事件类型（Event Type）</strong></td>
+<td>触发词对应的事件类别，如 Conflict-Attack</td>
+<td>相当于实体的类别标签</td>
+</tr>
+<tr>
+<td><strong>论元（Argument）</strong></td>
+<td>参与这件事的实体，如 troops、tanks</td>
+<td>其实就是 NER 抽出来的实体</td>
+</tr>
+<tr>
+<td><strong>角色（Role）</strong></td>
+<td>论元在事件里扮演什么角色，如 Attacker、Target</td>
+<td>NER 没有这一步——这是 EE 独有的</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>形式化：给定句子集合 $X = {x<em>i}</em>{i=1}^{|X|}$，目标是抽取事件记录集合 $S = {S<em>j}</em>{j=1}^{|X|}$。每条记录 $S_j$ 是一句自然语言，包含：</p>
+<ol>
+<li>触发词 $T_j$</li>
+<li>论元集合 $A<em>j = {A</em>{jk}}_{k=1}^{|A_j|}$</li>
+<li>角色集合 $R<em>j = {R</em>{jk}}_{k=1}^{|R_j|}$</li>
+</ol>
+<p>每个触发词对应一个事件类型 $E_j$；每个论元对应一个角色，因此 $|A_j| = |R_j|$。</p>
+<p>事件类型 $E_j$ 未列进 $S_j$ 的花括号，只是作者用”每个触发词对应一个事件类型”的文字声明来补充，属于记法省略；实际模型输出中类型是明确存在的。而角色必须和论元成对列出，因为论元只是文本片段，脱离角色不携带语义。所以一条事件记录完整来说是<strong>四元组：触发词、事件类型、论元、角色。</strong></p>
+<p><strong>生成式建模</strong>：本文将 EE 建模为语言生成任务——输入自然语言文本 $x_i$，模型直接生成事件记录 $S_j$，而非传统的序列标注分类。</p>
+<h4 id="面向EE的Dynamic-CoT"><a href="#面向EE的Dynamic-CoT" class="headerlink" title="面向EE的Dynamic CoT"></a>面向EE的Dynamic CoT</h4><h5 id="CoT-设计"><a href="#CoT-设计" class="headerlink" title="CoT 设计"></a>CoT 设计</h5><p>事件类型体系天然是层级结构：粗粒度类型（如 Life 含 birth/death/marriage，Conflict 含 attack/demonstrate）→ 细粒度类型 → 每种类型绑定固定角色（如 Conflict-Attack 有 Attacker、Target、Instrument、Time、Place 五种角色）。因此采用三步 CoT 镜像这一层级：</p>
+<ol>
+<li>识别触发词 + 粗粒度类型</li>
+<li>细化为细粒度类型</li>
+<li>角色分类 + 论元抽取</li>
+</ol>
+<h5 id="Step-wise-Navigator-模块"><a href="#Step-wise-Navigator-模块" class="headerlink" title="Step-wise Navigator 模块"></a>Step-wise Navigator 模块</h5><p>将 EE 形式化为层级分类任务，引入逐步导航器引导多步推理：基于数据集官方定义（ACE 标注指南）构建<strong>层级知识库</strong>（含粗/细粒度类型、描述及关联角色）；每一步分析上一步输出，从知识库取对应知识<strong>动态更新下一步 prompt</strong>，缩小搜索空间、选择最可能路径。</p>
+<p>这个知识库做成一个简单的python字典或者json文件即可。因为其能保存下层级结构。</p>
+<h5 id="动态-CoT-框架"><a href="#动态-CoT-框架" class="headerlink" title="动态 CoT 框架"></a>动态 CoT 框架</h5><p>每步输入 = 句子 $x_i$ + 动态 prompt $p_i \in P_i$ + 问题 $q_i \in Q_i$，其中 $p_i = \langle p_i^1, p_i^2, p_i^3 \rangle$，$q_i = \langle q_i^1, q_i^2, q_i^3 \rangle$。$p_i$ 是动态的：拼入上一步输出 + 导航器引导；每步输出有固定模板，可确定性解析。</p>
+<p><strong>Step 1</strong>：识别触发词并分类到粗粒度类型。输出格式：”Event trigger is \<tri\>. Event type is \<type\>.”（无事件用占位符，多事件用 [SEP] 分隔）</p>
+<script type="math/tex; mode=display">r_i^1 = LLM(x_i, p_i^1, q_i^1) \tag{1}</script><p><strong>Step 2</strong>：基于 Step 1 的粗粒度类型，细分类到子类型。$p_i^2$ 包含粗类及其子类型定义（如 Conflict 下的 Attack 和 Demonstrate）。输出格式：”Event trigger is \<tri\>. Event subtype is \<sub-type\>.”</p>
+<script type="math/tex; mode=display">r_i^2 = LLM(x_i, r_i^1, p_i^2, q_i^2) \tag{2}</script><p><strong>Step 3</strong>：抽取论元并分类角色。$p_i^3$ 包含细粒度类型相关的角色定义。输出格式：”Event trigger is \<tri\>. Event subtype is \<sub-type\>. \<Role\> is \<Arg\>.”</p>
+<script type="math/tex; mode=display">r_i^3 = LLM(x_i, r_i^2, p_i^3, q_i^3) \tag{3}</script><p><strong>核心</strong>：后一步输入包含前一步预测结果（链式），prompt 由前一步输出查知识库动态拼接（动态），三步构成完整的动态 CoT。</p>
+<h4 id="训练与推理"><a href="#训练与推理" class="headerlink" title="训练与推理"></a>训练与推理</h4><p><strong>训练</strong></p>
+<p>按三步 CoT 策略，每条数据<strong>并行</strong>构造三个训练样本，每步输入中使用的是<strong>上一步的标准答案（ground truth）</strong>而非模型预测：</p>
+<ul>
+<li><strong>Step 1</strong>：给定句子和 prompt，模型学习把 <code>&lt;tri&gt;</code> 替换为金标触发词 “destroyed”，<code>&lt;type&gt;</code> 替换为 “Conflict”</li>
+<li><strong>Step 2</strong>：给定句子、prompt + 第一步的 ground truth，学习把 <code>&lt;sub-type&gt;</code> 替换为 “Conflict-Attack”</li>
+<li><strong>Step 3</strong>：给定句子、prompt + 第二步的 ground truth，学习把 <code>&lt;role&gt;</code>/<code>&lt;arg&gt;</code> 替换为 “Attacker”/“troops”</li>
+</ul>
+<p>训练目标是最大化给定输入 $X$、prompt $P$、问题 $Q$ 时目标文本的概率，优化负对数似然损失：</p>
+<script type="math/tex; mode=display">\mathcal{L} = -\frac{1}{|\tau|} \sum_{(X,S)\in\tau} \log p(S|X; P; Q; \theta) \tag{4}</script><p><strong>推理</strong></p>
+<p>推理时<strong>串行</strong>进行：逐步生成，每步输入使用<strong>模型自己上一步的预测</strong>（而非 ground truth）。最后用确定性算法解析 Step 3 的输出，得到结构化事件元组，据此计算评估指标。</p>
+<h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><p><strong>设置</strong>：数据集 ACE2005（33 种事件类型、22 种角色），两个基准 ACE05-EN / ACE05-EN+（划分不同）；低资源场景沿用 DEGREE 的采样策略，用 1%~30% 的训练数据。基座 Flan-T5-large，AdamW（lr 2e-5），单卡 3090，结果取 3 次随机初始化平均。评估指标：触发词 F1（Tri-I/Tri-C）与论元 F1（Arg-I/Arg-C），其中 EAE F1 是核心指标。</p>
+<p><strong>主结果（Table 1）</strong>：</p>
+<ul>
+<li>分类方法（OneIE 等）数据多时 ED 尚可，但低资源（1%）下崩溃，EAE 明显弱。</li>
+<li>ED 任务：本方法在极低资源下略逊于 DEGREE（DEGREE 每句造 33 个样本、直接用标签语义做 33 类分类，低资源占便宜；本文每句仅 3 个样本、走 8 类→33 类分层），数据超 10% 后反超。</li>
+<li>EAE 任务：本方法在各数据比例下<strong>一致优于所有基线</strong>，Ours(type) 版本更强——这是论文的核心卖点。</li>
+</ul>
+<p><strong>消融（Table 2，10% 数据）</strong>：去掉整个 CoT 掉幅最大（如 EN 上 34.1→24.3）；去掉粗粒度分类、去掉导航器也分别中等程度下降——三个组件都有贡献。</p>
+<h5 id="EE任务的经典Baseline"><a href="#EE任务的经典Baseline" class="headerlink" title="EE任务的经典Baseline"></a>EE任务的经典Baseline</h5><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>代表方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分类/序列标注</td>
+<td><strong>OneIE</strong>（联合抽取+全局特征）、<strong>BERT-QA</strong>（抽取建模为问答）</td>
+</tr>
+<tr>
+<td>生成式</td>
+<td><strong>TANL</strong>（增强自然语言翻译）、<strong>Text2Event</strong>（序列到结构）、<strong>DEGREE</strong>（模板生成，低资源标杆）、<strong>DICE</strong>（mention 识别增强）</td>
+</tr>
+<tr>
+<td>LLM 系</td>
+<td><strong>FlanT5</strong>（直接微调，本文的裸基座）、<strong>LLaMA + LoRA</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="第-5-节-分析与讨论（10-训练数据下）"><a href="#第-5-节-分析与讨论（10-训练数据下）" class="headerlink" title="第 5 节 分析与讨论（10% 训练数据下）"></a>第 5 节 分析与讨论（10% 训练数据下）</h3><h5 id="5-1-CoT-步数的影响（Fig-3）"><a href="#5-1-CoT-步数的影响（Fig-3）" class="headerlink" title="5.1 CoT 步数的影响（Fig. 3）"></a>5.1 CoT 步数的影响（Fig. 3）</h5><p>对比 3 步（本文）、2 步（合并粗/细分类）、1 步（直接生成完整结构）三种变体：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>3-Steps</th>
+<th>2-Steps</th>
+<th>1-Step</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACE-EN-Tri</td>
+<td><strong>61.6</strong></td>
+<td>56.3</td>
+<td>54.8</td>
+</tr>
+<tr>
+<td>ACE-EN-Arg</td>
+<td><strong>34.1</strong></td>
+<td>30.9</td>
+<td>24.3</td>
+</tr>
+<tr>
+<td>ACE-EN⁺-Tri</td>
+<td><strong>63.0</strong></td>
+<td>59.2</td>
+<td>51.3</td>
+</tr>
+<tr>
+<td>ACE-EN⁺-Arg</td>
+<td><strong>39.3</strong></td>
+<td>35.6</td>
+<td>25.9</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>3 步在所有指标上稳定最优 → 多步推理确实能细化推断、利用子任务依赖。</li>
+<li>3→2 步：ED 大幅下降 → 层级事件类型分类有收益。</li>
+<li>2→1 步：EAE 暴跌（尤其 EN⁺ 上 35.6→25.9）→ 层级分类对论元-角色抽取同样关键。</li>
+</ul>
+<h5 id="5-2-Step-wise-Navigator-的作用（Fig-4）"><a href="#5-2-Step-wise-Navigator-的作用（Fig-4）" class="headerlink" title="5.2 Step-wise Navigator 的作用（Fig. 4）"></a>5.2 Step-wise Navigator 的作用（Fig. 4）</h5><p>对比”只在某一步用导航器”与”完全不用”：</p>
+<ul>
+<li>导航器在 Step 2 和 Step 3 单独使用均有提升（如 EN-Arg：33.7→34.1、32.2→34.1）。</li>
+<li><strong>“All-step”（全程使用）增益最大</strong>（如 EN-Tri 55.6→61.6，EN-Arg 30.1→34.1）。</li>
+<li>结论：导航器在整条推理链上维持连贯性、减少错误传播；推理越复杂（后续步骤），其作用越关键。</li>
+</ul>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2026/09/08/2025-08-Large%20Language%20Models%20Meet%20NLP%20A%20Survey/"
+      title="Large Language Models Meet NLP: A Survey"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        Large Language Models Meet NLP: A Survey
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2026/09/08/Progressive%20Training%20of%20Transformer%20for%20Knowledge%20Graph%20Completion%20Tasks/"
+      title="Progressive Training of Transformer for Knowledge Graph Completion Tasks"
+     >
+
+    <p class="title-text">
+      
+        Progressive Training of Transformer for Knowledge Graph Completion Tasks
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2026 迪多<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>

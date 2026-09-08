@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<!-- 数学公式渲染（KaTeX 自动识别 $...$ 和 $$...$$） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\[', right: '\\]', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });"></script>
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>ChatIE: Zero-Shot Information Extraction via Chatting with ChatGPT | 超级迪多的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="ChatIE: Zero-Shot Information Extraction via Chatting with ChatGPT全样本(full-shot)模型就是监督模型，使用完整标注训练或者微调模型。 ChatIE，通过将零样本信息抽取任务转化为一个采用两阶段框架的多轮问答问题。 引言ChatIE，通过将zero-shot IE任务转化为一个采用两阶段框架的多轮问答问题。 在第一个阶段，我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ChatIE: Zero-Shot Information Extraction via Chatting with ChatGPT">
+<meta property="og:url" content="https://diduox.github.io/2026/09/08/2024-05-ChatIE%20Zero-Shot%20Information%20Extraction%20via%20Chatting%20with%20ChatGPT/index.html">
+<meta property="og:site_name" content="超级迪多的博客">
+<meta property="og:description" content="ChatIE: Zero-Shot Information Extraction via Chatting with ChatGPT全样本(full-shot)模型就是监督模型，使用完整标注训练或者微调模型。 ChatIE，通过将零样本信息抽取任务转化为一个采用两阶段框架的多轮问答问题。 引言ChatIE，通过将zero-shot IE任务转化为一个采用两阶段框架的多轮问答问题。 在第一个阶段，我">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-09-08T04:04:58.000Z">
+<meta property="article:modified_time" content="2026-09-08T04:04:58.000Z">
+<meta property="article:author" content="迪多">
+<meta property="article:tag" content="命名实体识别">
+<meta property="article:tag" content="信息抽取">
+<meta property="article:tag" content="零样本学习">
+<meta property="article:tag" content="大语言模型">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>超级迪多的博客 </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+      <a id="nav-rss-link" class="nav-icon mobile-hide" href="/atom.xml" title="RSS 订阅">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M198-120q-25.846 0-44.23-18.384-18.384-18.385-18.384-44.23 0-25.846 18.384-44.23 18.384-18.385 44.23-18.385 25.846 0 44.23 18.385 18.384 18.384 18.384 44.23 0 25.845-18.384 44.23Q223.846-120 198-120Zm538.385 0q-18.846 0-32.923-13.769-14.076-13.769-15.922-33.23-8.692-100.616-51.077-188.654-42.385-88.039-109.885-155.539-67.5-67.501-155.539-109.885Q283-663.462 182.385-672.154q-19.461-1.846-33.23-16.23-13.769-14.385-13.769-33.846t14.076-32.922q14.077-13.461 32.923-12.23 120.076 8.692 226.038 58.768 105.961 50.077 185.73 129.846 79.769 79.769 129.846 185.731 50.077 105.961 58.769 226.038 1.231 18.846-12.538 32.922Q756.461-120 736.385-120Zm-252 0q-18.231 0-32.423-13.461t-18.653-33.538Q418.155-264.23 348.886-333.5q-69.27-69.27-166.501-84.423-20.077-4.462-33.538-18.961-13.461-14.5-13.461-33.346 0-19.076 13.884-33.23 13.884-14.153 33.115-10.922 136.769 15.384 234.384 112.999 97.615 97.615 112.999 234.384 3.231 19.23-10.538 33.115Q505.461-120 484.385-120Z"/></svg>
+      </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">Home</a>
+    
+      <a class="nav-dropdown-link" href="/archives">Archives</a>
+    
+      <a class="nav-dropdown-link" href="/about">About</a>
+    
+    
+      <a class="nav-dropdown-link" href="/atom.xml" title="RSS 订阅">RSS</a>
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+        <image src=/images/avatar.jpg></image>
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">迪多 </div>
+      <div class="dot"></div>
+      <div class="subtitle">枝江月亮，将我照亮；<br>枝江太阳，暖我心房。 </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://twitter.com" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://store.steampowered.com" title="Steam"><i class="fa-brands fa-steam"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">最新文章</h3>
+      <ul>
+        
+          <a class="recent-link" href="/2026/09/08/2019-01-%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%8D%81%E5%B9%B4%E5%8F%88%E5%9B%9E%E9%A1%BE2007-2017/" title="中文分词十年又回顾: 2007-2017" >
+            <div class="recent-link-text">
+              中文分词十年又回顾: 2007-2017
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/09/08/2024-05-ChatIE%20Zero-Shot%20Information%20Extraction%20via%20Chatting%20with%20ChatGPT/" title="ChatIE: Zero-Shot Information Extraction via Chatting with ChatGPT" >
+            <div class="recent-link-text">
+              ChatIE: Zero-Shot Information Extraction via Chatting with ChatGPT
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/09/08/2023-05-Aligning%20Instruction%20Tasks%20Unlocks%20Large%20Language%20Models%20%20as%20Zero-Shot%20Relation%20Extractors/" title="Aligning Instruction Tasks Unlocks Large Language Models as Zero-Shot Relation Extractors" >
+            <div class="recent-link-text">
+              Aligning Instruction Tasks Unlocks Large Language Models as Zero-Shot Relation Extractors
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/09/08/2025-08-Large%20Language%20Models%20Meet%20NLP%20A%20Survey/" title="Large Language Models Meet NLP: A Survey" >
+            <div class="recent-link-text">
+              Large Language Models Meet NLP: A Survey
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/09/08/Dynamic%20Chain-of-Thought%20for%20Low-Resource%20Event%20Extraction/" title="Dynamic Chain-of-Thought for Low-Resource Event Extraction" >
+            <div class="recent-link-text">
+              Dynamic Chain-of-Thought for Low-Resource Event Extraction
+            </div>
+          </a>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                学习笔记
+                <div class="category-count">29</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+                个人博客
+                <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E6%89%B9%E5%88%A4/">
+                论文批判
+                <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%95%99%E6%A1%A3/">
+                留档
+                <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/NLP/">
+                NLP
+                <div class="category-count">11</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/AC%E8%87%AA%E5%8A%A8%E6%9C%BA/" rel="tag">AC自动机</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Agent/" rel="tag">Agent</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NLP/" rel="tag">NLP</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/PMI/" rel="tag">PMI</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Self-Instruct/" rel="tag">Self-Instruct</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Transformer/" rel="tag">Transformer</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/agent/" rel="tag">agent</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D/" rel="tag">中文分词</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E4%BA%8B%E4%BB%B6%E6%8A%BD%E5%8F%96/" rel="tag">事件抽取</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E4%BD%8E%E8%B5%84%E6%BA%90%E5%AD%A6%E4%B9%A0/" rel="tag">低资源学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E6%8A%BD%E5%8F%96/" rel="tag">信息抽取</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%85%A8%E8%AF%8D%E6%8E%A9%E7%A0%81/" rel="tag">全词掩码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%85%B3%E7%B3%BB%E6%8A%BD%E5%8F%96/" rel="tag">关系抽取</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%90%88%E6%88%90%E6%95%B0%E6%8D%AE/" rel="tag">合成数据</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/" rel="tag">命名实体识别</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" rel="tag">大语言模型</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BA%A7%E5%BB%BA%E6%A8%A1/" rel="tag">字符级建模</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%80%9D%E7%BB%B4%E9%93%BE/" rel="tag">思维链</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%8C%87%E4%BB%A4%E5%BE%AE%E8%B0%83/" rel="tag">指令微调</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%97%A0%E5%88%86%E8%AF%8D%E5%99%A8/" rel="tag">无分词器</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E4%B8%8A%E4%B8%8B%E6%96%87%E5%AD%A6%E4%B9%A0/" rel="tag">检索增强上下文学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B8%90%E8%BF%9B%E5%BC%8F%E8%AE%AD%E7%BB%83/" rel="tag">渐进式训练</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%94%9F%E7%89%A9%E5%8C%BB%E5%AD%A6NLP/" rel="tag">生物医学NLP</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" rel="tag">知识图谱</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E8%A1%A5%E5%85%A8/" rel="tag">知识图谱补全</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%BB%BC%E8%BF%B0/" rel="tag">综述</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E8%87%AA%E6%88%91%E5%AF%B9%E9%BD%90/" rel="tag">自我对齐</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9B%B6%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0/" rel="tag">零样本学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%A2%84%E8%AE%AD%E7%BB%83/" rel="tag">预训练</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%A2%86%E5%9F%9F%E9%A2%84%E8%AE%AD%E7%BB%83/" rel="tag">领域预训练</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-2024-05-ChatIE Zero-Shot Information Extraction via Chatting with ChatGPT" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        ChatIE: Zero-Shot Information Extraction via Chatting with ChatGPT
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-09-08T04:04:58.000Z" itemprop="datePublished">2026-09-08</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    <a class="meta-cate-link" href="/categories/NLP/">NLP</a>><a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>><a class="meta-cate-link" href="/categories/%E7%95%99%E6%A1%A3/">留档</a>><a class="meta-cate-link" href="/categories/%E8%AE%BA%E6%96%87%E6%89%B9%E5%88%A4/">论文批判</a>
+  
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            3.2k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E6%8A%BD%E5%8F%96/" rel="tag">信息抽取</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/" rel="tag">命名实体识别</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" rel="tag">大语言模型</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9B%B6%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0/" rel="tag">零样本学习</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <h2 id="ChatIE-Zero-Shot-Information-Extraction-via-Chatting-with-ChatGPT"><a href="#ChatIE-Zero-Shot-Information-Extraction-via-Chatting-with-ChatGPT" class="headerlink" title="ChatIE: Zero-Shot Information Extraction via Chatting with ChatGPT"></a>ChatIE: Zero-Shot Information Extraction via Chatting with ChatGPT</h2><p>全样本(full-shot)模型就是监督模型，使用完整标注训练或者微调模型。</p>
+<p>ChatIE，通过将零样本信息抽取任务转化为一个采用两阶段框架的多轮问答问题。</p>
+<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>ChatIE，通过将zero-shot IE任务转化为一个采用两阶段框架的多轮问答问题。</p>
+<p>在第一个阶段，我们找出句子中可能存在的相应的元素类型；在第二阶段，我们对来自第一阶段的每个元素类型进行一个链式的IE。</p>
+<p>每个阶段均通过多轮问答来实现。</p>
+<h3 id="ChatIE"><a href="#ChatIE" class="headerlink" title="ChatIE"></a>ChatIE</h3><p>第一阶段，使用特定的模板和元素类型来构建问题，然后将问题和句子组合作为输入提供给ChatGPT。要求以<strong>表格形式</strong>进行回复。如果句子中不包含任何元素类型，返回None。</p>
+<p>第二阶段，通常包含多轮问答以抽取每种元素类型的元素。预先为每种元素类型设计一系列特定任务的提问模板。对于复杂的方案，我们使用链式模板。我们要求系统使用<strong>表格形式</strong>进行回复，如果没有抽取到内容，返回None。</p>
+<h5 id="RE三元组抽取"><a href="#RE三元组抽取" class="headerlink" title="RE三元组抽取"></a>RE三元组抽取</h5><p>给定句子$x$和问题prompt $q = {q_1, q_2, \dots}$，模型需要预测三元组$T(x) = {(s_1, r_1, o_1), \dots, (s_n, r_n, o_n)}$，其中$\text{type}((s_i, r_i, o_i)) \in \mathcal{T}$。$\mathcal{T}$表示潜在的三元组类型列表。</p>
+<p>形式上，对于输出的三元组$(s, r, o)$我们可以表示为：</p>
+<p>$p((s, r, o) \mid x, q) = \underbrace{p(r \mid x, q<em>1)}</em>{\text{Stage I}} \underbrace{p((s, o) \mid q<em>2) \overbrace{\dots}^{\text{complex object}}}</em>{\text{Stage II}}$</p>
+<p>就是说我们将一个大的概率分布，变成子问题的概率分布连乘。</p>
+<h5 id="NER"><a href="#NER" class="headerlink" title="NER"></a>NER</h5><p>对于NER任务，第一阶段是根据给定的类型列表，筛选出句子中存在的实体类型。</p>
+<p>在第二阶段中，每一轮的任务是提取一种类型的实体，因此第二阶段的轮数取决于第一阶段获得的实体数量。</p>
+<h5 id="EE"><a href="#EE" class="headerlink" title="EE"></a>EE</h5><p>对于EE任务，ChatIE将其分为两个子任务：事件分类和论元抽取。</p>
+<h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><h4 id="数据集和基线"><a href="#数据集和基线" class="headerlink" title="数据集和基线"></a>数据集和基线</h4><h5 id="数据集："><a href="#数据集：" class="headerlink" title="数据集："></a>数据集：</h5><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>任务</th>
+<th>数据集</th>
+<th>语言</th>
+<th>简介</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NER</td>
+<td>MSRA</td>
+<td>中文</td>
+<td>中文新闻领域实体识别</td>
+</tr>
+<tr>
+<td>NER</td>
+<td>CoNLL-2003/CoNLL++</td>
+<td>英文</td>
+<td>英文经典NER数据集</td>
+</tr>
+<tr>
+<td>RE</td>
+<td>DuIE2.0</td>
+<td>中文</td>
+<td>百度关系三元组抽取数据集</td>
+</tr>
+<tr>
+<td>RE</td>
+<td>NYT11-HRL</td>
+<td>英文</td>
+<td>New York Times关系抽取数据集</td>
+</tr>
+<tr>
+<td>EE</td>
+<td>DuEE1.0</td>
+<td>中文</td>
+<td>中文事件抽取数据集</td>
+</tr>
+<tr>
+<td>EE</td>
+<td>ACE05</td>
+<td>英文</td>
+<td>经典事件抽取benchmark</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="baseline："><a href="#baseline：" class="headerlink" title="baseline："></a>baseline：</h5><h6 id="NER-1"><a href="#NER-1" class="headerlink" title="NER"></a>NER</h6><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BiLSTM-CRF</td>
+<td>传统深度学习</td>
+<td>NER经典baseline</td>
+</tr>
+<tr>
+<td>BERT-CRF</td>
+<td>Transformer</td>
+<td>当前常用基础baseline</td>
+</tr>
+<tr>
+<td>FLAT</td>
+<td>Transformer</td>
+<td>中文NER经典模型，融合词信息</td>
+</tr>
+<tr>
+<td>LUKE</td>
+<td>Entity-aware</td>
+<td>实体增强预训练模型</td>
+</tr>
+<tr>
+<td>MRC-NER</td>
+<td>问答式NER</td>
+<td>将NER转化为QA任务</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h6 id="RE（三元组抽取）"><a href="#RE（三元组抽取）" class="headerlink" title="RE（三元组抽取）"></a>RE（三元组抽取）</h6><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CasRel</td>
+<td>Pipeline/级联抽取</td>
+<td>先抽主体，再抽关系和客体</td>
+</tr>
+<tr>
+<td>TPLinker</td>
+<td>指针网络</td>
+<td>建模实体对关系</td>
+</tr>
+<tr>
+<td>GPLinker</td>
+<td>图结构抽取</td>
+<td>使用token关系图</td>
+</tr>
+<tr>
+<td>OneRel</td>
+<td>关系抽取</td>
+<td>统一关系预测</td>
+</tr>
+<tr>
+<td>UIE</td>
+<td>生成式IE</td>
+<td>统一信息抽取</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h6 id="EE（事件抽取）"><a href="#EE（事件抽取）" class="headerlink" title="EE（事件抽取）"></a>EE（事件抽取）</h6><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EEQA</td>
+<td>QA式事件抽取</td>
+<td>将事件抽取转为问答</td>
+</tr>
+<tr>
+<td>Text2Event</td>
+<td>生成式</td>
+<td>使用T5生成事件结构</td>
+</tr>
+<tr>
+<td>UIE</td>
+<td>统一抽取</td>
+<td>同时支持NER/RE/EE</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h6 id="实验常见划分"><a href="#实验常见划分" class="headerlink" title="实验常见划分"></a>实验常见划分</h6><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>设置</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zero-shot</td>
+<td>无训练样本，直接测试泛化能力</td>
+</tr>
+<tr>
+<td>Few-shot</td>
+<td>少量样本训练/提示，例如1、5、20、100-shot</td>
+</tr>
+<tr>
+<td>Full-shot</td>
+<td>完整训练集监督训练</td>
+</tr>
+<tr>
+<td>Sup-SOTA</td>
+<td>监督学习领域当前最佳模型</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h6 id="评价指标"><a href="#评价指标" class="headerlink" title="评价指标"></a>评价指标</h6><ul>
+<li><strong>Micro-F1（微平均F1）</strong>：将所有列表的预测结果汇总后统一计算F1，更关注整体样本数量多的类别表现。</li>
+<li><strong>Marco-F1（宏评价F1）</strong>：先计算每个类别的F1，再对所有类别取平均，更关注类别（尤其是少数类别）的均衡表现。</li>
+<li><strong>Rel（关系评估）</strong>：只要求关系抽取中的头尾实体边界和关系类型正确，不考虑边界实体类型是否正确。</li>
+<li><strong>Rel+（严格实体评估）</strong>：要求头尾实体边界、关系类型以及实体类型全部正确，属于更严格的关系抽取评价标准。</li>
+<li><strong>Word-level F1（词级F1）</strong>：按照字符或词的重叠程度计算匹配效果，允许实体边界存在部分正确。</li>
+<li><strong>Entity-level F1（实体级F1）</strong>：以完整实体跨度作为评价单位，实体必须整体匹配才算正确。</li>
+<li><strong>Exact Match（完全匹配）</strong>：要求实体的起止位置和类型完全一致，否则被判错误。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>DuIE2.0 RE</th>
+<th>NYT11-HRL RE</th>
+<th>MSRA NER</th>
+<th>CoNLL++ NER</th>
+<th>DuEE1.0 EE</th>
+<th>ACE05 EE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zeroshot-uie</td>
+<td>0.0</td>
+<td>0.3</td>
+<td>35.21</td>
+<td>13.73</td>
+<td>0.0</td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>fs-20</td>
+<td>0.8</td>
+<td>0.5</td>
+<td>52.5</td>
+<td>4.41</td>
+<td>1.1</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td>fs-100</td>
+<td>12.0</td>
+<td>10.6</td>
+<td>78.6</td>
+<td>32.89</td>
+<td>10.1</td>
+<td>6.0</td>
+</tr>
+<tr>
+<td>full-shot</td>
+<td>70.5</td>
+<td>51.25</td>
+<td>95.98</td>
+<td>94.39</td>
+<td>46.5</td>
+<td>49.4</td>
+</tr>
+<tr>
+<td>Single(GPT-3.5)</td>
+<td>9.71</td>
+<td>6.61</td>
+<td>55.8</td>
+<td>52.9</td>
+<td>55.33</td>
+<td>13.2</td>
+</tr>
+<tr>
+<td><strong>ChatIE</strong></td>
+<td><strong>72.0</strong></td>
+<td><strong>37.5</strong></td>
+<td><strong>55.8</strong></td>
+<td><strong>62.56</strong></td>
+<td><strong>72.0</strong></td>
+<td><strong>14.3</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法类别</th>
+<th>方法</th>
+<th>使用模型/说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>传统IE模型</td>
+<td>Few-shot (fs-1/fs-5/fs-20/fs-100)</td>
+<td>在对应任务的传统IE模型上，仅使用1/5/20/100个标注样本进行少样本监督训练</td>
+</tr>
+<tr>
+<td>传统IE模型</td>
+<td>Full-shot</td>
+<td>在完整训练集上训练对应的传统IE模型</td>
+</tr>
+<tr>
+<td>统一信息抽取模型</td>
+<td>zs-uie</td>
+<td>UIE（Unified Information Extraction），通过跨任务训练实现零样本迁移</td>
+</tr>
+<tr>
+<td>LLM方法</td>
+<td>Single</td>
+<td>直接使用ChatGPT进行单轮问答式信息抽取</td>
+</tr>
+<tr>
+<td>LLM方法</td>
+<td>ChatIE</td>
+<td>本文提出的方法，使用ChatGPT进行多阶段、多轮交互式信息抽取</td>
+</tr>
+<tr>
+<td>已有监督SOTA</td>
+<td>Sup-SOTA</td>
+<td>直接引用各数据集已有论文中的最佳监督模型结果，用于参考比较</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><h5 id="健壮性"><a href="#健壮性" class="headerlink" title="健壮性"></a>健壮性</h5><p>通过分析不同prompt的影响，每个prompt从数据集中进行100次抽样，结果显示F1值的方差非常小，这表明怕prompt中不同措辞和表述方式的变化对性能没有显著影响。</p>
+<h5 id="数据泄露"><a href="#数据泄露" class="headerlink" title="数据泄露"></a>数据泄露</h5><p>从已有的 CoNLLpp 测试集中随机抽取了 100 个句子，通过“同类型实体替换”的方式构建了三个从未公开的新测试集（Test I/II/III）。</p>
+<p>具体做法是将原句中的实体提取后按类型归类，再将其随机替换为同类型的其他实体（例如将原句中的某个地名替换为另一个地名），并在替换后进行人工校验以确保语法与语义质量。</p>
+<p>这种方式在保存原句句法结构和上下文难度完全一致的前提下，制造出了预训练语料中不存在的新样本，以此评估模型在排除字面记忆后的真实泛化能力</p>
+<p>但是该处理方法只能打断字面/词汇层面的硬记忆，而无法破除更高层面的结构性泄露。模型在新测试集上性能指标的微幅下降也直接证实了数据泄露对评估结果存在的虚高影响。</p>
+<h3 id="误差分析"><a href="#误差分析" class="headerlink" title="误差分析"></a>误差分析</h3><p><strong>边界正确但类型错误。</strong>有时这些错误不能归因于LLM的能力，因为这些“错误”的类型对人类而言也是合理的。比如“China”被分类为“GPE”实体（即地缘政治实体，geo-political entity），但在真实标注中却被标记为“LOC”实体（地点实体）。</p>
+<p><strong>类型正确但边界错误。</strong>实体边界错误的原因较为复杂。通常情况下预测出的错误边界是可以接受的，并且可以解释为不同粒度的实体划分，</p>
+<p><strong>未识别错误。</strong>未识别错误主要是由于模型无法理解句子内容造成的，同时也不能排除给定句子的上下文信息不足这一因素。</p>
+<p><strong>过度识别错误。</strong>模型识别出了标注中不存在的实体，这可能是由于 LLM 的训练数据集中存在类似的实体类型，因此模型受到了这种类型信息的影响。</p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2026/09/08/2019-01-%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%8D%81%E5%B9%B4%E5%8F%88%E5%9B%9E%E9%A1%BE2007-2017/"
+      title="中文分词十年又回顾: 2007-2017"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        中文分词十年又回顾: 2007-2017
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2026/09/08/2023-05-Aligning%20Instruction%20Tasks%20Unlocks%20Large%20Language%20Models%20%20as%20Zero-Shot%20Relation%20Extractors/"
+      title="Aligning Instruction Tasks Unlocks Large Language Models as Zero-Shot Relation Extractors"
+     >
+
+    <p class="title-text">
+      
+        Aligning Instruction Tasks Unlocks Large Language Models as Zero-Shot Relation Extractors
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2026 迪多<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>

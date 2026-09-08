@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<!-- 数学公式渲染（KaTeX 自动识别 $...$ 和 $$...$$） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\[', right: '\\]', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });"></script>
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>Large Language Models Meet NLP: A Survey | 超级迪多的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="Large Language Models Meet NLP : A Survey大语言模型在NLP任务已展现出令人瞩目的能力，但对其在该领域潜力的系统性研究尚不明确。 本文探讨以下问题：  当前文献中大语言模型是如何应用于自然语言处理任务的？ 传统自然语言处理任务是否已被大语言模型解决？ 大语言模型在自然语言处理领域的未来是什么?  本文引入以下统一分类法：  参数冻结范式 参数调优范式  引言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Large Language Models Meet NLP: A Survey">
+<meta property="og:url" content="https://diduox.github.io/2026/09/08/2025-08-Large%20Language%20Models%20Meet%20NLP%20A%20Survey/index.html">
+<meta property="og:site_name" content="超级迪多的博客">
+<meta property="og:description" content="Large Language Models Meet NLP : A Survey大语言模型在NLP任务已展现出令人瞩目的能力，但对其在该领域潜力的系统性研究尚不明确。 本文探讨以下问题：  当前文献中大语言模型是如何应用于自然语言处理任务的？ 传统自然语言处理任务是否已被大语言模型解决？ 大语言模型在自然语言处理领域的未来是什么?  本文引入以下统一分类法：  参数冻结范式 参数调优范式  引言">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-09-08T04:04:58.000Z">
+<meta property="article:modified_time" content="2026-09-08T04:04:58.000Z">
+<meta property="article:author" content="迪多">
+<meta property="article:tag" content="NLP">
+<meta property="article:tag" content="综述">
+<meta property="article:tag" content="信息抽取">
+<meta property="article:tag" content="大语言模型">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="超级迪多的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>超级迪多的博客 </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+      <a id="nav-rss-link" class="nav-icon mobile-hide" href="/atom.xml" title="RSS 订阅">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M198-120q-25.846 0-44.23-18.384-18.384-18.385-18.384-44.23 0-25.846 18.384-44.23 18.384-18.385 44.23-18.385 25.846 0 44.23 18.385 18.384 18.384 18.384 44.23 0 25.845-18.384 44.23Q223.846-120 198-120Zm538.385 0q-18.846 0-32.923-13.769-14.076-13.769-15.922-33.23-8.692-100.616-51.077-188.654-42.385-88.039-109.885-155.539-67.5-67.501-155.539-109.885Q283-663.462 182.385-672.154q-19.461-1.846-33.23-16.23-13.769-14.385-13.769-33.846t14.076-32.922q14.077-13.461 32.923-12.23 120.076 8.692 226.038 58.768 105.961 50.077 185.73 129.846 79.769 79.769 129.846 185.731 50.077 105.961 58.769 226.038 1.231 18.846-12.538 32.922Q756.461-120 736.385-120Zm-252 0q-18.231 0-32.423-13.461t-18.653-33.538Q418.155-264.23 348.886-333.5q-69.27-69.27-166.501-84.423-20.077-4.462-33.538-18.961-13.461-14.5-13.461-33.346 0-19.076 13.884-33.23 13.884-14.153 33.115-10.922 136.769 15.384 234.384 112.999 97.615 97.615 112.999 234.384 3.231 19.23-10.538 33.115Q505.461-120 484.385-120Z"/></svg>
+      </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">Home</a>
+    
+      <a class="nav-dropdown-link" href="/archives">Archives</a>
+    
+      <a class="nav-dropdown-link" href="/about">About</a>
+    
+    
+      <a class="nav-dropdown-link" href="/atom.xml" title="RSS 订阅">RSS</a>
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+        <image src=/images/avatar.jpg></image>
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">迪多 </div>
+      <div class="dot"></div>
+      <div class="subtitle">枝江月亮，将我照亮；<br>枝江太阳，暖我心房。 </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://twitter.com" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://store.steampowered.com" title="Steam"><i class="fa-brands fa-steam"></i></a>
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">最新文章</h3>
+      <ul>
+        
+          <a class="recent-link" href="/2026/09/08/2019-01-%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%8D%81%E5%B9%B4%E5%8F%88%E5%9B%9E%E9%A1%BE2007-2017/" title="中文分词十年又回顾: 2007-2017" >
+            <div class="recent-link-text">
+              中文分词十年又回顾: 2007-2017
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/09/08/2024-05-ChatIE%20Zero-Shot%20Information%20Extraction%20via%20Chatting%20with%20ChatGPT/" title="ChatIE: Zero-Shot Information Extraction via Chatting with ChatGPT" >
+            <div class="recent-link-text">
+              ChatIE: Zero-Shot Information Extraction via Chatting with ChatGPT
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/09/08/2023-05-Aligning%20Instruction%20Tasks%20Unlocks%20Large%20Language%20Models%20%20as%20Zero-Shot%20Relation%20Extractors/" title="Aligning Instruction Tasks Unlocks Large Language Models as Zero-Shot Relation Extractors" >
+            <div class="recent-link-text">
+              Aligning Instruction Tasks Unlocks Large Language Models as Zero-Shot Relation Extractors
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/09/08/2025-08-Large%20Language%20Models%20Meet%20NLP%20A%20Survey/" title="Large Language Models Meet NLP: A Survey" >
+            <div class="recent-link-text">
+              Large Language Models Meet NLP: A Survey
+            </div>
+          </a>
+        
+          <a class="recent-link" href="/2026/09/08/Dynamic%20Chain-of-Thought%20for%20Low-Resource%20Event%20Extraction/" title="Dynamic Chain-of-Thought for Low-Resource Event Extraction" >
+            <div class="recent-link-text">
+              Dynamic Chain-of-Thought for Low-Resource Event Extraction
+            </div>
+          </a>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                学习笔记
+                <div class="category-count">29</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+                个人博客
+                <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E6%89%B9%E5%88%A4/">
+                论文批判
+                <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%95%99%E6%A1%A3/">
+                留档
+                <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/NLP/">
+                NLP
+                <div class="category-count">11</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/AC%E8%87%AA%E5%8A%A8%E6%9C%BA/" rel="tag">AC自动机</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Agent/" rel="tag">Agent</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NLP/" rel="tag">NLP</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/PMI/" rel="tag">PMI</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Self-Instruct/" rel="tag">Self-Instruct</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Transformer/" rel="tag">Transformer</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/agent/" rel="tag">agent</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D/" rel="tag">中文分词</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E4%BA%8B%E4%BB%B6%E6%8A%BD%E5%8F%96/" rel="tag">事件抽取</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E4%BD%8E%E8%B5%84%E6%BA%90%E5%AD%A6%E4%B9%A0/" rel="tag">低资源学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E6%8A%BD%E5%8F%96/" rel="tag">信息抽取</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%85%A8%E8%AF%8D%E6%8E%A9%E7%A0%81/" rel="tag">全词掩码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%85%B3%E7%B3%BB%E6%8A%BD%E5%8F%96/" rel="tag">关系抽取</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%90%88%E6%88%90%E6%95%B0%E6%8D%AE/" rel="tag">合成数据</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/" rel="tag">命名实体识别</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" rel="tag">大语言模型</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E7%BA%A7%E5%BB%BA%E6%A8%A1/" rel="tag">字符级建模</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%80%9D%E7%BB%B4%E9%93%BE/" rel="tag">思维链</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%8C%87%E4%BB%A4%E5%BE%AE%E8%B0%83/" rel="tag">指令微调</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%97%A0%E5%88%86%E8%AF%8D%E5%99%A8/" rel="tag">无分词器</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E4%B8%8A%E4%B8%8B%E6%96%87%E5%AD%A6%E4%B9%A0/" rel="tag">检索增强上下文学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%B8%90%E8%BF%9B%E5%BC%8F%E8%AE%AD%E7%BB%83/" rel="tag">渐进式训练</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%94%9F%E7%89%A9%E5%8C%BB%E5%AD%A6NLP/" rel="tag">生物医学NLP</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" rel="tag">知识图谱</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E8%A1%A5%E5%85%A8/" rel="tag">知识图谱补全</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%BB%BC%E8%BF%B0/" rel="tag">综述</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E8%87%AA%E6%88%91%E5%AF%B9%E9%BD%90/" rel="tag">自我对齐</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9B%B6%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0/" rel="tag">零样本学习</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%A2%84%E8%AE%AD%E7%BB%83/" rel="tag">预训练</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%A2%86%E5%9F%9F%E9%A2%84%E8%AE%AD%E7%BB%83/" rel="tag">领域预训练</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-2025-08-Large Language Models Meet NLP A Survey" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        Large Language Models Meet NLP: A Survey
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-09-08T04:04:58.000Z" itemprop="datePublished">2026-09-08</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    <a class="meta-cate-link" href="/categories/NLP/">NLP</a>><a class="meta-cate-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a>><a class="meta-cate-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>><a class="meta-cate-link" href="/categories/%E7%95%99%E6%A1%A3/">留档</a>><a class="meta-cate-link" href="/categories/%E8%AE%BA%E6%96%87%E6%89%B9%E5%88%A4/">论文批判</a>
+  
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            1.9k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NLP/" rel="tag">NLP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BF%A1%E6%81%AF%E6%8A%BD%E5%8F%96/" rel="tag">信息抽取</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" rel="tag">大语言模型</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%BC%E8%BF%B0/" rel="tag">综述</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <h2 id="Large-Language-Models-Meet-NLP-A-Survey"><a href="#Large-Language-Models-Meet-NLP-A-Survey" class="headerlink" title="Large Language Models Meet NLP : A Survey"></a>Large Language Models Meet NLP : A Survey</h2><p>大语言模型在NLP任务已展现出令人瞩目的能力，但对其在该领域潜力的系统性研究尚不明确。</p>
+<p>本文探讨以下问题：</p>
+<ol>
+<li>当前文献中大语言模型是如何应用于自然语言处理任务的？</li>
+<li>传统自然语言处理任务是否已被大语言模型解决？</li>
+<li>大语言模型在自然语言处理领域的未来是什么?</li>
+</ol>
+<p>本文引入以下统一分类法：</p>
+<ol>
+<li>参数冻结范式</li>
+<li>参数调优范式</li>
+</ol>
+<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>一些自然语言处理中的大语言模型无需任何额外训练数据，甚至能够超过经过监督学习微调的传统模型。</p>
+<p>参数冻结范式包括：零样本学习和少样本学习。也就是提示词工程。</p>
+<p>参数调优范式包括：全参数微调和参数高效微调。</p>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><h4 id="参数冻结范式"><a href="#参数冻结范式" class="headerlink" title="参数冻结范式"></a>参数冻结范式</h4><h5 id="零样本学习"><a href="#零样本学习" class="headerlink" title="零样本学习"></a>零样本学习</h5><h5 id="少样本学习"><a href="#少样本学习" class="headerlink" title="少样本学习"></a>少样本学习</h5><h4 id="参数调优范式"><a href="#参数调优范式" class="headerlink" title="参数调优范式"></a>参数调优范式</h4><h5 id="全参数微调"><a href="#全参数微调" class="headerlink" title="全参数微调"></a>全参数微调</h5><p>模型M的所有参数均在训练数据集D上进行微调。</p>
+<p>$\hat{\mathcal{M}} = \text{Fine-tune}(\mathcal{M} \mid \mathcal{D})$</p>
+<h5 id="参数高效微调"><a href="#参数高效微调" class="headerlink" title="参数高效微调"></a>参数高效微调</h5><p>参数高效微调涉及调整一组现有参数或引入额外的可调参数（如Bottleneck Adapter，Low-Rank Adaptation (LoRA)，Prefix-tuning，QLoRA）以高效地将模型适配到特定的自然语言处理任务。</p>
+<p>$\hat{\mathcal{W}} = \text{Fine-tune}(\mathcal{W} \mid \mathcal{D}, \mathcal{M})$</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><strong>Strategy</strong></th>
+<th><strong>Training Cost</strong></th>
+<th><strong>Memory (Train)</strong></th>
+<th><strong>Memory (Infer)</strong></th>
+<th><strong>Latency</strong></th>
+<th><strong>Accuracy</strong></th>
+<th><strong>Generalization</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Zero-Shot Learning</strong></td>
+<td>$0</td>
+<td>-</td>
+<td>+</td>
+<td>+</td>
+<td>+</td>
+<td>+++</td>
+</tr>
+<tr>
+<td><strong>Few-Shot Learning</strong></td>
+<td>$0</td>
+<td>-</td>
+<td>++</td>
+<td>++</td>
+<td>++</td>
+<td>++</td>
+</tr>
+<tr>
+<td><strong>Full Parameter-Tuning</strong></td>
+<td>&gt;$1K</td>
+<td>2 × model size</td>
+<td>+</td>
+<td>+</td>
+<td>+++</td>
+<td>+</td>
+</tr>
+<tr>
+<td><strong>PET (LoRA)</strong></td>
+<td>$10$ ~ $1K</td>
+<td>&lt; 1 × model size</td>
+<td>+</td>
+<td>+</td>
+<td>++</td>
+<td>++</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="自然语言理解"><a href="#自然语言理解" class="headerlink" title="自然语言理解"></a>自然语言理解</h3><p>我们先描述一些典型的NLP理解任务，包括<strong>语义分析</strong>、<strong>信息抽取(IE)</strong>、<strong>对话理解</strong>和<strong>表格理解</strong>。</p>
+<h4 id="情感分析"><a href="#情感分析" class="headerlink" title="情感分析"></a>情感分析</h4><p>暂空。</p>
+<h4 id="信息抽取-IE"><a href="#信息抽取-IE" class="headerlink" title="信息抽取(IE)"></a>信息抽取(IE)</h4><p>信息抽取(IE)任务旨在从纯文本中提取结构化信息，通常包括<strong>关系抽取(RE)</strong>、命名实体识别(NER)和<strong>事件抽取(EE)</strong>。</p>
+<h5 id="参数冻结范式-1"><a href="#参数冻结范式-1" class="headerlink" title="参数冻结范式"></a>参数冻结范式</h5><h6 id="零样本学习-1"><a href="#零样本学习-1" class="headerlink" title="零样本学习"></a>零样本学习</h6><p>最近的研究开始探索利用大语言模型中嵌入的知识解决信息抽取任务的零样本提示方法。</p>
+<p>有人提出了一系列方法，将命名实体分解为更小、更简单的子问题来分解问答任务，从而改进整体流程。</p>
+<p>有人使用句法提示和工具增强，通过整合句法信息来提升大语言模型的性能。</p>
+<h6 id="少样本学习-1"><a href="#少样本学习-1" class="headerlink" title="少样本学习"></a>少样本学习</h6><p>考虑到序列标注和文本生成之间的差距，提供示例可以帮助大语言模型更好地理解给定任务并遵循问题解决步骤，尤其是在需要结构化输出和明确格式遵循以确保准确性地任务中。</p>
+<p>有人部署了检索模块，为给定的测试句子检索最合适的示例。</p>
+<p>有人将信息抽取任务重新表述为diamagnetic。</p>
+<h5 id="参数调优范式-1"><a href="#参数调优范式-1" class="headerlink" title="参数调优范式"></a>参数调优范式</h5><h6 id="全参数微调-1"><a href="#全参数微调-1" class="headerlink" title="全参数微调"></a>全参数微调</h6><p>定制大语言模型的常见做法是在收集到的数据集上对其进行微调。</p>
+<ol>
+<li>在单一数据集上微调大语言模型，以强化特定能力。</li>
+<li>统一所有信息抽取子任务的数据格式，从而使单个模型能够高效处理多样化的任务。</li>
+<li>在混合数据集上微调大语言模型，并在从未见过的任务上进行测试，这常用于提升大语言模型的泛化能力。</li>
+</ol>
+<h6 id="参数高效微调-1"><a href="#参数高效微调-1" class="headerlink" title="参数高效微调"></a>参数高效微调</h6><p>微调大语言模型的巨大参数对研究和开发都构成了重大挑战。</p>
+<h4 id="对话理解"><a href="#对话理解" class="headerlink" title="对话理解"></a>对话理解</h4><p>暂无</p>
+<h4 id="表格理解"><a href="#表格理解" class="headerlink" title="表格理解"></a>表格理解</h4><p>暂无</p>
+<h3 id="自然语言生成"><a href="#自然语言生成" class="headerlink" title="自然语言生成"></a>自然语言生成</h3><p>暂无</p>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<ol>
+<li>LLM为多种NLP任务提供了统一的生成式解决方案范式。</li>
+<li>LLM在NLP任务中仍与较小的监督学习模型存在一定差距。</li>
+<li>在NLP任务上持续微调LLM可以带来显著提升。</li>
+</ol>
+</blockquote>
+<h3 id="未来工作和新前沿"><a href="#未来工作和新前沿" class="headerlink" title="未来工作和新前沿"></a>未来工作和新前沿</h3><h4 id="面向NLP任务的多语言LLM"><a href="#面向NLP任务的多语言LLM" class="headerlink" title="面向NLP任务的多语言LLM"></a>面向NLP任务的多语言LLM</h4><p>如何将以英语为中心的LLM的成功扩展到其他语言的NLP任务中，是一个重要的研究问题。</p>
+<p>这一方向面临两个挑战：</p>
+<ol>
+<li>提升低资源语言性能</li>
+<li>改进跨语言对齐</li>
+</ol>
+<h4 id="面向NLP任务的多模态LLM"><a href="#面向NLP任务的多模态LLM" class="headerlink" title="面向NLP任务的多模态LLM"></a>面向NLP任务的多模态LLM</h4><p>该领域的主要挑战在于：</p>
+<ol>
+<li>复杂多模态推理</li>
+<li>有效多模态交互</li>
+</ol>
+<h4 id="LLM在NLP任务中的工具使用"><a href="#LLM在NLP任务中的工具使用" class="headerlink" title="LLM在NLP任务中的工具使用"></a>LLM在NLP任务中的工具使用</h4><p>主要关注点在于：</p>
+<ol>
+<li>恰当工具使用</li>
+<li>高效工具规划</li>
+</ol>
+<h4 id="COT在LLM中NLP任务的应用"><a href="#COT在LLM中NLP任务的应用" class="headerlink" title="COT在LLM中NLP任务的应用"></a>COT在LLM中NLP任务的应用</h4><p>该领域的主要挑战在于：</p>
+<ol>
+<li>通用步骤分解</li>
+<li>提示知识集成</li>
+</ol>
+<h4 id="LLM在NLP任务中的幻觉"><a href="#LLM在NLP任务中的幻觉" class="headerlink" title="LLM在NLP任务中的幻觉"></a>LLM在NLP任务中的幻觉</h4><p>该领域的主要挑战在于：</p>
+<ol>
+<li>高效幻觉评估</li>
+<li>利用幻觉进行创意</li>
+</ol>
+<h4 id="NLP中LLM的安全性"><a href="#NLP中LLM的安全性" class="headerlink" title="NLP中LLM的安全性"></a>NLP中LLM的安全性</h4><p>该领域的主要挑战在于：</p>
+<ol>
+<li>安全基准构建</li>
+<li>多语言安全风险</li>
+</ol>
+<h4 id="面向NLP任务中LLM的long-COT"><a href="#面向NLP任务中LLM的long-COT" class="headerlink" title="面向NLP任务中LLM的long-COT"></a>面向NLP任务中LLM的long-COT</h4><p>该领域的主要挑战在于：</p>
+<ol>
+<li>自适应推理长度</li>
+<li>交互式推理</li>
+</ol>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p><a target="_blank" rel="noopener" href="https://github.com/LightChen233/Awesome-LLM-for-NLP">https://github.com/LightChen233/Awesome-LLM-for-NLP</a></p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2026/09/08/2023-05-Aligning%20Instruction%20Tasks%20Unlocks%20Large%20Language%20Models%20%20as%20Zero-Shot%20Relation%20Extractors/"
+      title="Aligning Instruction Tasks Unlocks Large Language Models as Zero-Shot Relation Extractors"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        Aligning Instruction Tasks Unlocks Large Language Models as Zero-Shot Relation Extractors
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2026/09/08/Dynamic%20Chain-of-Thought%20for%20Low-Resource%20Event%20Extraction/"
+      title="Dynamic Chain-of-Thought for Low-Resource Event Extraction"
+     >
+
+    <p class="title-text">
+      
+        Dynamic Chain-of-Thought for Low-Resource Event Extraction
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2026 迪多<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>
